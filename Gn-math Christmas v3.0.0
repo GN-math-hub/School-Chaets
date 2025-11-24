@@ -433,7 +433,7 @@
             </div>
             <div class="control-buttons">
                 <button id="settings" style="background:linear-gradient(45deg, #FF0000, #FFA500);" onclick="/* your settings logic */">
-                    🎁
+                    Rylan rude
                 </button>
             </div>
         </div>
