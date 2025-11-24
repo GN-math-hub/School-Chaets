@@ -422,7 +422,7 @@
 <body>
     <header>
         <div class="header-content" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-            <div class="logo">🎄 gn-math 🎅</div>
+            <div class="logo">🎄 gn-math By Rylan🎅</div>
             <div class="search-container" style="display:flex; align-items:center; gap:0.75rem;">
                 <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()" />
                 <select id="sortOptions" onchange="sortZones()">
