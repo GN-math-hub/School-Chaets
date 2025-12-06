@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GN-MATH HUB MOVIES V1.1.0</title>
+<title>GN-MATH HUB MOVIES V1.1.9</title>
 <style>
     :root {
         --primary-red: #ce1126; /* Deep Red */
@@ -12,6 +12,9 @@
         --dark-grey: #222;
         --light-grey: #f4f4f4;
         --black-overlay: rgba(0, 0, 0, 0.95);
+        /* NEW CONNECTION BAR VARIABLES */
+        --connection-green: #4CAF50; /* Green for 100% */
+        --connection-orange: #FF9800; /* Orange for ~80% */
     }
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -93,7 +96,6 @@
         height: 100%;
         display: flex;
         align-items: center;
-        /* Crucial for click handler: ensure links are targetable */
         cursor: pointer; 
     }
     .movie-card a:hover {
@@ -128,7 +130,7 @@
         vertical-align: middle;
     }
 
-    /* --- NEW STYLES FOR PLAYER OVERLAY --- */
+    /* --- STYLES FOR PLAYER OVERLAY --- */
     #videoPlayerOverlay {
         position: fixed;
         top: 0;
@@ -136,10 +138,10 @@
         width: 100%;
         height: 100%;
         background-color: var(--black-overlay);
-        z-index: 2000; /* Above everything else */
+        z-index: 2000;
         display: flex;
         flex-direction: column;
-        visibility: hidden; /* Start hidden */
+        visibility: hidden;
         opacity: 0;
         transition: opacity 0.3s;
     }
@@ -154,10 +156,11 @@
         justify-content: flex-start;
         align-items: center;
         padding: 10px 20px;
-        background-color: rgba(34, 34, 34, 0.8); /* Dark background for header */
+        background-color: rgba(34, 34, 34, 0.8);
         color: var(--white);
-        z-index: 2001; /* Above iframe */
-        flex-shrink: 0; /* Prevent header from shrinking */
+        z-index: 2001;
+        flex-shrink: 0;
+        position: relative; /* Needed for connection bar positioning */
     }
 
     #backButton {
@@ -173,13 +176,36 @@
     }
 
     #backButton:hover {
-        background-color: #a80f1e; /* Darker red on hover */
+        background-color: #a80f1e;
     }
 
     #playerIframe {
-        flex-grow: 1; /* Take up remaining space */
+        flex-grow: 1;
         width: 100%;
         border: none;
+    }
+
+    /* --- NEW STYLES FOR CONNECTION BAR --- */
+    #connectionBar {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 15px; /* Width of the bar */
+        height: 30px; /* Max height (100% connection) */
+        background-color: #444; /* Base color for the container */
+        border-radius: 2px;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end; /* Ensure fill starts from the bottom */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #connectionFill {
+        width: 100%;
+        background-color: var(--connection-green); /* Default color */
+        transition: height 0.3s ease-in-out, background-color 0.3s; /* Animate height and color */
     }
 </style>
 </head>
@@ -195,9 +221,14 @@
         <div class="player-header">
             <button id="backButton">← Back to Movies</button>
             <span id="playerTitle" style="margin-left: 20px; font-weight: 600;"></span>
-        </div>
+            
+            <div id="connectionBar" title="Connection Strength">
+                <div id="connectionFill"></div>
+            </div>
+            </div>
         <iframe id="playerIframe" allowfullscreen></iframe>
     </div>
+    
     <div class="container">
         <div id="noResults" class="no-results">No movies found matching your search.</div>
 
@@ -318,13 +349,11 @@
         <div class="category-section">
             <h2 class="category-header">Animation & Kids &#127918;</h2>
             <div class="movie-grid">
-
-
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1OsyF2LKJqjtv0b2Xd9GWOLcYkzny3VZo/view" data-title="Super Mario Bros. Movie">Super Mario Bros. Movie</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1fW6Ov5NIaRh4h78-qBpWeln_Vs9oEXOQ/view" data-title="Toy Story 1">Toy Story 1</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1k3RVDc_Vah1H9lFsXQZJ6mE3KqdDcK_T/view" data-title="Toy Story 2">Toy Story 2</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/13msxxmyEco7CRBkO_Ju1SMx5KK4r4Su8/view" data-title="Toy Story 3">Toy Story 3</a></div>
-                 <div class="movie-card"><a href="https://drive.google.com/file/d/1HYeIrbf8A-vfvJsvYP59AQzG9l8nt03h/view" data-title="Zootopia">Zootopia</a></div>
+                <div class="movie-card"><a href="https://drive.google.com/file/d/1HYeIrbf8A-vfvJsvYP59AQzG9l8nt03h/view" data-title="Zootopia">Zootopia</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1bFUbsQ9VEazeCt5l_VBVDtjCsbJmZ_Vr/preview" data-title="Toy Story 4">Toy Story 4</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1ps_r1YV8y5h93_mUu4OFlPVVkPzT0Rui/view" data-title="Shrek 1">Shrek 1</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1Ft-mWElx-1rZzIXJBswt_HQ-1VrZ4th2/view" data-title="Shrek 2">Shrek 2</a></div>
@@ -366,195 +395,146 @@
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1uDOp65KtEnID520JjNC_kMOm91mNfGq6/view" data-title="Finding Dory">Finding Dory</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1HYeIrbf8A-vfvJsvYP59AQzG9l8nt03h/view" data-title="Zootopia">Zootopia</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/file/d/1gdwI2JzBioxG5X6ewvaG2mcMeCUW346o/view" data-title="The Boss Baby 1">The Boss Baby 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1aiZMcnKPiHlmK9D0HpQRKd-SueENFFFC/view" data-title="The Boss Baby 2">The Boss Baby 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1EsX8k7nfYQrzC6apqJqnyfH7HLAHl31G/view" data-title="Moana">Moana</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1iVJq1FsNG577gesP7CaTWPLgdqAtnaEg/view" data-title="Moana 2 (2024)">Moana 2 (2024)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1y5q4v_Sx6Kj9nIrNjaAbCVcX36nRC3qB/view" data-title="Encanto">Encanto</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1tVsDrCHeADhoZRkQZnXIIj3R5kpB2une/view" data-title="The Incredibles 1">The Incredibles 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1XZ0pSe4bccOpJeF_VkXhkOhxQ3Tzp8RB/view" data-title="The Incredibles 2">The Incredibles 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1q6DtsWQ-dFjBydahDLvLOtzW4-N8OIZf/view" data-title="Peter Pan (1953)">Peter Pan (1953)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1BEPGPg_iR7L5QFJ91SizjlA6khwj6j1e/view" data-title="Inside Out 1">Inside Out 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1SABVZNMwHTME4hsFwL9IWyWZPKDTBSoT/view" data-title="Inside Out 2">Inside Out 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/19pLI1vSycvbWU6FCCdYwUJZlo7LUBLM-/view" data-title="A Goofy Movie">A Goofy Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1Pc0bciOy43zFCnx-0UmuCJR7ZzwS3eVz/view" data-title="An Extremely Goofy Movie">An Extremely Goofy Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1vyGIzuve-X2RD_0WwAYadoA2OmyqTqFH/view" data-title="Chicken Little">Chicken Little</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1uMm5NPJX2kTF469sBHsnEROUiu8IBjYw/view" data-title="Coraline">Coraline</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1xsju5bSbzh0ZAZD7aMzpTkrLzJlqRrIM/view" data-title="The Nightmare Before Christmas">The Nightmare Before Christmas</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1-sb4Ogn-0xQX3Znf21COpLMrfs_x6Nuv/view" data-title="The Lego Movie 2">The Lego Movie 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/14dpxharN5SxHaUt-xYs868ReDehmvXo2/view" data-title="The Lego Batman Movie">The Lego Batman Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1XRVLJkHTb7yOjW2daDKL1LQq_ySsRghU/view" data-title="Trolls Band Together">Trolls Band Together</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1OsyF2LKJqjtv0b2Xd9GWOLcYkzny3VZo/view" data-title="Super Mario Bros Movie">Super Mario Bros Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1r9XAqLDPOpnS16kyVDMLtsx9J3muPCb8/view" data-title="Spongebob Movie (2004)">Spongebob Movie (2004)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1RCiXmbRfWyMQnJLa5vNTvSiIxZFG1mq5/view" data-title="Spongebob Movie: Sponge on the Run">Spongebob Movie: Sponge on the Run</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1Mc8pL7qA8vHF3LINE72dHByed5JU2dpo/view" data-title="Spongebob Movie: Sponge Out of Water">Spongebob Movie: Sponge Out of Water</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1_hkjpVLPviBFV8320Drj4jjC9DfSzueB/view" data-title="Scooby Doo and the Witch's Ghost">Scooby Doo and the Witch's Ghost</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/18nYR07LaS5_r-4gBUA9Ia8hLv_dZ0oty/view" data-title="Scooby-Doo (Live Action)">Scooby-Doo (Live Action)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1s0CRVSc3u93nxFFVtvtVObLe31H5MNEn/view" data-title="Scooby-Doo 2: Monsters Unleashed">Scooby-Doo 2: Monsters Unleashed</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1fY3Isk36KFnnbnhqWyP_TbgPxNnEBXOs/view" data-title="Scooby-Doo! and Kiss">Scooby-Doo! and Kiss</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1Yy740jq-YYGWMqLOMafB0ihcL11HVdO4/view" data-title="Scooby-Doo! and the Cyber Chase">Scooby-Doo! and the Cyber Chase</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1KklCTXpqtj6HCeGOFH4qbzp0H7grB62X/view" data-title="Scooby-Doo on Zombie Island">Scooby-Doo on Zombie Island</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1GkXfdC_nRSW_7esZeydw59kPjHhc7m3z/view" data-title="Scooby-Doo Goes Hollywood">Scooby-Doo Goes Hollywood</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1fy3Isk36KFnnbnhqWyP_TbgPxNnEBXOs/view" data-title="Scooby-Doo! Music of the Vampire">Scooby-Doo! Music of the Vampire</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1kvv7WoBeqMZBIQfWe7QGKosP_oYvy9QE/view" data-title="Scooby-Doo! & Batman">Scooby-Doo! & Batman</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1EsVEEr5KMi8J3g9lsvDFVBtnQqocQy5-/view" data-title="Scoob!">Scoob!</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1G9qRpMiBq5HD-vqKQs9sq8csZCFccaiD/view" data-title="The Sandlot">The Sandlot</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1eiY3r9KqM3Dmjtq38eRtR_eJFSGeciPz/view" data-title="The Little Rascals">The Little Rascals</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/19ZYLs_076nTJtl7bEUtkwpfbwwj-GevJ/view" data-title="The Addams Family">The Addams Family</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/11gy5zn30UQb0C5NAeckg4z7QLrSadbfT/view" data-title="Monster House">Monster House</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1aH8FscNggxbYV6aViYPXqJS2QQT2I6yK/view" data-title="Open Season 1">Open Season 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1tJjzKpyptqy3FApPk-PaqQcRxucP3R7B/view" data-title="Open Season 2">Open Season 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/18q8c0eTovHByx3GTimFuKIeu20zrhBT9/view" data-title="Open Season 3">Open Season 3</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1Ve0_jhqeAGLeMKKu-0BxkpACxIB2KxSv/view" data-title="Open Season: Scared Silly">Open Season: Scared Silly</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1lmlVArBa1cDynHvvDOddrMnCPvYaFVeK/view" data-title="Monsters Inc.">Monsters Inc.</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1qZxoOGQTxqwlJtOQbwN8jeyD_yVvX7yc/view" data-title="Brave Little Toaster">Brave Little Toaster</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1QJXQgfSZaGxM0pY3BMpTAmKZQkjajTWs/view" data-title="The Lorax">The Lorax</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/16ym48NdLv9UX_x-98iJ7mjo7GK3fj5FG/view" data-title="Ratatouille">Ratatouille</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1GzovJHzUxtS6XQQiPLVXj92hWZ7PTABa/view" data-title="Cars 1">Cars 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1a8vDJ83NNLwqWvx6nhSoWrPVaj63_fTb/view" data-title="Cars 2">Cars 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/17n6009js5zgMS1Z7f2N4cgHBJhvScNX9/view" data-title="Cars 3">Cars 3</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1bRSwv4_BuhY_StvUSf1TXE3QxC9R9ADA/view" data-title="Sing">Sing</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1uDLZSi8eF0AMJjciagelGOQSJVDshSDU/view" data-title="Sing 2">Sing 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1q6DtsWQ-dFjBydahDLvLOtzW4-N8OIZf/view" data-title="Peter Pan">Peter Pan</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1eirKJt3ulfEusRJ6OM0jwpJ_YbL8iExC/view" data-title="Tangled">Tangled</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1hpUpKEdeT9ta-8FjSpMUAXw17E-8uwIY/view" data-title="Frozen II">Frozen II</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1Mm4-trdWWnxtYyAfkIj--2SXem5HeIi2/view" data-title="The Princess and the Frog">The Princess and the Frog</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1fpkFiPnyvjxCtN6a89i-U2H1cr5_Y_HC/view" data-title="The Lion King 1">The Lion King 1</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1-sT4cdDqG6tt4wI0ba7Z3FhDoX8ded8L/view" data-title="The Lion King 2">The Lion King 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1GM7QyJzFwEKM2fM42SWb7oIRN2UPUzqM/view" data-title="The Little Mermaid (Original)">The Little Mermaid (Original)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1sFYkkRX85JK-a2LRl8_QmZPhYkYIn6KG/view" data-title="The Little Mermaid (2023)">The Little Mermaid (2023)</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1vELzmz9u6vQ18YtMipK9nSWJhZLP6KaH/view" data-title="The Good Dinosaur">The Good Dinosaur</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1_MkoFWTqhvJM4YNqGFzSabwKSSL4fa55/view" data-title="The Book of Life">The Book of Life</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1_sb4Ogn-0xQX3Znf21COpLMrfs_x6Nuv/view" data-title="The Lego Movie 2">The Lego Movie 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1cXZcSpVSq0g8pUdGZ8v9EDfq0gRBhEDW/view" data-title="Teen Titans Go! To the Movies">Teen Titans Go! To the Movies</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/194M4dGCwh1hTxVM1-_axnLSdt4trnbK2/view" data-title="Coco">Coco</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/11NQ1_ecO2FTIhofVPIfakshgSBnR6ngC/view" data-title="Wreck-It Ralph">Wreck-It Ralph</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1MQMWT5mYBF07GXiqgzAU8h9BcFe0phu9/view" data-title="Ralph Breaks the Internet">Ralph Breaks the Internet</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1VcUlwoH5kBsHK6vYEMYMJuhpYgTCng20/view" data-title="Luca">Luca</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1-1YdQJt3yQYQ_e-xwdqQLyEWLl8nuYD7/view" data-title="The Croods 2">The Croods 2</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1ZGgYW2PyVFd3Xj_DAk9bkso0lneRgorm/view" data-title="The Swan Princess">The Swan Princess</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1QK9RHd2T-ijthIL7A6NQvRztPkTx8NtN/view" data-title="Space Jam">Space Jam</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/17hubcXZlc8AQCick-5kdB11mpEQlM1Zw/view" data-title="Space Jam: A New Legacy">Space Jam: A New Legacy</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1tqtj-_jOe_a1DtU3ekZSf5n8NEtHT8hn/view" data-title="Shark Tale">Shark Tale</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1DIHKkPm7JVwOWWgM5RvYgOhAbFXWOAhf/view" data-title="Rio">Rio</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/16Ze08q_XKmANPNYreDVZnEbZEZTSLwOa/view" data-title="The Peanuts Movie">The Peanuts Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/19KYYKqlEQyEuUTUQv32U53WoIDvKTRrx/view" data-title="The Polar Express">The Polar Express</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1e2UIrJdsz_0k5tp2v0EnPZiPv2ZQSTzg/view" data-title="A Charlie Brown Christmas">A Charlie Brown Christmas</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1hi5sfVVAYK5AsMis11QjD5JLvL5aUY0h/view" data-title="A Christmas Carol">A Christmas Carol</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1nz29MUfftWx_MeBVh4Bn7TVXlUy_6BH2/view" data-title="A Christmas Story">A Christmas Story</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1gdQba6i5IcBe7_a4eyU75cuAkbyJEpt4/view" data-title="Jingle All the Way">Jingle All the Way</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1TNihEVsEiUIzxYV_6KHQKXC5pDR_nWW9/view" data-title="Coat of Many Colors">Coat of Many Colors</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1zamnVJgx2cGGc4r2w9jWiEqRIG9WJREE/view" data-title="Real Steel">Real Steel</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/157WJal3P65gdyFlDbP4DcRfNku-Oursg/view" data-title="Rugrats The Movie">Rugrats The Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1w3PdNgN0AXDmG1CYRv7v0kMYrC1Ywu_0/view" data-title="Rugrats In Paris">Rugrats In Paris</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/18i5j4gguKnfjNXVcfPKLz3GbxaiWbhrh/view" data-title="The Brady Bunch Movie">The Brady Bunch Movie</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/file/d/1zT4SAUoKx29aoNVS3scuTMvTqyNgMQ7E/view" data-title="Kpop Demon Hunters">Kpop Demon Hunters</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/drive/u/0/folders/1RfLGrTx9ryNevMomfrJh_3Rb6nHBiIqo" data-title="Hazbin Hotel">Hazbin Hotel</a></div>
             </div>
         </div>
-
-    </div>
+        </div>
 
     <footer>
-        &copy; 2025 GN-Math Hub
+        <p>&copy; 2025 GN-Math Hub. All rights reserved.</p>
     </footer>
 
-    <script>
-        // --- Search/Filter Functionality (Preserved) ---
-        function filterMovies() {
-            const searchBar = document.getElementById('searchBar');
-            const filter = searchBar.value.toUpperCase();
-            const movieCards = document.querySelectorAll('.movie-card');
-            let resultsFound = false;
+<script>
+    const movieLinks = document.querySelectorAll('.movie-card a');
+    const overlay = document.getElementById('videoPlayerOverlay');
+    const iframe = document.getElementById('playerIframe');
+    const backButton = document.getElementById('backButton');
+    const playerTitle = document.getElementById('playerTitle');
+    const searchBar = document.getElementById('searchBar');
+    const allMovieCards = document.querySelectorAll('.movie-card');
+    const noResults = document.getElementById('noResults');
+    
+    // NEW CONNECTION BAR VARIABLES
+    const connectionFill = document.getElementById('connectionFill');
+    let connectionInterval;
 
-            movieCards.forEach(card => {
-                const link = card.querySelector('a');
-                const text = link.textContent.toUpperCase();
-                if (text.indexOf(filter) > -1) {
-                    card.style.display = "";
-                    resultsFound = true;
-                } else {
-                    card.style.display = "none";
-                }
-            });
-
-            const noResults = document.getElementById('noResults');
-            noResults.style.display = resultsFound ? 'none' : 'block';
-
-            // Check and hide categories if no movies are left inside
-            document.querySelectorAll('.category-section').forEach(section => {
-                const visibleCards = section.querySelectorAll('.movie-card:not([style*="display: none"])');
-                section.classList.toggle('hidden', visibleCards.length === 0);
-            });
-        }
+    // Function to set the connection bar's height and color
+    function setConnection(percentage) {
+        // Ensure percentage is between 0 and 100
+        const clampedPercentage = Math.max(0, Math.min(100, percentage));
         
-        // --- NEW Player Functionality ---
+        // Scale the percentage to set the height of the fill
+        const fillHeightPercentage = clampedPercentage; 
+        
+        connectionFill.style.height = `${fillHeightPercentage}%`;
+        connectionFill.style.backgroundColor = 
+            clampedPercentage > 90 
+                ? 'var(--connection-green)' 
+                : 'var(--connection-orange)';
+        
+        // Update title for detail
+        document.getElementById('connectionBar').title = `Connection Strength: ${clampedPercentage.toFixed(1)}%`;
+    }
 
-        const playerOverlay = document.getElementById('videoPlayerOverlay');
-        const playerIframe = document.getElementById('playerIframe');
-        const backButton = document.getElementById('backButton');
-        const playerTitle = document.getElementById('playerTitle');
-        const movieLinks = document.querySelectorAll('.movie-card a');
-
-        // Function to transform Google Drive 'view' link to 'embed' link
-        function getEmbedLink(viewUrl) {
-            // Check if it's a standard Google Drive 'view' link
-            const regex = /drive\.google\.com\/file\/d\/([^/]+)\/view/;
-            const match = viewUrl.match(regex);
-
-            if (match && match[1]) {
-                // Construct the embed link
-                return `https://drive.google.com/file/d/${match[1]}/preview`;
-            } else if (viewUrl.includes('/preview')) {
-                // If it's already a preview link (like some in your HTML)
-                return viewUrl;
-            }
-            // For other links or folder links, use the original href
-            return viewUrl; 
+    // Function to simulate fluctuating connection between 80% and 100%
+    function startConnectionFluctuation() {
+        setConnection(100); // Start at 100%
+        
+        // Clear any existing interval
+        if (connectionInterval) {
+            clearInterval(connectionInterval);
         }
 
-        // Click handler for all movie links
-        movieLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                // 1. Prevent the default browser navigation
-                event.preventDefault(); 
-                
-                // 2. Get the link (href) and title
-                const originalUrl = this.getAttribute('href');
-                let embedUrl = getEmbedLink(originalUrl);
+        connectionInterval = setInterval(() => {
+            // Random value between 80.0 and 100.0
+            const randomConnection = Math.random() * (100 - 80) + 80; 
+            setConnection(randomConnection);
+        }, 1000); // Update every 1 second
+    }
 
-                // Use the data-title attribute, or fallback to text content if not present
-                const title = this.getAttribute('data-title') || this.textContent.trim().replace(/\s*NEW!\s*/i, '').trim(); 
+    // Function to stop the connection simulation and reset the bar
+    function stopConnectionFluctuation() {
+        if (connectionInterval) {
+            clearInterval(connectionInterval);
+        }
+        setConnection(0); // Reset to 0% when leaving the player
+    }
+
+    // Event listener for movie links
+    movieLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const url = link.href;
+            const title = link.getAttribute('data-title') || link.textContent.trim();
+
+            if (url.includes('google.com/file/') || url.includes('google.com/drive/')) {
+                // If it's a Google Drive link, format it for embedding
+                let embedUrl = url.replace('/view', '/preview');
+                embedUrl = embedUrl.replace('drive.google.com/file/d/', 'drive.google.com/file/d/');
+                embedUrl = embedUrl.replace('drive.google.com/drive/folders/', 'drive.google.com/drive/folders/');
                 
-                // 3. Set the iframe source and title
-                playerIframe.src = embedUrl;
                 playerTitle.textContent = title;
+                iframe.src = embedUrl;
+                overlay.classList.add('active');
+                
+                // START THE CONNECTION SIMULATION
+                startConnectionFluctuation();
 
-                // 4. Show the fullscreen overlay
-                playerOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Hide scrollbar when active
-            });
-        });
-
-        // Click handler for the back button
-        backButton.addEventListener('click', function() {
-            // 1. Hide the fullscreen overlay
-            playerOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restore scrollbar
-
-            // 2. Stop video/reset iframe content (important to stop sound/playback)
-            playerIframe.src = ''; 
-            playerTitle.textContent = '';
-        });
-
-        // Add a general check for links that don't have the data-title and use the text content
-        // This is primarily for robustness, but adding data-title to the HTML is the best practice.
-        movieLinks.forEach(link => {
-            if (!link.hasAttribute('data-title')) {
-                // Strip the <span class="new-tag">NEW!</span> if present, then trim
-                const cleanTitle = link.textContent.trim().replace(/\s*NEW!\s*/i, '').trim();
-                link.setAttribute('data-title', cleanTitle);
+            } else {
+                // For other links 
+                window.open(url, '_blank');
             }
         });
-    </script>
+    });
+
+    // Event listener for the back button
+    backButton.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        iframe.src = ''; // Clear the iframe source
+        playerTitle.textContent = ''; // Clear the title
+        
+        // STOP THE CONNECTION SIMULATION
+        stopConnectionFluctuation();
+    });
+
+    // Filter functionality
+    function filterMovies() {
+        const filter = searchBar.value.toUpperCase();
+        let foundAny = false;
+
+        allMovieCards.forEach(card => {
+            const link = card.querySelector('a');
+            const textContent = (link.getAttribute('data-title') || link.textContent).toUpperCase();
+
+            if (textContent.includes(filter)) {
+                card.style.display = '';
+                card.closest('.category-section').style.display = '';
+                foundAny = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Check if a category is empty and hide its header/section
+        document.querySelectorAll('.category-section').forEach(section => {
+            const visibleCards = section.querySelectorAll('.movie-card:not([style*="display: none"])');
+            if (visibleCards.length === 0 && searchBar.value.trim() !== "") {
+                section.style.display = 'none';
+            } else {
+                section.style.display = ''; // Show if not empty or if search is empty
+            }
+        });
+        
+        // Show/Hide No Results message
+        if (!foundAny && searchBar.value.trim() !== "") {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+    
+    // Attach filter function to window for the onkeyup event in HTML
+    window.filterMovies = filterMovies;
+</script>
 </body>
 </html>
