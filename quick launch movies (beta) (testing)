@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Launch Gn-Math Hub</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    color: #ffffff !important;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .button:hover {
+    background-color: #4a148c !important;
+  }
+</style>
+</head>
+<body>
+<a id="button" class="button">Launch The Gn-Math hub</a>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById('button');
+    button.addEventListener('click', launch);
+  });
+
+  function launch() {
+    try {
+      // Updated URL to the specific GitHub raw file
+      const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Gn-math%20Christmas%20v3.0.0";
+
+      fetch(url + "?" + Date.now())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(text => {
+          const newWin = window.open("about:blank", "_blank");
+          if (newWin) {
+            newWin.document.open();
+            newWin.document.write(text);
+            newWin.document.close();
+          } else {
+            alert('Popup blocked! Please allow popups for this site.');
+          }
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+          alert('Failed to load content. Please check the URL.');
+        });
+    } catch (error) {
+      console.error('error:', error);
+    }
+  }
+</script>
+</body>
+</html>
