@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Launch Gn-Math Hub</title>
+<title>Quick Launch GN-Movies</title>
 <style>
   html, body {
     margin: 0;
@@ -43,7 +43,7 @@
   function launch() {
     try {
       // Updated URL to the specific GitHub raw file
-      const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Gn-math%20Christmas%20v3.0.0";
+      const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/official_movie_site.html";
 
       fetch(url + "?" + Date.now())
         .then(response => {
