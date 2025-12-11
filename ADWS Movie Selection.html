@@ -1,1 +1,586 @@
-testing
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADWS Movie Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: #00d4ff;
+            text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+            to { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff, 0 0 80px #00d4ff; }
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 50px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        #searchBar:focus {
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        #searchBar::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .movie-card {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc, #00d4ff);
+            border-radius: 15px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card:hover::before {
+            opacity: 1;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .movie-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .movie-quality {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .movie-year {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .no-results {
+            text-align: center;
+            font-size: 24px;
+            color: #00d4ff;
+            margin-top: 50px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .movie-count {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ADWS Movie Selection</h1>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search for movies..." onkeyup="searchMovies()">
+    </div>
+
+    <div class="movie-count" id="movieCount"></div>
+
+    <div class="movies-container" id="moviesContainer">
+        <!-- Movies will be populated here -->
+    </div>
+
+    <script>
+        // Movie data from the file
+        const movies = [
+            {title: "Five Nights At Freddys 2", quality: "720p HD", year: "2025", file: "Five Nights At Freddys 2 720p HD 2025.avi"},
+            {title: "An Extremely Goofy Movie", quality: "Full Movie", year: "", file: "An Extremely Goofy Movie full movie.mp4"},
+            {title: "All Eyez on Me", quality: "720p", year: "", file: "All Eyez on Me.720p.mp4"},
+            {title: "A Goofy Movie", quality: "720p BluRay", year: "1995", file: "A.Goofy.Movie.1995.720p.BluRay.x264-[YTS.AM].mp4"},
+            {title: "Ace Ventura: Pet Detective", quality: "1080p", year: "", file: "Ace Ventura_ Pet Detective.1080p.mp4"},
+            {title: "Ace Ventura: When Nature Calls", quality: "720p", year: "", file: "Ace Ventura_ When Nature Calls.720p.mp4"},
+            {title: "Ant-Man And The Wasp", quality: "Full Movie", year: "", file: "Ant-Man And The Wasp.mp4"},
+            {title: "Austin Powers in Goldmember", quality: "720p", year: "", file: "Austin Powers in Goldmember.720p.mp4"},
+            {title: "Back to the Future Part II", quality: "1080p", year: "", file: "Back to the Future Part II.1080p.mp4"},
+            {title: "Back to the Future Part III", quality: "720p", year: "", file: "Back to the Future Part III.720p.mp4"},
+            {title: "Back to the Future", quality: "1080p", year: "", file: "Back to the Future.1080p.mp4"},
+            {title: "Beetlejuice Beetlejuice", quality: "2024", year: "2024", file: "Beetlejuice Beetlejuice 2024.mp4"},
+            {title: "Boo! A Madea Halloween", quality: "720p", year: "", file: "Boo! A Madea Halloween.720p.mp4"},
+            {title: "Chicken Little", quality: "720p", year: "", file: "Chicken Little.720p.mp4"},
+            {title: "Cinderella Man", quality: "720p", year: "", file: "Cinderella Man.720p.mp4"},
+            {title: "Coraline", quality: "720p", year: "", file: "Coraline.720p.mp4"},
+            {title: "El Camino: A Breaking Bad Movie", quality: "720p", year: "", file: "El Camino_ A Breaking Bad Movie.720p.mp4"},
+            {title: "Fear Street: 1666", quality: "1080p", year: "", file: "Fear Street_ 1666.1080p.mp4"},
+            {title: "Fear Street: 1978", quality: "720p", year: "", file: "Fear Street_ 1978.720p.mp4"},
+            {title: "Fear Street: 1994", quality: "534p", year: "", file: "Fear Street_ 1994.534p.mp4"},
+            {title: "Five Nights at Freddys Movie", quality: "Full Movie", year: "", file: "Five Nights at Freddys Movie.mp4"},
+            {title: "Full Metal Jacket", quality: "1080p", year: "", file: "Full Metal Jacket.1080p.mp4"},
+            {title: "Ghostbusters II", quality: "Theatrical DVDRIP", year: "", file: "Ghostbusters II2.theatricalDVDRIP.mp4"},
+            {title: "Ghostbusters: Frozen Empire", quality: "Full Movie", year: "", file: "Ghostbusters- Frozen Empire full movie.ts"},
+            {title: "Ghostbusters", quality: "DVDRIP", year: "", file: "ghostbustersDVDRIP.mp4"},
+            {title: "Goosebumps", quality: "Full Movie", year: "", file: "Goosebumps.mp4"},
+            {title: "Halloween", quality: "720p", year: "", file: "Halloween.720p.mp4"},
+            {title: "Halloween Ends", quality: "1080p", year: "", file: "Halloween Ends.1080p.mp4"},
+            {title: "Halloween Kills", quality: "720p", year: "", file: "Halloween Kills.720p.mp4"},
+            {title: "Grave Encounters", quality: "1080p", year: "", file: "Grave Encounters.1080p.mp4"},
+            {title: "Grave Encounters 2", quality: "1080p", year: "", file: "Grave Encounters 2.1080p.mp4"},
+            {title: "Harry Potter and the Prisoner of Azkaban", quality: "720p", year: "", file: "Harry Potter and the Prisoner of Azkaban.720p.mp4"},
+            {title: "Home alone 2 lost in New York", quality: "Full Movie", year: "", file: "Home alone 2 lost in New York.mp4"},
+            {title: "Home Alone", quality: "Full Movie", year: "", file: "Home Alone full movie.mp4"},
+            {title: "House of 1000 Corpses", quality: "1080p", year: "", file: "House of 1000 Corpses.1080p.mp4"},
+            {title: "Inside Out", quality: "1080p", year: "", file: "Inside Out.1080p.mp4"},
+            {title: "IT", quality: "2017 720p", year: "2017", file: "IT 2017 720p full movie.ts"},
+            {title: "It Chapter Two", quality: "720p 2019", year: "2019", file: "It Chapter Two 720p 2019.mp4.ts"},
+            {title: "It", quality: "Full Movie 1990", year: "1990", file: "It full Movie 1990.ts"},
+            {title: "John Wick Chapter 2", quality: "Full Movie", year: "", file: "John Wick Chapter 2.mp4"},
+            {title: "John Wick Chapter 3", quality: "Full Movie", year: "", file: "John Wick Chapter 3.mp4"},
+            {title: "John Wick", quality: "Full Movie", year: "", file: "John Wick Full.mp4"},
+            {title: "Juice WRLD: Into the Abyss", quality: "720p", year: "", file: "Juice WRLD_ Into the Abyss.720p.mp4"},
+            {title: "Little Nicky", quality: "1080p", year: "", file: "Little Nicky.1080p.mp4"},
+            {title: "Lone Survivor", quality: "720p", year: "", file: "Lone Survivor.720p.mp4"},
+            {title: "Men In Black", quality: "Full Movie", year: "", file: "Men In Black.mp4"},
+            {title: "Miss Peregrine's Home for Peculiar Children", quality: "720p", year: "", file: "Miss Peregrine's Home for Peculiar Children.720p.mp4"},
+            {title: "No Way Up", quality: "538p", year: "", file: "No Way Up.538p.mp4"},
+            {title: "Notorious", quality: "720p", year: "", file: "Notorious.720p.mp4"},
+            {title: "Ratatouille", quality: "720p", year: "", file: "Ratatouille.720p.mp4"},
+            {title: "Shrek 2", quality: "Full Movie", year: "", file: "Shrek 2 full movie.mp4"},
+            {title: "Shrek", quality: "Full Movie", year: "", file: "Shrek full movie full movie.mp4"},
+            {title: "Straight Outta Compton", quality: "720p", year: "", file: "Straight Outta Compton.720p.mp4"},
+            {title: "Sympathy for the Devil", quality: "720p", year: "", file: "Sympathy for the Devil.720p.mp4"},
+            {title: "The Black Phone", quality: "720p", year: "", file: "The Black Phone.720p.mp4"},
+            {title: "The Devil's Rejects", quality: "720p", year: "", file: "The Devil's Rejects.720p.mp4"},
+            {title: "The Emperor's New Groove", quality: "1080p", year: "", file: "The Emperor's New Groove.1080p.mp4"},
+            {title: "The Lego Batman Movie", quality: "720p", year: "", file: "The Lego Batman Movie.720p.mp4"},
+            {title: "The Mummy Returns", quality: "720p", year: "", file: "The Mummy Returns.720p.mp4"},
+            {title: "The Mummy: Tomb of the Dragon Emperor", quality: "720p", year: "", file: "The Mummy_ Tomb of the Dragon Emperor.720p.mp4"},
+            {title: "The Mummy", quality: "720p", year: "", file: "The Mummy.720p.mp4"},
+            {title: "The Nightmare Before Christmas", quality: "1080p", year: "", file: "The Nightmare Before Christmas.1080p.mp4"},
+            {title: "John Wick Chapter 4", quality: "Watch", year: "", file: "Watch John Wick Chapter 4.mp4"},
+            {title: "World War Z", quality: "720p", year: "", file: "World War Z.720p.mp4"},
+            {title: "Scooby Doo and the Witch's Ghost", quality: "Full Movie", year: "", file: "scooby doo and witch's ghost.mp4"},
+            {title: "The Seeding", quality: "HD 720p", year: "2024", file: "The Seeding HD 720p 2024.mp4"},
+            {title: "Plankton! The Movie", quality: "Mp4", year: "", file: "Plankton! The Movie.Mp4.mp4"},
+            {title: "Beetlejuice", quality: "1988 HD", year: "1988", file: "Beetlejuice 1988 HD.ts"},
+            {title: "Halloween", quality: "Full Movie", year: "", file: "Halloween full movie.ts"},
+            {title: "Annie", quality: "Full Movie", year: "1999", file: "Annie ( 1999).ts"},
+            {title: "Army of Darkness", quality: "360p", year: "1992", file: "Army of Darkness 1992.ts"},
+            {title: "Bride of Chucky", quality: "Full Movie", year: "1998", file: "Bride of Chucky 1998.mp4"},
+            {title: "Child's Play 3", quality: "Full Movie", year: "", file: "CHILD PLAY3.mp4"},
+            {title: "Child's Play 2", quality: "Full Movie", year: "", file: "Child's PLAY 2.mp4"},
+            {title: "Child's Play", quality: "Theatrical", year: "", file: "Child's Play.theatrical.mp4"},
+            {title: "DuckTales: The Movie - Treasure of the Lost Lamp", quality: "360p", year: "1990", file: "DuckTales- The Movie - Treasure of the Lost Lamp 1990 360p.ts"},
+            {title: "Evil Dead II", quality: "Full Movie", year: "1987", file: "Evil Dead II 1987.ts"},
+            {title: "Freddy's Dead: The Final Nightmare", quality: "Full Movie", year: "1991", file: "Freddy's Dead- The Final Nightmare 1991.ts"},
+            {title: "Friday the 13th", quality: "360p", year: "1980", file: "Friday the 13th 1980 360p.mp4"},
+            {title: "Friday the 13th", quality: "Full Movie", year: "", file: "Friday the 13th full movie.ts"},
+            {title: "Friday the 13th Part 2", quality: "360p", year: "1981", file: "Friday the 13th Part 2 1981 360p.mp4"},
+            {title: "Friday the 13th Part 2", quality: "Full Movie", year: "", file: "Friday the 13th Part 2 full movie.ts"},
+            {title: "Friday the 13th Part III", quality: "Full Movie", year: "", file: "Friday the 13th Part III full movie.ts"},
+            {title: "Friday the 13th Part VI: Jason Lives", quality: "Full Movie", year: "", file: "Friday the 13th Part VI- Jason Lives full movie"},
+            {title: "Friday the 13th Part VII: The New Blood", quality: "Full Movie", year: "", file: "Friday the 13th Part VII- The New Blood full movie.ts"},
+            {title: "Friday the 13th Part VIII: Jason Takes Manhattan", quality: "360p", year: "1989", file: "Friday the 13th Part VIII- Jason Takes Manhattan 1989 360p.mp4"},
+            {title: "Friday the 13th: A New Beginning", quality: "360p", year: "1985", file: "Friday the 13th- A New Beginning 1985 360p.mp4"},
+            {title: "Friday the 13th: The Final Chapter", quality: "360p", year: "1984", file: "Friday the 13th- The Final Chapter 1984 360p.mp4"},
+            {title: "Ghostbusters II", quality: "Theatrical DVDRIP", year: "", file: "Ghostbusters II2.theatricalDVDRIP.mp4"},
+            {title: "Ghostbusters", quality: "DVDRIP", year: "", file: "ghostbustersDVDRIP.mp4"},
+            {title: "Godzilla 1985", quality: "360p", year: "1984", file: "Godzilla 1985 1984 360p.ts"},
+            {title: "Gremlins 2", quality: "Theatrical DVDRIP", year: "", file: "Gremlins 2.theatrical DVDRIP.mp4"},
+            {title: "Gremlins", quality: "Theatrical DVDRIP", year: "", file: "Gremlins.theatrical DVDRIP.mp4"},
+            {title: "Halloween 4: The Return of Michael Myers", quality: "Full Movie", year: "1988", file: "Halloween 4- The Return of Michael Myers 1988.ts"},
+            {title: "Halloween 5: The Revenge of Michael Myers", quality: "360p", year: "1989", file: "Halloween 5- The Revenge of Michael Myers 1989 360p.ts"},
+            {title: "Halloween 6: The Curse of Michael Myers", quality: "360p", year: "1995", file: "Halloween 6- The Curse of Michael Myers 1995 360p.ts"},
+            {title: "Halloween", quality: "Full Movie", year: "", file: "Halloween full movie.ts"},
+            {title: "Halloween H20: 20 Years Later", quality: "360p", year: "1998", file: "Halloween H20- 20 Years Later 1998 360p.ts"},
+            {title: "Halloween II", quality: "360p", year: "1981", file: "Halloween II 1981 360p.ts"},
+            {title: "Halloween III: Season of the Witch", quality: "360p", year: "1982", file: "Halloween III- Season of the Witch 1982 360p.ts"},
+            {title: "Pokémon Pikachu's Vacation", quality: "Fullscreen 360p", year: "1998", file: "Pokémon Pikachu's Vacation [Fullscreen] (1998 360p).ts"},
+            {title: "Home Alone", quality: "Full Movie", year: "", file: "Home Alone full movie.mp4"},
+            {title: "It", quality: "Full Movie 1990", year: "1990", file: "It full Movie 1990.ts"},
+            {title: "Jaws 2", quality: "Full Movie", year: "1978", file: "Jaws 2 1978.ts"},
+            {title: "Jaws 3-D", quality: "360p", year: "1983", file: "Jaws 3-D 1983 360p.ts"},
+            {title: "Jaws", quality: "360p", year: "1975", file: "Jaws 1975 360p.ts"},
+            {title: "Jaws: The Revenge", quality: "360p", year: "1987", file: "Jaws- The Revenge 1987 360p.ts"},
+            {title: "Wes Craven's New Nightmare", quality: "Full Movie", year: "1994", file: "New Nightmare 1994.ts"},
+            {title: "Pokémon Pikachu's Winter Vacation", quality: "Japanese 360p", year: "1999", file: "Pokémon Pikachu's Winter Vacation [Japanese] (1999).360p.ts"},
+            {title: "Poltergeist", quality: "Full Movie", year: "1982", file: "Poltergeist 1982.mp4"},
+            {title: "Pokémon: The Movie 2000", quality: "Full Movie", year: "", file: "Pokémon- The Movie 2000 full movie.ts"},
+            {title: "Poltergeist II: The Other Side", quality: "Full Movie", year: "1986", file: "Poltergeist II- The Other Side 1986.mp4"},
+            {title: "Poltergeist II: The Other Side", quality: "Full Movie", year: "1986", file: "Poltergeist II- The Other Side 1986.ts"},
+            {title: "Poltergeist III", quality: "360p", year: "1988", file: "Poltergeist III 1988 360p.ts"},
+            {title: "Scooby Doo Goes Hollywood", quality: "360p", year: "1980", file: "Scooby Doo Goes HollyWood 1980 360p.mp4"},
+            {title: "Scooby-Doo on Zombie Island", quality: "360p", year: "1998", file: "Scooby-Doo on Zombie Island 1998 360p.ts"},
+            {title: "Scream", quality: "Full Movie", year: "1996", file: "Scream 1 1996.ts"},
+            {title: "Scream 2", quality: "Full Movie", year: "1997", file: "Scream 2 1997.ts"},
+            {title: "South Park: Bigger, Longer & Uncut", quality: "Full Movie", year: "", file: "South Park- Bigger, Longer & Uncut.mp4"},
+            {title: "Space Jam", quality: "Full Movie", year: "", file: "Space Jam full movie.mp4"},
+            {title: "Stand by Me", quality: "Full Movie", year: "", file: "Stand by Me full movie"},
+            {title: "Star Wars: Episode I - The Phantom Menace", quality: "360p", year: "1999", file: "Star Wars- Episode I - The Phantom Menace 1999 360p.ts"},
+            {title: "The Evil Dead", quality: "Full Movie", year: "1981", file: "The Evil Dead 1981.ts"},
+            {title: "The Exorcist", quality: "Full Movie", year: "1973", file: "The Exorcist 1973.mp4"},
+            {title: "The Goonies", quality: "Full Moive DVDRIP", year: "", file: "The Goonies Full Moive DVDRIP.mp4"},
+            {title: "The Mask", quality: "Full Movie", year: "", file: "The Mask full movie.mp4"},
+            {title: "Toy Story 2", quality: "Full Movie", year: "1999", file: "Toy Story 2 1999.mp4"},
+            {title: "Toy Story", quality: "720p", year: "1995", file: "Toy Story 1995 720p.ts"},
+            {title: "Twister", quality: "360p", year: "1989", file: "Twister 1989 360p.ts"},
+            {title: "Twister", quality: "360p", year: "1996", file: "Twister 1996 360p.ts"},
+            {title: "Willy Wonka & the Chocolate Factory", quality: "360p", year: "1971", file: "Willy Wonka & the Chocolate Factory 1971 360p.ts"},
+            {title: "Air Bud: Seventh Inning Fetch", quality: "Full Movie", year: "2002", file: "Air Bud- Seventh Inning Fetch 2002.ts"},
+            {title: "Air Buddies", quality: "360p", year: "2006", file: "Air Buddies 2006 360p.ts"},
+            {title: "Atomic Twister", quality: "TubiRiped", year: "2002", file: "Atomic Twister (2002)TubiRiped.mp4"},
+            {title: "Barnyard", quality: "Full Movie", year: "2006", file: "Barnyard full movie 2006"},
+            {title: "Charlie and the Chocolate Factory", quality: "360p", year: "2005", file: "Charlie and the Chocolate Factory 2005 360p.ts"},
+            {title: "Dead Silence", quality: "Full Movie", year: "2007", file: "Dead Silence 2007.ts"},
+            {title: "Freddy vs. Jason", quality: "Full Movie", year: "2003", file: "Freddy vs. Jason 2003.ts"},
+            {title: "Godzilla: Final Wars", quality: "Full Movie", year: "2004", file: "Godzilla- Final Wars 2004.ts"},
+            {title: "Halloween", quality: "360p", year: "2007", file: "Halloween 2007 360p.ts"},
+            {title: "Halloween II", quality: "360p", year: "2009", file: "Halloween II 2009 360p.ts"},
+            {title: "Halloween: Resurrection", quality: "360p", year: "2002", file: "Halloween- Resurrection 2002 360p.ts"},
+            {title: "Iron Man", quality: "360p", year: "2008", file: "Iron Man 1 2008 360p.ts"},
+            {title: "Pokémon Camp Pikachu", quality: "360p", year: "2002", file: "Pokémon Camp Pikachu (2002 360p).ts"},
+            {title: "Pokémon 4Ever: Celebi - Voice of the Forest", quality: "360p", year: "2001", file: "Pokémon 4Ever- Celebi - Voice of the Forest 2001 360p.ts"},
+            {title: "Pokémon Heroes: Latios and Latias", quality: "360p", year: "2002", file: "Pokémon Heroes- Latios and Latias 2002 360p.ts"},
+            {title: "Pokemon Jirachi Wish Maker", quality: "360p re-dvdrip", year: "2003", file: "Pokemon Jirachi Wish Maker (2003 360p re-dvdrip).ts"},
+            {title: "Pokémon Mewtwo Returns", quality: "360p re-dvdrip", year: "2000", file: "Pokémon Mewtwo Returns (2000 360p re-dvdrip).ts"},
+            {title: "Pokemon Pikachu the Movie 2001", quality: "360p", year: "2000", file: "Pokemon Pikachu the Movie 2001 (2000 360p).ts"},
+            {title: "Pokemon: Gotta Dance!", quality: "360p", year: "2003", file: "Pokemon- Gotta Dance! 2003 360p.ts"},
+            {title: "Pokémon Destiny Deoxys", quality: "360p", year: "2004", file: "Pokémon Destiny Deoxys 2004 360p.ts"},
+            {title: "Pokémon: Giratina and the Sky Warrior", quality: "360p", year: "2008", file: "Pokémon- Giratina and the Sky Warrior 2008 360p.ts"},
+            {title: "Pokémon: Lucario and the Mystery of Mew", quality: "360p", year: "2005", file: "FYX_Pokémon- Lucario and the Mystery of Mew 2005 360p.ts"},
+            {title: "Santa Buddies", quality: "360p", year: "2009", file: "Santa Buddies 2009 360p.ts"},
+            {title: "Scooby-Doo! and the Cyber Chase", quality: "Full Movie", year: "2001", file: "Scooby-Doo! and the Cyber Chase 2001.ts"},
+            {title: "Scream 3", quality: "Full Movie", year: "2000", file: "Scream 3 2000.ts"},
+            {title: "Seed of Chucky", quality: "Full Movie", year: "2004", file: "Seed of Chucky 2004.mp4"},
+            {title: "Shrek 2", quality: "Full Movie", year: "", file: "Shrek 2 full movie.mp4"},
+            {title: "Shrek", quality: "Full Movie", year: "", file: "Shrek full movie full movie.mp4"},
+            {title: "Space Buddies", quality: "360p", year: "2009", file: "Space Buddies 2009 360p.ts"},
+            {title: "Spider-Man 2", quality: "Full Movie", year: "2004", file: "Spider-Man 2 2004.ts"},
+            {title: "Spider-Man 3", quality: "Full Movie", year: "2007", file: "Spider-Man 3 2007.ts"},
+            {title: "Star Wars: Episode II - Attack of the Clones", quality: "360p", year: "2002", file: "Star Wars- Episode II - Attack of the Clones 2002 360p.ts"},
+            {title: "Star Wars: Episode III - Revenge of the Sith", quality: "360p", year: "2005", file: "Star Wars- Episode III - Revenge of the Sith 2005 360p.ts"},
+            {title: "The SpongeBob SquarePants Movie", quality: "US DVD Widescreen", year: "2004", file: "The SpongeBob SquarePants Movie (US DVD) (Widescreen) [2004].mp4"},
+            {title: "Transformers", quality: "Full Movie", year: "2007", file: "Transformers 2007.ts"},
+            {title: "Transformers: Revenge of the Fallen", quality: "360p", year: "2009", file: "Transformers- Revenge of the Fallen 2009 360p.ts"},
+            {title: "Iron Man 2", quality: "360p", year: "2010", file: "Iron Man 2 2010 360p.ts"},
+            {title: "Paranormal Activity 2", quality: "Full Movie", year: "", file: "Paranormal Activity 2 full movie.ts"},
+            {title: "The Search for Santa Paws", quality: "360p", year: "2010", file: "The Search for Santa Paws 2010 360p.ts"},
+            {title: "3 from Hell", quality: "720p", year: "", file: "3 from Hell.720p.mp4"},
+            {title: "Looney Tunes: Back in Action", quality: "Full Movie", year: "", file: "Looney Tunes- Back in Action full movie.mp4"},
+            {title: "Paranormal Activity 3", quality: "Full Movie", year: "", file: "Paranormal Activity 3 full movie.ts"},
+            {title: "Pokémon the Movie Black: Victini and Reshiram", quality: "360p", year: "2011", file: "Pokémon the Movie Black- Victini and Reshiram 2011 360p.ts"},
+            {title: "Pokémon the Movie White: Victini and Zekrom", quality: "360p", year: "2011", file: "Pokémon the Movie White- Victini and Zekrom 2011 360p.ts"},
+            {title: "Spooky Buddies", quality: "360p", year: "2011", file: "Spooky Buddies 2011 360p.ts"},
+            {title: "Transformers: Dark of the Moon", quality: "360p", year: "2011", file: "Transformers- Dark of the Moon 2011 360p.ts"},
+            {title: "Pokemon: Meloetta's Moonlight Serenade", quality: "360p", year: "2012", file: "Pokemon- Meloetta's Moonlight Serenade 2012 360p.ts"},
+            {title: "The Amazing Spider-Man", quality: "Full Movie", year: "", file: "The Amazing Spider-Man full movie.ts"},
+            {title: "Paranormal Activity 4", quality: "Full Movie", year: "", file: "Paranormal Activity 4 full movie.ts"},
+            {title: "Treasure Buddies", quality: "360p", year: "2012", file: "Treasure Buddies 2012 360p.ts"},
+            {title: "Curse of Chucky", quality: "Full Movie", year: "2013", file: "Curse of Chucky 2013.mp4"},
+            {title: "Iron Man 3", quality: "360p", year: "2013", file: "Iron Man 3 2013 360p.ts"},
+            {title: "Super Buddies", quality: "360p", year: "2013", file: "Super Buddies 2013 360p.ts"},
+            {title: "The Conjuring", quality: "Full Movie", year: "", file: "The Conjuring.mp4"},
+            {title: "Annie", quality: "360p", year: "2014", file: "Annie 2014 360p.ts"},
+            {title: "Godzilla", quality: "360p", year: "2014", file: "Godzilla 2014 360p.ts"},
+            {title: "Mr. Peabody & Sherman", quality: "360p", year: "2014", file: "Mr. Peabody & Sherman 2014 360p.ts"},
+            {title: "Paranormal Activity: The Marked Ones", quality: "Full Movie", year: "", file: "Paranormal Activity- The Marked Ones full movie.ts"},
+            {title: "Penguins of Madagascar", quality: "360p", year: "2014", file: "Penguins of Madagascar 2014 360p.ts"},
+            {title: "Pokémon the Movie: Diancie and the Cocoon of Destruction", quality: "360p", year: "2014", file: "Pokémon the Movie- Diancie and the Cocoon of Destruction 2014 360p.ts"},
+            {title: "The Amazing Spider-Man 2", quality: "Full Movie", year: "", file: "The Amazing Spider-Man 2 full movie"},
+            {title: "Transformers: Age of Extinction", quality: "360p", year: "2014", file: "Transformers- Age of Extinction 2014 360p.ts"},
+            {title: "Goosebumps", quality: "Netflix Rip 360p", year: "", file: "Goosebumps Netflix Rip 360p.mp4"},
+            {title: "Inside Out", quality: "360p", year: "2015", file: "Inside Out 2015 360p.ts"},
+            {title: "Pokémon the Movie: Hoopa and the Clash of Ages", quality: "360p", year: "2015", file: "Pokémon the Movie- Hoopa and the Clash of Ages 2015 360p.ts"},
+            {title: "Poltergeist", quality: "360p", year: "2015", file: "Poltergeist 2015 360p.ts"},
+            {title: "SpongeBob Movie: Sponge Out of Water", quality: "Full Movie", year: "", file: "SpongeBob Movie- Sponge Out of Water full movie.mp4"},
+            {title: "Deadpool", quality: "Full Movie", year: "2016", file: "Deadpool 2016.ts"},
+            {title: "Ghostbusters", quality: "360p", year: "2016", file: "Ghostbusters 2016 360p.ts"},
+            {title: "Jackass: The Movie", quality: "Full Movie", year: "", file: "Jackass- The Movie full movie.mp4"},
+            {title: "Moana", quality: "360p", year: "2016", file: "Moana 2016 360p.ts"},
+            {title: "Ouija: Origin Of Evil", quality: "Netflix Ripped", year: "2016", file: "Ouija - Origin Of Evil 2016 (Netflix Ripped).mp4"},
+            {title: "Pokémon the Movie: Volcanion and the Mechanical Marvel", quality: "360p", year: "2016", file: "Pokémon the Movie- Volcanion and the Mechanical Marvel 2016 360p.ts"},
+            {title: "Shin Godzilla", quality: "360p", year: "2016", file: "Shin Godzilla 2016 360p.ts"},
+            {title: "Terrifier", quality: "Full Movie", year: "", file: "Terrifier full movie"},
+            {title: "The Conjuring 2", quality: "Full Movie", year: "", file: "The Conjuring 2 full movie.mp4"},
+            {title: "Zootopia", quality: "360p", year: "2016", file: "Zootopia 2016 360p.ts"},
+            {title: "Cult of Chucky", quality: "Full Movie", year: "", file: "Cult of Chucky full movie"},
+            {title: "IT", quality: "2017 720p", year: "2017", file: "IT 2017 720p full movie"},
+            {title: "Pokémon the Movie: I Choose You!", quality: "360p", year: "2017", file: "Pokémon the Movie- I Choose You! 2017 360p.ts"},
+            {title: "Spider-Man: Homecoming", quality: "Full Movie", year: "2017", file: "Spider-Man- Homecoming 2017.ts"},
+            {title: "The Lorax", quality: "Full Movie", year: "", file: "The Lorax full movie.mp4"},
+            {title: "Transformers: The Last Knight", quality: "360p", year: "2017", file: "Transformers- The Last Knight 2017 360p.ts"},
+            {title: "Deadpool 2", quality: "360p", year: "2018", file: "Deadpool 2 2018 360p.ts"},
+            {title: "Halloween", quality: "360p", year: "2018", file: "Halloween 2018 360p.ts"},
+            {title: "Pokémon the Movie: The Power of Us", quality: "360p", year: "2018", file: "Pokémon the Movie- The Power of Us 2018 360p.ts"},
+            {title: "Santa Jaws", quality: "360p", year: "2018", file: "Santa Jaws 2018 360p.ts"},
+            {title: "Spider-Man: Into the Spider-Verse", quality: "360p", year: "2018", file: "Spider-Man- Into the Spider-Verse 2018 360p.ts"},
+            {title: "Brightburn", quality: "360p", year: "2019", file: "Brightburn 2019 360p.ts"},
+            {title: "Cleanin' Up the Town: Remembering Ghostbusters", quality: "360p", year: "2019", file: "Cleanin' Up the Town- Remembering Ghostbusters 2019 360p.ts"},
+            {title: "Godzilla: King of the Monsters", quality: "360p", year: "2019", file: "Godzilla- King of the Monsters 2019 360p.ts"},
+            {title: "It Chapter Two", quality: "720p 2019", year: "2019", file: "It Chapter Two 720p 2019.mp4"},
+            {title: "Joker", quality: "Full Movie", year: "2019", file: "Joker 2019.ts"},
+            {title: "Pokémon Detective Pikachu", quality: "720p", year: "2019", file: "Pokémon Detective Pikachu 2019 720p.ts"},
+            {title: "Pokémon: Mewtwo Strikes Back Evolution", quality: "720p", year: "2019", file: "Pokémon- Mewtwo Strikes Back Evolution 2019 720p.ts"},
+            {title: "Spider-Man: Far from Home", quality: "Full Movie", year: "2019", file: "Spider-Man- Far from Home 2019.ts"},
+            {title: "SpongeBob Movie: Sponge on the Run", quality: "Full Movie", year: "", file: "SpongeBob Movie- Sponge on the Run full movie.mp4"},
+            {title: "Sonic the Hedgehog", quality: "Full Movie", year: "", file: "Sonic the Hedgehog full movie.ts"},
+            {title: "Ghostbusters: Afterlife", quality: "360p", year: "2021", file: "Ghostbusters- Afterlife 2021 360p.ts"},
+            {title: "Godzilla vs. Kong", quality: "360p", year: "2021", file: "Godzilla vs. Kong 2021 360p.ts"},
+            {title: "Halloween Kills", quality: "360p", year: "2021", file: "Halloween Kills 2021 360p.ts"},
+            {title: "Scream VI", quality: "Full Movie", year: "", file: "Scream VI.mp4"},
+            {title: "South Park: Post Covid", quality: "Full Movie", year: "2021", file: "South Park- Post Covid 2021.ts"},
+            {title: "South Park: Post COVID- The Return of COVID", quality: "Full Movie", year: "2021", file: "South Park- Post COVID- The Return of COVID 2021.ts"},
+            {title: "Space Jam: A New Legacy", quality: "Full Movie", year: "", file: "Space Jam A New Legacy.mp4"},
+            {title: "The Conjuring: The Devil Made Me Do It", quality: "Full Movie", year: "", file: "The Conjuring- The Devil Made Me Do It full movie.mp4"},
+            {title: "South Park: The Streaming Wars Part 2", quality: "360p", year: "2022", file: "South Park the Streaming Wars Part 2 2022 360p.ts"},
+            {title: "Halloween Ends", quality: "360p", year: "2022", file: "Halloween Ends 2022 360p.ts"},
+            {title: "Jaws vs. Kraken", quality: "360p", year: "2022", file: "Jaws vs. Kraken 2022 360p.ts"},
+            {title: "Jurassic World Dominion", quality: "Full Movie", year: "", file: "Jurassic World Dominion full movie.mp4"},
+            {title: "Pokémon: The Arceus Chronicles", quality: "360p", year: "2022", file: "Pokémon- The Arceus Chronicles 2022 360p.ts"},
+            {title: "Scream", quality: "Full Movie", year: "2022", file: "Scream 2022.ts"},
+            {title: "South Park: The 25th Anniversary Concert", quality: "Full Movie", year: "2022", file: "South Park- The 25th Anniversary Concert 2022.ts"},
+            {title: "South Park: The Streaming Wars", quality: "Full Movie", year: "2022", file: "South Park- The Streaming Wars 2022.ts"},
+            {title: "Terrifier 2", quality: "Full Movie", year: "", file: "Terrifier 2 full movie"},
+            {title: "Baghead", quality: "360p", year: "2023", file: "Baghead 2023 360p.ts"},
+            {title: "Cocaine Bear", quality: "360p", year: "2023", file: "Cocaine Bear 2023 360p.ts"},
+            {title: "Five Nights at Freddy's", quality: "Full Movie", year: "", file: "Five Nights at Freddy's full movie.mp4"},
+            {title: "Godzilla Minus One", quality: "360p", year: "2023", file: "Godzilla Minus One 2023 360p.ts"},
+            {title: "Indiana Jones and the Dial of Destiny", quality: "Full Movie", year: "", file: "Indiana Jones and the Dial of Destiny full movie.mp4"},
+            {title: "LEGO Jurassic Park: The Unofficial Retelling", quality: "Full Movie", year: "", file: "LEGO Jurassic Park- The Unofficial Retelling full movie.mp4"},
+            {title: "Meg 2", quality: "Full Movie", year: "", file: "Meg2 full movie.ts"},
+            {title: "Napoleon", quality: "Full Movie cam", year: "", file: "Napoleon full movie cam.mp4"},
+            {title: "Oppenheimer", quality: "Full Movie", year: "", file: "Oppenheimer full movie.mp4"},
+            {title: "Pet Sematary: Bloodlines", quality: "Full Movie", year: "", file: "Pet Sematary- Bloodlines full movie.mp4"},
+            {title: "Saw X", quality: "Full Movie", year: "", file: "saw x full movie.mp4"},
+            {title: "Scream VI", quality: "Full Movie", year: "2023", file: "Scream VI 2023.ts"},
+            {title: "South Park (Not Suitable For Children)", quality: "Full Movie", year: "2023", file: "South Park (Not Suitable For Children) 2023.ts"},
+            {title: "South Park: Joining the Panderverse", quality: "Full Movie", year: "2023", file: "South Park- Joining the Panderverse 2023.ts"},
+            {title: "Spider-Man: Across the Spider-Verse", quality: "Full Movie", year: "", file: "Spider-Man- Across the Spider-Verse full movie"},
+            {title: "Taylor Swift - The Eras Tour", quality: "360p", year: "2023", file: "TAYLOR SWIFT - THE ERAS TOUR 2023 360p.ts"},
+            {title: "Teenage Mutant Ninja Turtles: Mutant Mayhem", quality: "Full Movie", year: "", file: "Teenage Mutant Ninja Turtles- Mutant Mayhem full movie.mp4"},
+            {title: "The Devil On Trial", quality: "Netflix Rip 720P", year: "2023", file: "The Devil On Trial Netflix Rip 720P 2023.mkv"},
+            {title: "The Exorcist: Believer", quality: "Full Movie", year: "", file: "The Exorcist- Believer full movie"},
+            {title: "The Nun II", quality: "Full Movie", year: "", file: "The Nun II"},
+            {title: "The Super Mario Bros. Movie", quality: "Full Movie", year: "", file: "The Super Mario Bros. Movie full movie.ts"},
+            {title: "Transformers: Rise of the Beasts", quality: "Full Movie", year: "", file: "Transformers- Rise of the Beasts full movie"},
+            {title: "Wonka", quality: "360p", year: "2023", file: "Wonka 2023 360p.ts"},
+            {title: "Ghostbusters: Frozen Empire", quality: "Full Movie", year: "", file: "Ghostbusters- Frozen Empire full movie.ts"},
+            {title: "Abigail", quality: "360p", year: "2024", file: "Abigail 2024 360p.ts"},
+            {title: "Alien: Romulus", quality: "CAM", year: "2024", file: "Alien- Romulus 2024 CAM.ts"},
+            {title: "Beetlejuice Beetlejuice", quality: "HD", year: "2024", file: "Beetlejuice Beetlejuice HD 2024.ts"},
+            {title: "Deadpool & Wolverine", quality: "720p HD", year: "2024", file: "Deadpool & Wolverine 720p HD 2024.mp4"},
+            {title: "Despicable Me 4", quality: "1080p HD", year: "2024", file: "Despicable Me 4 2024 1080p HD.mp4"},
+            {title: "Godzilla x Kong: The New Empire", quality: "Full Movie CAM", year: "2024", file: "Godzilla x Kong- The New Empire 2024.ts"},
+            {title: "Godzilla x Kong: The New Empire", quality: "Full Movie CAM-001", year: "2024", file: "Godzilla x Kong- The New Empire full movie CAM-001.ts"},
+            {title: "IF", quality: "360p", year: "2024", file: "IF 2024 360p.ts"},
+            {title: "Imaginary", quality: "360p", year: "2024", file: "Imaginary 2024 360p.ts"},
+            {title: "Inside Out 2", quality: "360p", year: "2024", file: "Inside Out 2 2024 360p.ts"},
+            {title: "Joker: Folie à Deux", quality: "360p CAM", year: "2024", file: "Joker- Folie à Deux 2024 360p CAM.ts"},
+            {title: "Saving Bikini Bottom: The Sandy Cheeks Movie", quality: "Full Movie", year: "", file: "Saving Bikini Bottom- The Sandy Cheeks Movie full movie"},
+            {title: "Salem's Lot", quality: "HD", year: "2024", file: "Salem's Lot 2024 HD.ts"},
+            {title: "South Park: The End Of Obesity", quality: "Full Movie", year: "2024", file: "South Park- The End Of Obesity 2024.ts"},
+            {title: "Texas Twister", quality: "360p", year: "2024", file: "Texas Twister 2024 360p.ts"},
+            {title: "The Garfield Movie", quality: "360p", year: "2024", file: "The Garfield Movie 2024 360p.ts"},
+            {title: "The Seeding", quality: "HD 720p", year: "2024", file: "The Seeding HD 720p 2024.mp4"},
+            {title: "The Underdoggs", quality: "HD", year: "2024", file: "The Underdoggs 2024 HD.mp4"},
+            {title: "Transformers One", quality: "CAM 360p", year: "2024", file: "Transformers One 2024 CAM 360p.ts"},
+            {title: "Twisters", quality: "HD", year: "2024", file: "Twisters HD 2024.mp4"},
+            {title: "Woody Woodpecker Goes to Camp", quality: "360p", year: "2024", file: "Woody Woodpecker Goes to Camp 2024 360p.ts"},
+            {title: "Marley & Me", quality: "Theatrical DVDRIP", year: "2009", file: "Marley & Me 2009 theatrical DVDRIP.mp4"},
+            {title: "My Friend Dahmer", quality: "720p", year: "", file: "My Friend Dahmer.720p.mp4"},
+            {title: "Sausage Party", quality: "720p", year: "", file: "Sausage Party.720p.mp4"},
+            {title: "Rush Hour", quality: "720p", year: "", file: "Rush Hour.720p.mp4"},
+            {title: "Pixels", quality: "720p", year: "", file: "Pixels.720p.mp4"},
+            {title: "Step Brothers", quality: "720p", year: "", file: "Step Brothers.720p.mp4"},
+            {title: "Moonfall", quality: "720p", year: "", file: "Moonfall.720p.mp4"},
+            {title: "8 Mile", quality: "720p", year: "", file: "8 Mile.720p.mp4"},
+            {title: "Click", quality: "720p", year: "", file: "Click.720p.mp4"},
+            {title: "Resident Evil: Welcome to Raccoon City", quality: "720p", year: "", file: "Resident Evil_ Welcome to Raccoon City.720p.mp4"},
+            {title: "How High", quality: "720p", year: "", file: "How High.720p.mp4"},
+            {title: "Harold & Kumar Go to White Castle", quality: "720p", year: "", file: "Harold & Kumar Go to White Castle.720p.mp4"},
+            {title: "Good Burger", quality: "720p", year: "", file: "Good Burger.720p.mp4"},
+            {title: "Juice", quality: "720p", year: "", file: "Juice.720p.mp4"},
+            {title: "How High 2", quality: "720p", year: "", file: "How High 2.720p.mp4"},
+            {title: "Halloweentown", quality: "720p", year: "", file: "Halloweentown.720p.mp4"},
+            {title: "Halloweentown High", quality: "720p", year: "", file: "Halloweentown High.720p.mp4"},
+            {title: "Return to Halloweentown", quality: "720p", year: "", file: "Return to Halloweentown.720p.mp4"},
+            {title: "Halloweentown II: Kalabar's Revenge", quality: "1080p", year: "", file: "Halloweentown II_ Kalabar's Revenge.1080p.mp4"},
+            {title: "Under Paris", quality: "1080p", year: "", file: "Under Paris.1080p.mp4"},
+            {title: "Good Burger 2", quality: "720p", year: "", file: "Good Burger 2.720p.mp4"},
+            {title: "Rush Hour 2", quality: "720p", year: "", file: "Rush Hour 2.720p.mp4"},
+            {title: "Rush Hour 3", quality: "720p", year: "", file: "Rush Hour 3.720p.mp4"},
+            {title: "Cars", quality: "720p", year: "", file: "Cars.720p.mp4"},
+            {title: "Cars 2", quality: "720p", year: "", file: "Cars 2.720p.mp4"},
+            {title: "Cars 3", quality: "720p", year: "", file: "Cars 3.720p.mp4"},
+            {title: "Spaceballs", quality: "720p", year: "", file: "Spaceballs.720p.mp4"},
+            {title: "Lord of War", quality: "720p", year: "", file: "Lord of War.720p.mp4"},
+            {title: "Alien: Covenant", quality: "720p", year: "", file: "Alien_ Covenant.720p.mp4"},
+            {title: "The 33", quality: "720p", year: "", file: "The 33.720p.mp4"},
+            {title: "Beavis and Butt-Head Do the Universe", quality: "1080p", year: "", file: "Beavis and Butt-Head Do the Universe.1080p.mp4"},
+            {title: "Beavis and Butt-Head Do America", quality: "720p", year: "", file: "Beavis and Butt-Head Do America.720p.mp4"},
+            {title: "Scooby-Doo", quality: "720p", year: "", file: "Scooby-Doo.720p.mp4"},
+            {title: "Scooby-Doo 2: Monsters Unleashed", quality: "720p", year: "", file: "Scooby-Doo 2_ Monsters Unleashed.720p.mp4"},
+            {title: "Scooby-Doo! and Kiss: Rock and Roll Mystery", quality: "1080p", year: "", file: "Scooby-Doo! and Kiss_ Rock and Roll Mystery.1080p.mp4"},
+            {title: "Scooby-Doo! Music of the Vampire", quality: "1080p", year: "", file: "Scooby-Doo! Music of the Vampire.1080p.mp4"},
+            {title: "Scooby-Doo! & Batman: The Brave and the Bold", quality: "1080p", year: "", file: "Scooby-Doo! & Batman_ The Brave and the Bold.1080p.mp4"},
+            {title: "SpongeBob SquarePants Presents the Tidal Zone", quality: "1080p", year: "", file: "SpongeBob SquarePants Presents the Tidal Zone.1080p.mp4"},
+            {title: "Zombieland", quality: "720p", year: "", file: "Zombieland.720p.mp4"},
+            {title: "Zombieland: Double Tap", quality: "720p", year: "", file: "Zombieland_ Double Tap.720p.mp4"},
+            {title: "The Great Gatsby", quality: "720p", year: "", file: "The Great Gatsby.720p.mp4"},
+            {title: "The Boogeyman", quality: "544p", year: "", file: "The Boogeyman.544p.mp4"},
+            {title: "Grown Ups 2", quality: "720p", year: "", file: "Grown Ups 2.720p.mp4"},
+            {title: "Dune", quality: "720p", year: "", file: "Dune.720p.mp4"},
+            {title: "Scoob!", quality: "720p", year: "", file: "Scoob!.720p.mp4"},
+            {title: "Monster House", quality: "536p", year: "", file: "Monster House.536p.mp4"},
+            {title: "A Nightmare on Elm Street", quality: "1080p", year: "", file: "A Nightmare on Elm Street.1080p.mp4"},
+            {title: "Wes Craven's New Nightmare", quality: "1080p", year: "", file: "New Nightmare.1080p.mp4"},
+            {title: "Smile", quality: "720p", year: "", file: "Smile.720p.mp4"},
+            {title: "Corpse Bride", quality: "1080p", year: "", file: "Corpse Bride.1080p.mp4"},
+            {title: "Open Season", quality: "720p", year: "", file: "Open Season.720p.mp4"},
+            {title: "Open Season 2", quality: "1080p", year: "", file: "Open Season 2.1080p.mp4"},
+            {title: "Open Season: Scared Silly", quality: "720p", year: "", file: "Open Season_ Scared Silly.720p.mp4"},
+            {title: "Open Season 3", quality: "1080p", year: "", file: "Open Season 3.1080p.mp4"},
+            {title: "Ghost Rider", quality: "720p", year: "", file: "Ghost Rider.720p.mp4"},
+            {title: "Ghost Rider: Spirit of Vengeance", quality: "720p", year: "", file: "Ghost Rider_ Spirit of Vengeance.720p.mp4"},
+            {title: "Willy's Wonderland", quality: "720p", year: "", file: "Willy's Wonderland.720p.mp4"},
+            {title: "Teen Titans Go! To the Movies", quality: "720p", year: "", file: "Teen Titans Go! To the Movies.720p.mp4"},
+            {title: "It Follows", quality: "536p", year: "", file: "It Follows.536p.mp4"},
+            {title: "Harry Potter and the Philosopher's Stone", quality: "720p", year: "", file: "Harry Potter and the Philosopher's Stone.720p.mp4"},
+            {title: "Harry Potter and the Chamber of Secrets", quality: "720p", year: "", file: "Harry Potter and the Chamber of Secrets.720p.mp4"},
+            {title: "Harry Potter and the Goblet of Fire", quality: "720p", year: "", file: "Harry Potter and the Goblet of Fire.720p.mp4"},
+            {title: "Harry Potter and the Order of the Phoenix", quality: "720p", year: "", file: "Harry Potter and the Order of the Phoenix.720p.mp4"},
+            {title: "Harry Potter and the Half-Blood Prince", quality: "720p", year: "", file: "Harry Potter and the Half-Blood Prince.720p.mp4"},
+            {title: "Harry Potter and the Deathly Hallows: Part 2", quality: "720p", year: "", file: "Harry Potter and the Deathly Hallows_ Part 2.720p.mp4"},
+            {title: "Harry Potter and the Deathly Hallows: Part 1", quality: "720p", year: "", file: "Harry Potter and the Deathly Hallows_ Part 1.720p.mp4"},
+            {title: "The Cable Guy", quality: "720p", year: "", file: "The Cable Guy.720p.mp4"},
+            {title: "Trading Places", quality: "1080p", year: "", file: "Trading Places.1080p.mp4"},
+            {title: "Blade: Trinity", quality: "544p", year: "", file: "Blade_ Trinity.544p.mp4"},
+            {title: "Blade II", quality: "1080p", year: "", file: "Blade II.1080p.mp4"},
+            {title: "Hot Tub Time Machine", quality: "720p", year: "", file: "Hot Tub Time Machine.720p.mp4"},
+            {title: "Hot Tub Time Machine 2", quality: "1080p", year: "", file: "Hot Tub Time Machine 2.1080p.mp4"},
+            {title: "Guardians of the Galaxy", quality: "720p", year: "", file: "Guardians of the Galaxy.720p.mp4"},
+            {title: "Guardians of the Galaxy Vol. 2", quality: "720p", year: "", file: "Guardians of the Galaxy Vol. 2.720p.mp4"},
+            {title: "Guardians of the Galaxy Vol. 3", quality: "720p", year: "", file: "Guardians of the Galaxy Vol. 3.720p.mp4"},
+            {title: "Final Destination", quality: "1080p", year: "", file: "Final Destination.1080p.mp4"},
+            {title: "Final Destination 2", quality: "720p", year: "", file: "Final Destination 2.720p.mp4"},
+            {title: "Final Destination 3", quality: "720p", year: "", file: "Final Destination 3.720p.mp4"},
+            {title: "The Final Destination", quality: "720p", year: "", file: "The Final Destination.720p.mp4"},
+            {title: "Final Destination 5", quality: "720p", year: "", file: "Final Destination 5.720p.mp4"},
+            {title: "The Human Centipede (First Sequence)", quality: "714p", year: "", file: "The Human Centipede (First Sequence).714p.mp4"},
+            {title: "Cuties", quality: "720p", year: "", file: "Cuties.720p.mp4"},
+            {title: "Saw III", quality: "1080p", year: "", file: "Saw III.1080p.mp4"},
+            {title: "Saw IV", quality: "1080p", year: "", file: "Saw IV.1080p.mp4"},
+            {title: "Saw V", quality: "1080p", year: "", file: "Saw V.1080p.mp4"},
+            {title: "Saw VI", quality: "1080p", year: "", file: "Saw VI.1080p.mp4"},
+            {title: "Jigsaw", quality: "720p", year: "", file: "Jigsaw.720p.mp4"},
+            {title: "Saw 3D", quality: "1080p", year: "", file: "Saw 3D.1080p.mp4"}
+        ];
+
+        let filteredMovies = [...movies];
+
+        function displayMovies(moviesToDisplay) {
+            const container = document.getElementById('moviesContainer');
+            const movieCount = document.getElementById('movieCount');
+            
+            movieCount.textContent = `Showing ${moviesToDisplay.length} of ${movies.length} movies`;
+            
+            if (moviesToDisplay.length === 0) {
+                container.innerHTML = '<div class="no-results">No movies found. Try a different search term.</div>';
+                return;
+            }
+            
+            container.innerHTML = moviesToDisplay.map(movie => `
+                <div class="movie-card" onclick="playMovie('${movie.file}')">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-quality">${movie.quality}</div>
+                    <div class="movie-year">${movie.year ? `Year: ${movie.year}` : ''}</div>
+                </div>
+            `).join('');
+        }
+
+        function searchMovies() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            filteredMovies = movies.filter(movie => 
+                movie.title.toLowerCase().includes(searchTerm) ||
+                movie.quality.toLowerCase().includes(searchTerm) ||
+                movie.year.toLowerCase().includes(searchTerm)
+            );
+            displayMovies(filteredMovies);
+        }
+
+        function playMovie(filename) {
+            // In a real implementation, this would open the movie file
+            alert(`Playing: ${filename}\n\nNote: This is a demo. In a real implementation, the movie would start playing.`);
+        }
+
+        // Initial display
+        displayMovies(movies);
+    </script>
+</body>
+</html>
