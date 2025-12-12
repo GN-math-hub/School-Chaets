@@ -75,17 +75,24 @@
     }
     /* Link Styles */
     .movie-card {
-        background-color: var(--light-grey);
-        border-radius: 8px;
-        transition: transform 0.2s, background-color 0.2s;
-        overflow: hidden;
-        border: 1px solid #ddd;
-    }
-    .movie-card:hover {
-        transform: translateY(-3px);
-        background-color: var(--light-red);
-        border-color: var(--primary-red);
-    }
+    background-color: var(--light-grey);
+    border-radius: 8px;
+    transition: transform 0.2s, background-color 0.2s;
+    overflow: hidden;
+    border: 1px solid #ddd;
+
+    /* ADD SHADOW */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.movie-card:hover {
+    transform: translateY(-3px);
+    background-color: var(--light-red);
+    border-color: var(--primary-red);
+
+    /* STRONGER SHADOW ON HOVER */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
     .movie-card a {
         display: block;
         padding: 15px;
@@ -211,7 +218,7 @@
 </head>
 <body>
     <header>
-        <h1>GN-Math Hub Movies V1.2.7</h1>
+        <h1>GN-Math Hub Movies V1.3.0</h1>
         <div class="search-container">
             <input type="text" id="searchBar" placeholder="Search for movies, shows, or genres..." onkeyup="filterMovies()">
         </div>
