@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <base href="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/ ">
+        <base href="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
@@ -12,8 +12,8 @@
             return 'Are you sure you want to leave? Any unsaved changes will be lost.';
         });
     </script>
-    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837 " crossorigin="anonymous"></script>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW "></script>
+    <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5521219086088837" crossorigin="anonymous"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-WX5VS54ZDW"></script>
     <meta name="google-adsense-account" content="ca-pub-5521219086088837">
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -24,31 +24,31 @@
         gtag('js', new Date());
         gtag('config', 'G-WX5VS54ZDW');
     </script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-5521219086088837?ers=1 "></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js "></script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-5521219086088837?ers=1"></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+    <script src="https://cdn.jsdelivr.net/gh/gn-math/gn-math.github.io@main/gnmath.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saturn Games</title>
-    <meta name="title" content="Saturn Games">
-    <meta name="description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on Saturn Games. Fast, free, no downloads—perfect for school or home.">
+    <title>gn-math</title>
+    <meta name="title" content="GN-Math">
+    <meta name="description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gn-math.github.io/ ">
-    <meta property="og:title" content="Saturn Games">
-    <meta property="og:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on Saturn Games. Fast, free, no downloads—perfect for school or home.">
+    <meta property="og:url" content="https://gn-math.github.io/">
+    <meta property="og:title" content="GN-Math">
+    <meta property="og:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://gn-math.github.io/ ">
-    <meta name="twitter:title" content="Saturn Games">
-    <meta name="twitter:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on Saturn Games. Fast, free, no downloads—perfect for school or home.">
+    <meta name="twitter:url" content="https://gn-math.github.io/">
+    <meta name="twitter:title" content="GN-Math">
+    <meta name="twitter:description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
     <style>
         :root {
-    --primary: #4a90e2;
-    --primary-hover: #357abd;
-    --primary-light: rgba(74, 144, 226, 0.1);
-    --primary-lighter: rgba(74, 144, 226, 0.05);
-    --accent: #9b59b6;
-    --accent-light: rgba(155, 89, 182, 0.1);
-    --success: #27ae60;
-    --warning: #f39c12;
+    --primary: #fc2651;
+    --primary-hover: #e91e47;
+    --primary-light: rgba(252, 38, 81, 0.1);
+    --primary-lighter: rgba(252, 38, 81, 0.05);
+    --accent: #8b5cf6;
+    --accent-light: rgba(139, 92, 246, 0.1);
+    --success: #10b981;
+    --warning: #f59e0b;
     --text: #1a1a1a;
     --text-muted: #6b7280;
     --text-light: #9ca3af;
@@ -64,25 +64,25 @@
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --shadow-glow: 0 0 20px rgba(74, 144, 226, 0.3);
+    --shadow-glow: 0 0 20px rgba(252, 38, 81, 0.3);
     --radius: 12px;
     --radius-sm: 8px;
     --radius-lg: 16px;
     --radius-xl: 20px;
-    --gradient-primary: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    --gradient-accent: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    --gradient-primary: linear-gradient(135deg, #fc2651 0%, #e91e47 100%);
+    --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
     --gradient-surface: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
 }
 
 .dark-mode {
-    --primary: #4a90e2;
-    --primary-hover: #5ba3f5;
-    --primary-light: rgba(74, 144, 226, 0.15);
-    --primary-lighter: rgba(74, 144, 226, 0.08);
-    --accent: #bb6ef2;
-    --accent-light: rgba(187, 110, 242, 0.15);
-    --success: #2ecc71;
-    --warning: #f1c40f;
+    --primary: #fc2651;
+    --primary-hover: #ff4d75;
+    --primary-light: rgba(252, 38, 81, 0.15);
+    --primary-lighter: rgba(252, 38, 81, 0.08);
+    --accent: #a855f7;
+    --accent-light: rgba(168, 85, 247, 0.15);
+    --success: #34d399;
+    --warning: #fbbf24;
     --text: #f1f5f9;
     --text-muted: #94a3b8;
     --text-light: #64748b;
@@ -98,9 +98,9 @@
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.7), 0 8px 10px -6px rgb(0 0 0 / 0.7);
-    --shadow-glow: 0 0 20px rgba(74, 144, 226, 0.4);
-    --gradient-primary: linear-gradient(135deg, #4a90e2 0%, #5ba3f5 100%);
-    --gradient-accent: linear-gradient(135deg, #bb6ef2 0%, #a855f7 100%);
+    --shadow-glow: 0 0 20px rgba(252, 38, 81, 0.4);
+    --gradient-primary: linear-gradient(135deg, #fc2651 0%, #ff4d75 100%);
+    --gradient-accent: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
     --gradient-surface: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
 
@@ -119,9 +119,6 @@ body {
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%" fx="50%" fy="50%"><stop offset="0%" stop-color="%230f172a" stop-opacity="0.9"/><stop offset="100%" stop-color="%230f172a" stop-opacity="0"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23a)"/><circle cx="200" cy="150" r="2" fill="%23ffffff" opacity="0.8"/><circle cx="800" cy="300" r="1.5" fill="%23ffffff" opacity="0.6"/><circle cx="1000" cy="200" r="1" fill="%23ffffff" opacity="0.7"/><circle cx="400" cy="500" r="2.5" fill="%23ffffff" opacity="0.9"/><circle cx="600" cy="600" r="1.8" fill="%23ffffff" opacity="0.5"/><circle cx="900" cy="400" r="1.2" fill="%23ffffff" opacity="0.8"/><circle cx="300" cy="700" r="2.2" fill="%23ffffff" opacity="0.6"/><circle cx="1100" cy="100" r="1.7" fill="%23ffffff" opacity="0.7"/><circle cx="500" cy="250" r="1.9" fill="%23ffffff" opacity="0.5"/><circle cx="700" cy="450" r="2.1" fill="%23ffffff" opacity="0.8"/></svg>');
-    background-size: cover;
-    background-attachment: fixed;
 }
 
 header {
@@ -177,7 +174,7 @@ header {
 
 #searchBar:focus {
     background: var(--text);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25), var(--shadow);
+    box-shadow: 0 0 0 3px rgba(252, 38, 81, 0.25), var(--shadow);
     transform: translateY(-1px);
     color: var(--glass);
 }
@@ -334,7 +331,7 @@ main {
 
 .zone-item:hover button {
     color: var(--primary);
-    background: rgba(74, 144, 226, 0.05);
+    background: rgba(252, 38, 81, 0.05);
 }
 
 #zoneViewer {
@@ -535,7 +532,7 @@ main {
 #popupBody input[type="text"]:focus,
 #popupBody input[type="file"]:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    box-shadow: 0 0 0 3px rgba(252, 38, 81, 0.1);
     transform: translateY(-1px);
 }
 
@@ -691,7 +688,7 @@ footer {
 <body class="dark-mode">
     <header>
         <div class="header-content">
-            <div class="logo">Saturn Games</div>
+            <div class="logo">gn-math</div>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
                 <select id="sortOptions" onchange="sortZones()">
@@ -790,16 +787,16 @@ let zoneFrame = document.getElementById('zoneFrame');
 const searchBar = document.getElementById('searchBar');
 const sortOptions = document.getElementById('sortOptions');
 const filterOptions = document.getElementById('filterOptions');
-// https://www.jsdelivr.com/tools/purge 
+// https://www.jsdelivr.com/tools/purge
 const zonesurls = [
-    "https://cdn.jsdelivr.net/%67%68/%67%6e%2d%6d%61%74%68/%61%73%73%65%74%73@%6d%61%69%6e/%7a%6f%6e%65%73%2e%6a%73%6f%6e ",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json ",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets@master/zones.json ",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets/zones.json "
+    "https://cdn.jsdelivr.net/%67%68/%67%6e%2d%6d%61%74%68/%61%73%73%65%74%73@%6d%61%69%6e/%7a%6f%6e%65%73%2e%6a%73%6f%6e",
+    "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json",
+    "https://cdn.jsdelivr.net/gh/gn-math/assets@master/zones.json",
+    "https://cdn.jsdelivr.net/gh/gn-math/assets/zones.json"
 ];
 let zonesURL = zonesurls[Math.floor(Math.random() * zonesurls.length)];
-const coverURL = "https://cdn.jsdelivr.net/gh/gn-math/covers@main ";
-const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main ";
+const coverURL = "https://cdn.jsdelivr.net/gh/gn-math/covers@main";
+const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
 let zones = [];
 let popularityData = {};
 const featuredContainer = document.getElementById('featuredZones');
@@ -809,57 +806,94 @@ function toTitleCase(str) {
     text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );
 }
-/* ----------  NEW listZones  ---------- */
 async function listZones() {
-  const mirrors = [
-    `https://cdn.jsdelivr.net/gh/gn-math/assets@main/zones.json?t=${Date.now()}`,
-    `https://raw.githubusercontent.com/gn-math/assets/main/zones.json?t=${Date.now()}`
-  ];
-
-  let json = null;
-  let lastErr = null;
-
-  for (const url of mirrors) {
     try {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-      const txt = await r.text();
-
-      // safety: make sure we got JSON, not HTML
-      if (!txt.trim().startsWith('{') && !txt.trim().startsWith('[')) {
-        throw new Error('Server returned HTML instead of JSON');
-      }
-      json = JSON.parse(txt);
-      break;                 // success – leave loop
-    } catch (e) {
-      console.warn('Mirror failed:', url, e.message);
-      lastErr = e;
-    }
-  }
-
-  if (!json) {
-    container.innerHTML =
-      `<p style="color:#ef4444">Could not load game list.<br><small>${lastErr.message}</small></p>`;
-    return;
-  }
-
-  /* ----------  everything below is your original logic  ---------- */
-  zones = json;
-  zones[0].featured = true;
-  await fetchPopularity();
-  sortZones();
-
-  /* build tag filter <option>s */
-  const allTags = [...new Set(zones.flatMap(z => z.special || []))];
-  filterOptions.innerHTML = '<option value="none">(SELECT TAG)</option>';
-  allTags.forEach(t => {
-    const o = document.createElement('option');
-    o.value = t;
-    o.textContent = toTitleCase(t);
-    filterOptions.appendChild(o);
-  });
-}
-/* ----------  end of listZones  ---------- */
+      let sharesponse;
+      let shajson;
+      let sha;
+        try {
+          sharesponse = await fetch("https://api.github.com/repos/gn-math/assets/commits?t="+Date.now());
+        } catch (error) {}
+        if (sharesponse && sharesponse.status === 200) {
+          try {
+            shajson = await sharesponse.json();
+            sha = shajson[0]['sha'];
+            if (sha) {
+                zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
+            }
+          } catch (error) {
+            try {
+                let secondarysharesponse = await fetch("https://raw.githubusercontent.com/gn-math/xml/refs/heads/main/sha.txt?t="+Date.now());
+                if (secondarysharesponse && secondarysharesponse.status === 200) {
+                    sha = (await secondarysharesponse.text()).trim();
+                    if (sha) {
+                        zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
+                    }
+                }
+            } catch(error) {}
+          }
+        }
+        const response = await fetch(zonesURL+"?t="+Date.now());
+        const json = await response.json();
+        zones = json;
+        zones[0].featured = true; // always gonna be the discord
+        await fetchPopularity();
+        sortZones();
+        const search = new URLSearchParams(window.location.search);
+        const id = search.get('id');
+        const embed = window.location.hash.includes("embed");
+        if (id) {
+            const zone = zones.find(zone => zone.id + '' == id + '');
+            if (zone) {
+                if (embed) {
+                    if (zone.url.startsWith("http")) {
+                        window.open(zone.url, "_blank");
+                    } else {
+                        const url = zone.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                        fetch(url+"?t="+Date.now()).then(response => response.text()).then(html => {
+                            document.documentElement.innerHTML = html;
+                            const popup = document.createElement("div");
+                            popup.style.position = "fixed";
+                            popup.style.bottom = "20px";
+                            popup.style.right = "20px";
+                            popup.style.backgroundColor = "#cce5ff";
+                            popup.style.color = "#004085";
+                            popup.style.padding = "10px";
+                            popup.style.border = "1px solid #b8daff";
+                            popup.style.borderRadius = "5px";
+                            popup.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.1)";
+                            popup.style.fontFamily = "Arial, sans-serif";
+                            
+                            popup.innerHTML = `Play more games at <a href="https://gn-math.github.io" target="_blank" style="color:#004085; font-weight:bold;">https://gn-math.github.io</a>!`;
+                            
+                            const closeBtn = document.createElement("button");
+                            closeBtn.innerText = "✖";
+                            closeBtn.style.marginLeft = "10px";
+                            closeBtn.style.background = "none";
+                            closeBtn.style.border = "none";
+                            closeBtn.style.cursor = "pointer";
+                            closeBtn.style.color = "#004085";
+                            closeBtn.style.fontWeight = "bold";
+                            
+                            closeBtn.onclick = () => popup.remove();
+                            popup.appendChild(closeBtn);
+                            document.body.appendChild(popup);
+                            document.documentElement.querySelectorAll('script').forEach(oldScript => {
+                                const newScript = document.createElement('script');
+                                if (oldScript.src) {
+                                    newScript.src = oldScript.src;
+                                } else {
+                                    newScript.textContent = oldScript.textContent;
+                                }
+                                document.body.appendChild(newScript);
+                            });
+                        }).catch(error => alert("Failed to load zone: " + error));
+                    }
+                } else {
+                    openZone(zone);
+                }
+            }
+        }
 
         let alltags = [];
         for (const obj of json) {
@@ -888,7 +922,7 @@ async function listZones() {
 }
 async function fetchPopularity() {
     try {
-        const response = await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year ");
+        const response = await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year");
         const data = await response.json();
         data.forEach(file => {
             const idMatch = file.name.match(/\/(\d+)\.html$/);
@@ -1230,52 +1264,93 @@ async function saveData() {
   async function loadData(event) {
     const file = event.target.files[0];
     if (!file) return;
-    
     const reader = new FileReader();
     reader.onload = async function (e) {
-        try {
-            // First check if it looks like JSON
-            const text = e.target.result.trim();
-            if (!text.startsWith('{')) {
-                alert('This is not a valid export file.\nPlease pick the .data file you downloaded with "Export Data".');
-                return;
+        const data = JSON.parse(e.target.result);
+        if (data.cookies) {
+            data.cookies.split(';').forEach(cookie => {
+              document.cookie = cookie.trim();
+            });
+          }
+        
+          if (data.localStorage) {
+            for (const key in data.localStorage) {
+              localStorage.setItem(key, data.localStorage[key]);
             }
-            
-            // Then try to parse it
-            const data = JSON.parse(text);
-            
-            // Rest of your existing code...
-            if (data.cookies) {
-                data.cookies.split(';').forEach(cookie => {
-                    document.cookie = cookie.trim();
-                });
+          }
+        
+          if (data.sessionStorage) {
+            for (const key in data.sessionStorage) {
+              sessionStorage.setItem(key, data.sessionStorage[key]);
             }
-            
-            if (data.localStorage) {
-                for (const key in data.localStorage) {
-                    localStorage.setItem(key, data.localStorage[key]);
+          }
+        
+          if (data.indexedDB) {
+            for (const dbName in data.indexedDB) {
+              const stores = data.indexedDB[dbName];
+              await new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 1);
+                request.onupgradeneeded = e => {
+                  const db = e.target.result;
+                  for (const storeName in stores) {
+                    if (!db.objectStoreNames.contains(storeName)) {
+                      db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
+                    }
+                  }
+                };
+                request.onsuccess = e => {
+                  const db = e.target.result;
+                  const transaction = db.transaction(Object.keys(stores), 'readwrite');
+                  transaction.onerror = () => reject(transaction.error);
+                  let pendingStores = Object.keys(stores).length;
+        
+                  for (const storeName in stores) {
+                    const objectStore = transaction.objectStore(storeName);
+                    objectStore.clear().onsuccess = () => {
+                      for (const item of stores[storeName]) {
+                        objectStore.put(item);
+                      }
+                      pendingStores--;
+                      if (pendingStores === 0) resolve();
+                    };
+                  }
+                };
+                request.onerror = () => reject(request.error);
+              });
+            }
+          }
+        
+          if (data.caches) {
+            for (const cacheName in data.caches) {
+              const cache = await caches.open(cacheName);
+              await cache.keys().then(keys => Promise.all(keys.map(k => cache.delete(k)))); // clear existing
+        
+              for (const entry of data.caches[cacheName]) {
+                let responseBody;
+                if (entry.contentType.includes('application/json')) {
+                  responseBody = JSON.stringify(entry.body);
+                } else if (entry.contentType.includes('text') || entry.contentType.includes('javascript')) {
+                  responseBody = entry.body;
+                } else {
+                  const binaryStr = atob(entry.body);
+                  const len = binaryStr.length;
+                  const bytes = new Uint8Array(len);
+                  for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryStr.charCodeAt(i);
+                  }
+                  responseBody = bytes.buffer;
                 }
+                const headers = new Headers({ 'content-type': entry.contentType });
+                const response = new Response(responseBody, { headers });
+                await cache.put(entry.url, response);
+              }
             }
-            
-            if (data.sessionStorage) {
-                for (const key in data.sessionStorage) {
-                    sessionStorage.setItem(key, data.sessionStorage[key]);
-                }
-            }
-            
-            // ... rest of your data loading logic ...
-            
-            alert("Data loaded successfully!");
-            
-        } catch (error) {
-    console.error(error);
-    container.innerHTML = `Error loading zones: ${error}`;   // <-- you are here
-}
+          }
+        alert("Data loaded");
     };
-    
-    alert("This might take a while, don't touch anything other than this OK button");
+    alert("This might take a while, dont touch anything other than this OK button");
     reader.readAsText(file);
-}
+  }
 
 function darkMode() {
     document.body.classList.toggle("dark-mode");
@@ -1293,7 +1368,7 @@ function cloakIcon(url) {
 }
 function cloakName(string) {
     if ((string+"").trim().length === 0) {
-        document.title = "Saturn Games";
+        document.title = "gn-math";
         return;
     }
     document.title = string;
@@ -1333,7 +1408,7 @@ function showContact() {
     document.getElementById('popupTitle').textContent = "Contact";
     const popupBody = document.getElementById('popupBody');
     popupBody.innerHTML = `
-    <p>Discord: https://discord.gg/NAFw4ykZ7n </p>
+    <p>Discord: https://discord.gg/NAFw4ykZ7n</p>
     <p>Email: gn.math.business@gmail.com</p>`;
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
@@ -1348,10 +1423,10 @@ function loadPrivacy() {
             <p>Last updated April 17, 2025</p>
             <p>This Privacy Notice for gn-math ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
             <ul>
-                <li>Visit our website at <a href="https://gn-math.github.io ">https://gn-math.github.io </a>, or any website of ours that links to this Privacy Notice</li>
+                <li>Visit our website at <a href="https://gn-math.github.io">https://gn-math.github.io</a>, or any website of ours that links to this Privacy Notice</li>
                 <li>Engage with us in other related ways, including any sales, marketing, or events</li>
             </ul>
-            <p>Questions or concerns? Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="https://discord.gg/NAFw4ykZ7n ">https://discord.gg/NAFw4ykZ7n </a>.</p>
+            <p>Questions or concerns? Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="https://discord.gg/NAFw4ykZ7n">https://discord.gg/NAFw4ykZ7n</a>.</p>
             
             <h3>SUMMARY OF KEY POINTS</h3>
             <p>This summary provides key points from our Privacy Notice, but you can find out more details about any of these topics by clicking the link following each key point or by using our table of contents below to find the section you are looking for.</p>
@@ -1388,7 +1463,7 @@ function loadDMCA() {
             </p>
             <ol>
                 <li>
-                    <a href="https://discord.gg/D4c9VFYWyU " target="_blank" rel="noopener noreferrer">
+                    <a href="https://discord.gg/D4c9VFYWyU" target="_blank" rel="noopener noreferrer">
                         Join the Discord
                     </a> and DM <strong>breadbb</strong> or ping me in a public channel 
                     <strong>[INSTANT RESPONSE]</strong>
