@@ -1,4 +1,3 @@
-    
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -207,6 +206,118 @@
         background-color: var(--connection-green); /* Default color */
         transition: height 0.3s ease-in-out, background-color 0.3s; /* Animate height and color */
     }
+
+    /* --- NEW STYLES FOR REQUEST MOVIE BUTTON & FORM --- */
+    #requestMovieBtn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: var(--primary-red);
+        color: var(--white);
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: background-color 0.3s, transform 0.2s;
+        z-index: 1001;
+    }
+
+    #requestMovieBtn:hover {
+        background-color: #a80f1e;
+        transform: translateY(-2px);
+    }
+
+    #requestMovieOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    #requestMovieOverlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    #requestMovieForm {
+        background-color: var(--white);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        width: 90%;
+        max-width: 400px;
+    }
+
+    #requestMovieForm h2 {
+        color: var(--primary-red);
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    #requestMovieForm label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: var(--dark-grey);
+    }
+
+    #requestMovieForm input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #requestMovieForm button {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-red);
+        color: var(--white);
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #requestMovieForm button:hover {
+        background-color: #a80f1e;
+    }
+
+    #closeRequestForm {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: var(--dark-grey);
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    #deliveryTime {
+        text-align: center;
+        font-size: 18px;
+        color: var(--primary-red);
+        margin-top: 15px;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
@@ -216,6 +327,21 @@
             <input type="text" id="searchBar" placeholder="Search for movies, shows, or genres..." onkeyup="filterMovies()">
         </div>
     </header>
+
+    <!-- NEW REQUEST MOVIE BUTTON -->
+    <button id="requestMovieBtn">Request a Movie</button>
+
+    <!-- NEW REQUEST MOVIE OVERLAY -->
+    <div id="requestMovieOverlay">
+        <div id="requestMovieForm">
+            <button id="closeRequestForm">&times;</button>
+            <h2>Request a Movie</h2>
+            <label for="movieName">Movie Name:</label>
+            <input type="text" id="movieName" placeholder="Enter movie name..." required>
+            <button onclick="submitMovieRequest()">Submit Request</button>
+            <div id="deliveryTime"></div>
+        </div>
+    </div>
 
     <div id="videoPlayerOverlay">
         <div class="player-header">
@@ -447,8 +573,7 @@
                  <div class="movie-card"><a href="https://drive.google.com/drive/folders/1mmBVdj-oKIC0aSdOcMcEnQ129-rKimKo" data-title="Demon Slayer">Demon Slayer</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/drive/folders/1dHK5v5NZNiDvlQ9VK06AAPFNngnkkQCZ" data-title="Naruto">Naruto</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/drive/folders/1juWFikMtGg4X-Ju9QVb-n0MSQOQvmIbg" data-title="ChainSaw Man">ChainSaw Man</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/drive/folders/1xewFLZCNhjF5DtQDM5VxDic7ClprMjal?usp=drive_link" data-title="Invincible">Invincible</a></div>
-                  
+                <div class="movie-card"><a href="https://drive.google.com/drive/folders/1xewFLZCNhjF5DtQDM5VxDic7ClprMjal?usp=drive_link" data-title="Invincible">Invincible</a></div>                  
             
 
     <footer>
@@ -468,6 +593,13 @@
     // NEW CONNECTION BAR VARIABLES
     const connectionFill = document.getElementById('connectionFill');
     let connectionInterval;
+
+    // NEW REQUEST MOVIE VARIABLES
+    const requestMovieBtn = document.getElementById('requestMovieBtn');
+    const requestMovieOverlay = document.getElementById('requestMovieOverlay');
+    const closeRequestForm = document.getElementById('closeRequestForm');
+    const movieNameInput = document.getElementById('movieName');
+    const deliveryTimeDiv = document.getElementById('deliveryTime');
 
     // Function to set the connection bar's height and color
     function setConnection(percentage) {
@@ -510,6 +642,69 @@
         }
         setConnection(0); // Reset to 0% when leaving the player
     }
+
+    // NEW REQUEST MOVIE FUNCTIONS
+    function openRequestForm() {
+        requestMovieOverlay.classList.add('active');
+        movieNameInput.focus();
+        generateRandomDeliveryTime();
+    }
+
+    function closeRequestFormFunc() {
+        requestMovieOverlay.classList.remove('active');
+        movieNameInput.value = '';
+        deliveryTimeDiv.textContent = '';
+    }
+
+    function generateRandomDeliveryTime() {
+        // Generate random time between 1 minute and 3 hours
+        const minMinutes = 1;
+        const maxMinutes = 180; // 3 hours
+        const randomMinutes = Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes;
+        
+        let timeText;
+        if (randomMinutes < 60) {
+            timeText = `${randomMinutes} minute${randomMinutes !== 1 ? 's' : ''}`;
+        } else {
+            const hours = Math.floor(randomMinutes / 60);
+            const minutes = randomMinutes % 60;
+            if (minutes === 0) {
+                timeText = `${hours} hour${hours !== 1 ? 's' : ''}`;
+            } else {
+                timeText = `${hours} hour${hours !== 1 ? 's' : ''} and ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+            }
+        }
+        
+        deliveryTimeDiv.textContent = `Estimated Movie Delivery: ${timeText}`;
+    }
+
+    function submitMovieRequest() {
+        const movieName = movieNameInput.value.trim();
+        if (movieName) {
+            alert(`Movie request submitted for: ${movieName}\n\n${deliveryTimeDiv.textContent}`);
+            closeRequestFormFunc();
+        } else {
+            alert('Please enter a movie name.');
+        }
+    }
+
+    // Event listeners for request movie functionality
+    requestMovieBtn.addEventListener('click', openRequestForm);
+    closeRequestForm.addEventListener('click', closeRequestFormFunc);
+    
+    // Close form when clicking outside of it
+    requestMovieOverlay.addEventListener('click', (e) => {
+        if (e.target === requestMovieOverlay) {
+            closeRequestFormFunc();
+        }
+    });
+
+    // Allow Enter key to submit form
+    movieNameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            submitMovieRequest();
+        }
+    });
 
     // Event listener for movie links
     movieLinks.forEach(link => {
