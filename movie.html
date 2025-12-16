@@ -258,6 +258,7 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         width: 90%;
         max-width: 400px;
+        position: relative;
     }
 
     #requestMovieForm h2 {
@@ -317,6 +318,39 @@
         color: var(--primary-red);
         margin-top: 15px;
         font-weight: bold;
+        min-height: 25px;
+    }
+
+    /* NEW SUCCESS MESSAGE STYLES */
+    #successMessage {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--white);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 4000;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+    }
+
+    #successMessage h3 {
+        color: var(--primary-red);
+        margin-top: 0;
+    }
+
+    #successMessage button {
+        background-color: var(--primary-red);
+        color: var(--white);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 15px;
     }
 </style>
 </head>
@@ -341,6 +375,14 @@
             <button onclick="submitMovieRequest()">Submit Request</button>
             <div id="deliveryTime"></div>
         </div>
+    </div>
+
+    <!-- NEW SUCCESS MESSAGE OVERLAY -->
+    <div id="successMessage" style="display: none;">
+        <h3>Request Submitted!</h3>
+        <p>Your movie request has been sent.</p>
+        <div id="finalDeliveryTime" style="color: var(--primary-red); font-weight: bold; margin: 15px 0;"></div>
+        <button onclick="closeSuccessMessage()">OK</button>
     </div>
 
     <div id="videoPlayerOverlay">
@@ -573,7 +615,8 @@
                  <div class="movie-card"><a href="https://drive.google.com/drive/folders/1mmBVdj-oKIC0aSdOcMcEnQ129-rKimKo" data-title="Demon Slayer">Demon Slayer</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/drive/folders/1dHK5v5NZNiDvlQ9VK06AAPFNngnkkQCZ" data-title="Naruto">Naruto</a></div>
                 <div class="movie-card"><a href="https://drive.google.com/drive/folders/1juWFikMtGg4X-Ju9QVb-n0MSQOQvmIbg" data-title="ChainSaw Man">ChainSaw Man</a></div>
-                <div class="movie-card"><a href="https://drive.google.com/drive/folders/1xewFLZCNhjF5DtQDM5VxDic7ClprMjal?usp=drive_link" data-title="Invincible">Invincible</a></div>                  
+                <div class="movie-card"><a href="https://drive.google.com/drive/folders/1xewFLZCNhjF5DtQDM5VxDic7ClprMjal?usp=drive_link" data-title="Invincible">Invincible</a></div>
+                  
             
 
     <footer>
@@ -600,6 +643,8 @@
     const closeRequestForm = document.getElementById('closeRequestForm');
     const movieNameInput = document.getElementById('movieName');
     const deliveryTimeDiv = document.getElementById('deliveryTime');
+    const successMessage = document.getElementById('successMessage');
+    const finalDeliveryTime = document.getElementById('finalDeliveryTime');
 
     // Function to set the connection bar's height and color
     function setConnection(percentage) {
@@ -647,7 +692,7 @@
     function openRequestForm() {
         requestMovieOverlay.classList.add('active');
         movieNameInput.focus();
-        generateRandomDeliveryTime();
+        deliveryTimeDiv.textContent = ''; // Clear any previous delivery time
     }
 
     function closeRequestFormFunc() {
@@ -675,17 +720,36 @@
             }
         }
         
-        deliveryTimeDiv.textContent = `Estimated Movie Delivery: ${timeText}`;
+        return timeText;
     }
 
     function submitMovieRequest() {
         const movieName = movieNameInput.value.trim();
         if (movieName) {
-            alert(`Movie request submitted for: ${movieName}\n\n${deliveryTimeDiv.textContent}`);
+            // Generate the delivery time
+            const deliveryTime = generateRandomDeliveryTime();
+            
+            // Create email subject and body
+            const subject = encodeURIComponent('Movie Request - GN-Math Hub');
+            const body = encodeURIComponent(`Movie Name: ${movieName}\n\nEstimated Movie Delivery: ${deliveryTime}\n\nRequested from: ${window.location.href}`);
+            
+            // Open email client with pre-filled content
+            const mailtoLink = `mailto:Ruderylan@gmail.com?subject=${subject}&body=${body}`;
+            window.open(mailtoLink, '_blank');
+            
+            // Show success message with delivery time
+            finalDeliveryTime.textContent = `Estimated Movie Delivery: ${deliveryTime}`;
+            successMessage.style.display = 'block';
+            
+            // Close the request form
             closeRequestFormFunc();
         } else {
             alert('Please enter a movie name.');
         }
+    }
+
+    function closeSuccessMessage() {
+        successMessage.style.display = 'none';
     }
 
     // Event listeners for request movie functionality
