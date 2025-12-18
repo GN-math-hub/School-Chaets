@@ -1,14 +1,14 @@
-Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>GN-Math Hub Movies v1.3.4</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- blank favicon -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" /> <!-- blank favicon -->
 
   <style>
     :root {
-      --primary-red: #ce1126;
+      --primary-red: #e50914; /* Cinematic red */
       --light-red: #ffe6e9;
       --white: #ffffff;
       --dark-grey: #222;
@@ -30,10 +30,10 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: var(--primary-red);
+      background: #b1070d; /* darker red for cinematic feel */
       padding: 20px;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
     h1 {
       margin: 0 0 15px;
@@ -53,7 +53,12 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       border: none;
       border-radius: 30px;
       outline: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      border: 2px solid transparent;
+      transition: border 0.2s;
+    }
+    #searchBar:focus {
+      border-color: var(--primary-red);
     }
     .container {
       max-width: 1200px;
@@ -74,17 +79,17 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       gap: 15px;
     }
     .movie-card {
-      background: var(--light-grey);
-      border: 1px solid #ddd;
+      background: #fff; /* keep white background for cards */
+      border: 1px solid #ccc;
       border-radius: 8px;
       overflow: hidden;
-      transition: transform .2s, background .2s, box-shadow .2s;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
     }
     .movie-card:hover {
       transform: translateY(-4px);
       background: var(--light-red);
       border-color: var(--primary-red);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
     .movie-card a {
       display: flex;
@@ -95,13 +100,14 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       color: var(--dark-grey);
       font-weight: 600;
       cursor: pointer;
+      transition: color 0.2s;
     }
     .movie-card a:hover {
       color: var(--primary-red);
     }
     .new-tag {
-      background: yellow;
-      color: red;
+      background: #ff0000; /* vivid red for tags */
+      color: var(--white);
       font-size: .7em;
       padding: 2px 5px;
       border-radius: 4px;
@@ -122,8 +128,8 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       text-align: center;
       padding: 20px;
       margin-top: 50px;
-      background: #222;
-      color: white;
+      background: #b1070d; /* match header red */
+      color: var(--white);
     }
 
     /* player overlay */
@@ -136,7 +142,7 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       flex-direction: column;
       visibility: hidden;
       opacity: 0;
-      transition: opacity .3s;
+      transition: opacity 0.3s;
     }
     #videoPlayerOverlay.active {
       visibility: visible;
@@ -146,7 +152,7 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       display: flex;
       align-items: center;
       padding: 10px 20px;
-      background: rgba(34, 34, 34, .8);
+      background: rgba(34, 34, 34, 0.8);
       color: var(--white);
       flex-shrink: 0;
       position: relative;
@@ -160,10 +166,10 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background .2s;
+      transition: background 0.2s;
     }
     #backButton:hover {
-      background: #a80f1e;
+      background: #a60b10;
     }
     #playerIframe {
       flex: 1 1 auto;
@@ -182,13 +188,13 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       background: #444;
       border-radius: 2px;
       overflow: hidden;
-      box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-      border: 1px solid rgba(255, 255, 255, .1);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     #connectionFill {
       width: 100%;
       background: var(--connection-green);
-      transition: height .3s ease-in-out, background .3s;
+      transition: height 0.3s ease-in-out, background 0.3s;
     }
 
     /* request button */
@@ -204,12 +210,12 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
-      transition: background .3s, transform .2s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, transform 0.2s;
       z-index: 1001;
     }
     #requestMovieBtn:hover {
-      background: #a80f1e;
+      background: #a60b10;
       transform: translateY(-2px);
     }
 
@@ -227,7 +233,7 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
       cursor: pointer;
       opacity: 0;
       visibility: hidden;
-      transition: opacity .3s, visibility .3s;
+      transition: opacity 0.3s, visibility 0.3s;
       z-index: 999;
     }
     #scrollTopBtn.show {
@@ -236,12 +242,11 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>GN-Math Hub Movies v1.3.3</h1>
     <div class="search-container">
-      <input id="searchBar" type="text" placeholder="Search for movies, shows, or genres…" onkeyup="filterMovies()">
+      <input id="searchBar" type="text" placeholder="Search for movies, shows, or genres…" onkeyup="filterMovies()" />
     </div>
   </header>
 
@@ -397,9 +402,7 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1LC17KNt1pxG1zJ43CwIBNGXaCN3cmLPc/view " data-title="Shazam! Fury of the Gods">Shazam! Fury of the Gods</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1ApUHMkZM-j3vM-rSG-kvjk3KuvJNAsXp/view " data-title="The Flash (2023)">The Flash (2023)</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1T2XMXtDAlohPcGdi-u2p9zXF9Os9zkY1/view " data-title="Blue Beetle (2023)">Blue Beetle (2023)</a></div>
-        <div class="movie-card"><a href="https://drive.google.com/file/d/1m2m6kudeN5pivaeCWfMR88xXEyZg8nFK/view " data-title="Suicide Squad (2016)">Suicide Squad (2016)</a></div>
-        <div class="movie-card"><a href="https://drive.google.com/file/d/11nKqV7QKkATlvO7pt8eHlfS32rSHeOVZ/view " data-title="The Suicide Squad (2021)">The Suicide Squad (2021)</a></div>
-        <div class="movie-card"><a href="https://drive.google.com/drive/folders/1sxtovwaj9nvEa_KZjxPjK1n03tSjR1yU " data-title="The Dark Knight Trilogy (Folder)">The Dark Knight Trilogy (Folder)</a></div>
+        <div class="movie-card"><a href="https://drive.google.com/file/d/1m2m6kudeN5pivaeCWfMR88xXEyZg8nFK/view " data-title="Superman (2025)">Superman (2025)</a></div>
       </div>
     </section>
 
@@ -419,7 +422,7 @@ Make my code like cinehub but keep the theme red and white still:<!DOCTYPE html>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1ps_r1YV8y5h93_mUu4OFlPVVkPzT0Rui/view " data-title="Shrek 1">Shrek 1</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1Ft-mWElx-1rZzIXJBswt_HQ-1VrZ4th2/view " data-title="Shrek 2">Shrek 2</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1qhxQw4uC6aO1KN0UZrybu1YY1vdtBwmM/view " data-title="Shrek 3">Shrek 3</a></div>
-        <div class="movie-card"><a href="https://drive.google.com/file/d/1xN-pzN1CePUsWHTmd9o--cOA-X_gqzQg/view " data-title="Shrek Forever After">Shrek Forever After</a></div>
+        <div class="movie-card"><a href="https://drive.google.com/file/d/1xN-pzN1CePUsWHTmd9O--cOA-X_gqzQg/view " data-title="Shrek Forever After">Shrek Forever After</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1HaXeNylNfZXhRudGTNLUWtrN-oAmone4/view " data-title="Sonic the Hedgehog 1">Sonic the Hedgehog 1</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/13YPdlfR1BTzXfqwmfbzfiuPycjQsh0Yb/view " data-title="Sonic the Hedgehog 2">Sonic the Hedgehog 2</a></div>
         <div class="movie-card"><a href="https://drive.google.com/file/d/1AiuhAubyrKVmqpu3OfM1sonhRJrzw5v6/view " data-title="Bee Movie">Bee Movie</a></div>
