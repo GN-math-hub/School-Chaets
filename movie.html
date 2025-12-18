@@ -8,194 +8,242 @@
 
   <style>
     :root {
-      --primary-red: #e50914; /* Cinematic red */
-      --light-red: #ffe6e9;
-      --white: #ffffff;
-      --dark-grey: #222;
-      --light-grey: #f4f4f4;
-      --black-overlay: rgba(0, 0, 0, .95);
-      --connection-green: #4CAF50;
-      --connection-orange: #FF9800;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--white);
-      color: var(--dark-grey);
-    }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #b1070d; /* darker red for cinematic feel */
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
-    h1 {
-      margin: 0 0 15px;
-      color: var(--white);
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .search-container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    #searchBar {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
-      outline: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      border: 2px solid transparent;
-      transition: border 0.2s;
-    }
-    #searchBar:focus {
-      border-color: var(--primary-red);
-    }
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 20px;
-    }
-    .category-header {
-      border-bottom: 3px solid var(--primary-red);
-      color: var(--primary-red);
-      font-size: 1.8rem;
-      margin: 40px 0 20px;
-      padding-bottom: 5px;
-      text-transform: uppercase;
-    }
-    .movie-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
-    }
-    .movie-card {
-      background: #fff; /* keep white background for cards */
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-    }
-    .movie-card:hover {
-      transform: translateY(-4px);
-      background: var(--light-red);
-      border-color: var(--primary-red);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-    .movie-card a {
-      display: flex;
-      align-items: center;
-      padding: 15px;
-      height: 100%;
-      text-decoration: none;
-      color: var(--dark-grey);
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .movie-card a:hover {
-      color: var(--primary-red);
-    }
-    .new-tag {
-      background: #ff0000; /* vivid red for tags */
-      color: var(--white);
-      font-size: .7em;
-      padding: 2px 5px;
-      border-radius: 4px;
-      margin-left: 5px;
-      font-weight: bold;
-      vertical-align: middle;
-    }
-    .hidden {
-      display: none !important;
-    }
-    .no-results {
-      text-align: center;
-      font-size: 1.5rem;
-      color: #777;
-      margin-top: 50px;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-      background: #b1070d; /* match header red */
-      color: var(--white);
-    }
+  --primary-red: #e50914;
+  --light-red: #ffe6e9;
+  --white: #ffffff;
+  --dark-grey: #222;
+  --light-grey: #f4f4f4;
+  --black-overlay: rgba(0, 0, 0, .95);
+  --connection-green: #4CAF50;
+  --connection-orange: #FF9800;
+}
 
-    /* player overlay */
-    #videoPlayerOverlay {
-      position: fixed;
-      inset: 0;
-      background: var(--black-overlay);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    #videoPlayerOverlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .player-header {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      background: rgba(34, 34, 34, 0.8);
-      color: var(--white);
-      flex-shrink: 0;
-      position: relative;
-    }
-    #backButton {
-      background: var(--primary-red);
-      color: var(--white);
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #backButton:hover {
-      background: #a60b10;
-    }
-    #playerIframe {
-      flex: 1 1 auto;
-      width: 100%;
-      border: none;
-    }
+/* Basic styles omitted for brevity, keep your existing styles here */
 
-    /* connection bar */
-    #connectionBar {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 15px;
-      height: 30px;
-      background: #444;
-      border-radius: 2px;
-      overflow: hidden;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    #connectionFill {
-      width: 100%;
-      background: var(--connection-green);
-      transition: height 0.3s ease-in-out, background 0.3s;
-    }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--white);
+  color: var(--dark-grey);
+}
+
+/* Movie card shadow & hover effect */
+.movie-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  position: relative; /* for overlay positioning */
+}
+
+/* Hover effect for shadow and lift */
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  background: var(--light-red);
+  border-color: var(--primary-red);
+}
+
+/* Overlay for play button, hidden initially, shown on hover */
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  z-index: 5;
+}
+.movie-card:hover .play-overlay {
+  opacity: 1;
+}
+
+/* Play button style */
+.play-button {
+  font-size: 3rem;
+  color: var(--white);
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 20px;
+  transition: background 0.3s, transform 0.2s;
+}
+.play-button:hover {
+  background: rgba(0,0,0,0.7);
+  transform: scale(1.1);
+}
+
+/* Rest of your styles (header, footer, etc.) remain unchanged */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #b1070d;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+h1 {
+  margin: 0 0 15px;
+  color: var(--white);
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+#searchBar {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border: 2px solid transparent;
+  transition: border 0.2s;
+}
+#searchBar:focus {
+  border-color: var(--primary-red);
+}
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+.category-header {
+  border-bottom: 3px solid var(--primary-red);
+  color: var(--primary-red);
+  font-size: 1.8rem;
+  margin: 40px 0 20px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 50px;
+  background: #b1070d;
+  color: var(--white);
+}
+/* Player overlay styles omitted for brevity, keep your existing styles here */
+
+#videoPlayerOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--black-overlay);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#videoPlayerOverlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+.player-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(34, 34, 34, 0.8);
+  color: var(--white);
+  flex-shrink: 0;
+  position: relative;
+}
+#backButton {
+  background: var(--primary-red);
+  color: var(--white);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#backButton:hover {
+  background: #a60b10;
+}
+#playerIframe {
+  flex: 1 1 auto;
+  width: 100%;
+  border: none;
+}
+#connectionBar {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 30px;
+  background: #444;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+#connectionFill {
+  width: 100%;
+  background: var(--connection-green);
+  transition: height 0.3s ease-in-out, background 0.3s;
+}
+#requestMovieBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--primary-red);
+  color: var(--white);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background 0.3s, transform 0.2s;
+  z-index: 1001;
+}
+#requestMovieBtn:hover {
+  background: #a60b10;
+  transform: translateY(-2px);
+}
+#scrollTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--primary-red);
+  color: var(--white);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 999;
+}
+#scrollTopBtn.show {
+  opacity: 1;
+  visibility: visible;
+}
 
     /* request button */
     #requestMovieBtn {
