@@ -268,6 +268,35 @@
       font-size: 1.1rem;
     }
 
+    /* ----------  PAGE 2 BUTTON - NEW  ---------- */
+    .page2-container {
+      text-align: center;
+      margin: 40px 0;
+      padding: 20px;
+    }
+    
+    #page2Btn {
+      background: linear-gradient(135deg, var(--neon-blue) 0%, var(--purple) 100%);
+      color: var(--white);
+      border: none;
+      padding: 15px 40px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      animation: floatButton 3s ease-in-out infinite;
+    }
+    
+    #page2Btn:hover {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--neon-blue) 100%);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(157, 78, 221, 0.6);
+    }
+
     /* ----------  PLAYER OVERLAY - ENHANCED  ---------- */
     #videoPlayerOverlay {
       position: fixed;
@@ -424,6 +453,7 @@
       .category-header { font-size: 1.8rem; }
       .movie-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
       #requestMovieBtn { top: 15px; right: 15px; padding: 12px 20px; }
+      #page2Btn { padding: 12px 30px; font-size: 16px; }
     }
   </style>
   <base target="_blank">
@@ -1341,6 +1371,13 @@
         </div>
       </div>
     </section>
+
+    <!-- ----------  PAGE 2 BUTTON CONTAINER - NEW  ---------- -->
+    <div class="page2-container">
+      <a href="https://2635374.playcode.io/" id="page2Btn" target="_blank">
+        <i class="fas fa-arrow-right"></i> Page 2
+      </a>
+    </div>
   </div>
 
   <footer>
