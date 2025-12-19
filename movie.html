@@ -1477,6 +1477,8 @@
 
   <script>
     /* ----------  DOM SHORTCUTS  ---------- */
+    <script>
+    /* ----------  DOM SHORTCUTS  ---------- */
     const movieLinks = document.querySelectorAll('.movie-card a');
     const overlay = document.getElementById('videoPlayerOverlay');
     const iframe = document.getElementById('playerIframe');
@@ -1545,13 +1547,19 @@
       startConnectionFluctuation();
     });
 
-    /* ----------  MOVIE LINKS  ---------- */
+    /* ----------  MOVIE LINKS - FIXED TO RESPECT TARGET="_BLANK"  ---------- */
     movieLinks.forEach(link => {
       link.addEventListener('click', e => {
         const url = link.href;
         const title = link.dataset.title || link.textContent.trim();
 
-        /* Google Drive / file links -> embed */
+        // Check if the link should open in a new tab
+        if (link.hasAttribute('target') && link.getAttribute('target') === '_blank') {
+          // Allow the default behavior (opening in new tab)
+          return;
+        }
+
+        // Check if it's a Google Drive link that should open in overlay
         if (url.includes('google.com/file/') || url.includes('google.com/drive/')) {
           e.preventDefault();
           let embed = url.replace('/view', '/preview');
@@ -1560,8 +1568,7 @@
           overlay.classList.add('active');
           startConnectionFluctuation();
         }
-        /* TV/Anime shows with target="_blank" will open in new tab automatically */
-        /* else: normal link (opens in new tab due to target="_blank" in markup) */
+        // For other links, let them open normally (they'll open in new tab due to base target)
       });
     });
 
