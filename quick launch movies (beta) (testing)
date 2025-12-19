@@ -43,7 +43,7 @@
   function launch() {
     try {
       // Updated URL to the specific GitHub raw file
-      const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/official_movie_site.html";
+      const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Movie_link";
 
       fetch(url + "?" + Date.now())
         .then(response => {
