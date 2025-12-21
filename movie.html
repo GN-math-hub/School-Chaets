@@ -402,6 +402,89 @@
       transform: translateY(-3px) scale(1.05);
       box-shadow: 0 8px 25px rgba(157, 78, 221, 0.6);
     }
+    /* ----------  PARTNERS/SPONSORS BUTTON - NEW  ---------- */
+        #partnersBtn {
+            position: fixed;
+            top: 25px;
+            right: 180px;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--primary-red) 100%);
+            color: var(--white);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s;
+            z-index: 1001;
+            animation: floatButton 3s ease-in-out infinite;
+        }
+        
+        #partnersBtn:hover {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--neon-blue) 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.6);
+        }
+        
+        /* ----------  PARTNERS POPUP - NEW  ---------- */
+        #partnersPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--dark-grey) 0%, var(--medium-grey) 100%);
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.5);
+            z-index: 3000;
+            display: none;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        #partnersPopup h2 {
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        #cineHubLink {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--purple) 100%);
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+        
+        #cineHubLink:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-popup:hover {
+            color: var(--neon-blue);
+            transform: scale(1.1);
+        }
 
     /* ----------  SCROLL-TO-TOP - ENHANCED  ---------- */
     #scrollTopBtn {
@@ -453,6 +536,7 @@
       .category-header { font-size: 1.8rem; }
       .movie-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
       #requestMovieBtn { top: 15px; right: 15px; padding: 12px 20px; }
+      #requestMovieBtn { top: 15px; right: 15px; padding: 12px 20px; }
       #page2Btn { padding: 12px 30px; font-size: 16px; }
     }
   </style>
@@ -472,6 +556,19 @@
   <button id="requestMovieBtn">
     <i class="fas fa-plus-circle"></i> Request a Movie
   </button>
+   <button id="partnersBtn">
+        <i class="fas fa-handshake"></i> Partners/Sponsors
+    </button>
+    
+    <!-- Partners/Sponsors Popup -->
+    <div id="partnersPopup">
+        <button class="close-popup" onclick="closePartnersPopup()">&times;</button>
+        <h2>Our Partners</h2>
+        <p>Check out our partner site:</p>
+        <a href="https://cinehub.playcode.io/" id="cineHubLink" target="_blank">
+            <i class="fas fa-external-link-alt"></i> Cine-Hub
+        </a>
+    </div>
 
   <div id="videoPlayerOverlay">
     <div class="player-header">
@@ -1412,6 +1509,7 @@
     const noResults = document.getElementById('noResults');
     const connectionFill = document.getElementById('connectionFill');
     const requestMovieBtn = document.getElementById('requestMovieBtn');
+    const partnersBtn = document.getElementById('partnersBtn');
     const scrollTopBtn = document.getElementById('scrollTopBtn');
 
     let connectionInterval;
@@ -1442,6 +1540,15 @@
       overlay.classList.add('active');
       startConnectionFluctuation();
     });
+     
+        /* ----------  PARTNERS/Sponsors BUTTON  ---------- */
+        partnersBtn.addEventListener('click', () => {
+            document.getElementById('partnersPopup').style.display = 'block';
+        });
+        
+        function closePartnersPopup() {
+            document.getElementById('partnersPopup').style.display = 'none';
+        }
 
     /* ----------  MOVIE LINKS - FIXED TO RESPECT TARGET="_BLANK"  ---------- */
     movieLinks.forEach(link => {
