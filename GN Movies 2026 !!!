@@ -1,359 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>GN-movies</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>GN-movies | Hulu Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        :root {
+            /* Hulu Official Color Palette */
+            --hulu-green: #1ce783;
+            --hulu-dark: #0b0c0f;
+            --hulu-card: #181c24;
+            --sidebar-width: 240px;
+        }
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
+        *{margin:0;padding:0;box-sizing:border-box}
+        
+        body{
+            font-family:'Roboto', sans-serif;
+            background: var(--hulu-dark);
+            color:#fff;
+            overflow-x:hidden;
+            display: flex; /* Sidebar layout */
+        }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#000;
-    color:#fff;
-    overflow-x:hidden;
-}
+        /* ===== SIDEBAR NAVIGATION ===== */
+        .hulu-sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2rem 1.5rem;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
 
-/* ===== HULU-LIKE BACKGROUND (SAME COLORS) ===== */
-.netflix-bg{
-    position:fixed;
-    inset:0;
-    background:
-        radial-gradient(circle at 20% 40%, rgba(229,9,20,.25), transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(229,9,20,.15), transparent 55%),
-        linear-gradient(180deg,#000,#111,#000);
-    z-index:-2;
-}
+        .hulu-sidebar h1 {
+            color: var(--hulu-green);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 15px rgba(28, 231, 131, 0.4);
+        }
 
-.pixel-overlay,
-.scanline-effect{
-    opacity:.15;
-}
+        .side-nav {
+            list-style: none;
+            flex-grow: 1;
+        }
 
-.particles,
-.floating-pixels{
-    opacity:.4;
-}
+        .side-nav-item {
+            padding: 15px 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #adb5bd;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* ===== HEADER (HULU STYLE) ===== */
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(0,0,0,.85);
-    backdrop-filter:blur(14px);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1.2rem 3rem;
-    border-bottom:1px solid rgba(229,9,20,.4);
-}
+        .side-nav-item:hover, .side-nav-item.active {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+            text-shadow: 0 0 10px var(--hulu-green);
+        }
 
-.header-left{
-    display:flex;
-    align-items:center;
-    gap:1.5rem;
-}
+        /* ===== MAIN CONTENT WRAPPER ===== */
+        .content-wrapper {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+            position: relative;
+        }
 
-header h1{
-    color:#e50914;
-    font-size:2.2rem;
-    font-weight:700;
-    letter-spacing:-.5px;
-}
+        /* ===== HEADER / SEARCH BAR ===== */
+        header {
+            padding: 1.5rem 4rem;
+            background: linear-gradient(to bottom, var(--hulu-dark), transparent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.version-badge{
-    background:#e50914;
-    padding:.4rem .9rem;
-    border-radius:20px;
-    font-size:.8rem;
-    font-weight:600;
-}
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
 
-/* ===== SEARCH ===== */
-.search-container{position:relative}
-.search-bar{
-    width:320px;
-    padding:.7rem 1.2rem;
-    border-radius:25px;
-    border:1px solid rgba(229,9,20,.4);
-    background:rgba(255,255,255,.08);
-    color:#fff;
-}
-.search-bar:focus{
-    outline:none;
-    border-color:#e50914;
-}
+        .search-bar {
+            width: 100%;
+            padding: 14px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 40px;
+            color: #fff;
+            font-size: 1rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-.search-btn{
-    position:absolute;
-    right:6px;
-    top:50%;
-    transform:translateY(-50%);
-    background:#e50914;
-    border:none;
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    cursor:pointer;
-}
+        .search-bar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--hulu-green);
+            box-shadow: 0 0 20px rgba(28, 231, 131, 0.3);
+            width: 105%; /* Slight grow effect */
+        }
 
-/* ===== MENU ===== */
-.menu-btn{
-    background:#e50914;
-    border:none;
-    padding:.7rem 1.2rem;
-    border-radius:6px;
-    color:#fff;
-    cursor:pointer;
-}
+        /* ===== TOP PICKS (GLOWING SECTION) ===== */
+        .section-header {
+            padding: 2rem 4rem 1rem;
+            font-size: 1.6rem;
+            color: #fff;
+            font-weight: 500;
+        }
 
-.dropdown-menu{
-    position:absolute;
-    top:100%;
-    right:0;
-    background:rgba(10,10,10,.95);
-    border:1px solid rgba(229,9,20,.4);
-    border-radius:10px;
-    padding:1rem;
-    min-width:240px;
-    display:none;
-}
+        .top-picks-scroll {
+            display: flex;
+            gap: 25px;
+            padding: 0 4rem 3rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
 
-.dropdown-menu.active{display:block}
+        .glow-box {
+            min-width: 320px;
+            height: 180px;
+            background: #222;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-.menu-item{
-    padding:.7rem 1rem;
-    border-radius:6px;
-    cursor:pointer;
-}
-.menu-item:hover{
-    background:rgba(229,9,20,.15);
-}
+        .glow-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--hulu-green);
+            box-shadow: 0 10px 30px rgba(28, 231, 131, 0.4);
+        }
 
-/* ===== MAIN ===== */
-main{
-    max-width:1800px;
-    margin:auto;
-    padding:2.5rem 3rem;
-}
+        .glow-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
 
-/* ===== HERO SLIDESHOW ===== */
-.slideshow-container{
-    height:340px;
-    border-radius:14px;
-    overflow:hidden;
-    border:1px solid rgba(229,9,20,.3);
-    margin-bottom:3rem;
-}
+        .glow-label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
 
-.slide{display:none;height:100%;position:relative}
-.slide.active{display:block}
+        /* ===== MOVIE GRID (KEEPING YOUR ORIGINAL CARD STYLES) ===== */
+        main { padding: 0 4rem 4rem; }
 
-.slide-bg{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter:brightness(.55);
-}
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2.5rem;
+        }
 
-.slide-content{
-    position:absolute;
-    left:60px;
-    top:50%;
-    transform:translateY(-50%);
-    max-width:520px;
-}
+        .movie-card {
+            background:#1a1a1a;
+            border-radius:15px;
+            overflow:hidden;
+            position:relative;
+            transition:all .3s ease;
+            border:2px solid transparent;
+            box-shadow:0 8px 25px rgba(0,0,0,0.5);
+        }
 
-.slide-title{
-    font-size:2.8rem;
-    font-weight:700;
-}
+        .movie-card:hover {
+            transform:scale(1.08);
+            border-color:var(--hulu-green);
+            box-shadow:0 15px 40px rgba(28, 231, 131, 0.2);
+        }
 
-.slide-rating{
-    display:flex;
-    gap:.6rem;
-    color:#ffcc00;
-    font-size:1.2rem;
-}
+        .movie-card img {
+            width:100%;
+            height:380px;
+            object-fit:cover;
+        }
 
-.slide-description{
-    margin-top:.6rem;
-    line-height:1.5;
-}
+        .movie-info {
+            padding:1.2rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            background:#111;
+        }
 
-/* ===== CATEGORY ===== */
-.category-header{
-    font-size:2.2rem;
-    margin:2.5rem 0 1.5rem;
-    color:#e50914;
-}
+        .movie-title { font-size:1.1rem; color: #fff; }
+        .rating { color:#ffcc00; font-weight:700; margin-left: 10px; }
 
-/* ===== MOVIE GRID (UNCHANGED CARDS) ===== */
-.movie-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:1.8rem;
-}
+        /* Existing details code retained */
+        .details {
+            display:none; position:absolute; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,.98); padding:2rem; z-index:10;
+        }
+        .details.active { display:block; }
 
-/* ===== MOVIE CARD CODE — UNTOUCHED ===== */
-.movie-card{
-    background:#1a1a1a;
-    border-radius:15px;
-    overflow:hidden;
-    position:relative;
-    transition:.3s;
-}
-.movie-card:hover{transform:scale(1.08)}
-
-.movie-card img{
-    width:100%;
-    height:380px;
-    object-fit:cover;
-}
-
-.play-front{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:70px;
-    height:70px;
-    background:#e50914;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:28px;
-    color:#fff;
-    opacity:0;
-}
-.movie-card:hover .play-front{opacity:1}
-
-.movie-info{
-    padding:1rem;
-    display:flex;
-    justify-content:space-between;
-    background:#111;
-}
-
-.movie-title{font-size:1.1rem}
-.rating{color:#ffcc00}
-
-.details{
-    display:none;
-    position:absolute;
-    inset:0;
-    background:#000;
-    padding:2rem;
-}
-.details.active{display:block}
-
-/* ===== FOOTER ===== */
-footer{
-    margin-top:4rem;
-    padding:3rem 1rem;
-    background:#000;
-    border-top:1px solid rgba(229,9,20,.4);
-    text-align:center;
-}
-
-.footer-links{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:1.5rem;
-}
-
-.footer-btn{
-    background:#e50914;
-    border:none;
-    color:#fff;
-    padding:.7rem 1.4rem;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.footer-text{
-    margin-top:1.5rem;
-    color:#888;
-    font-size:.9rem;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-    header{padding:1rem;flex-direction:column;gap:1rem}
-    .search-bar{width:100%}
-    .slide-title{font-size:2rem}
-    main{padding:2rem 1.5rem}
-}
-</style>
+        /* Responsive */
+        @media(max-width: 1024px) {
+            .hulu-sidebar { width: 80px; padding: 2rem 0.5rem; }
+            .hulu-sidebar span { display: none; }
+            .content-wrapper { margin-left: 80px; width: calc(100% - 80px); }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="netflix-bg"></div>
+    <aside class="hulu-sidebar">
+        <h1>GN<span>-M</span></h1>
+        <ul class="side-nav">
+            <li class="side-nav-item active">🏠 <span>Home</span></li>
+            <li class="side-nav-item">🔥 <span>Trending</span></li>
+            <li class="side-nav-item">🎬 <span>Movies</span></li>
+            <li class="side-nav-item">📺 <span>TV Shows</span></li>
+            <li class="side-nav-item">🔔 <span>Updates</span></li>
+        </ul>
+        <div class="side-nav-item" style="margin-top: auto;">⚙️ <span>Settings</span></div>
+    </aside>
 
-<header>
-    <div class="header-left">
-        <h1>GN-movies</h1>
-        <div class="version-badge">V2.2</div>
-    </div>
+    <div class="content-wrapper">
+        <header>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search for movies, series, or genres...">
+            </div>
+        </header>
 
-    <div class="search-container">
-        <input class="search-bar" placeholder="Search movies...">
-        <button class="search-btn">🔍</button>
-    </div>
-
-    <div style="position:relative">
-        <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
-        <div class="dropdown-menu" id="dropdownMenu">
-            <div class="menu-item">Developers</div>
-            <div class="menu-item">Settings</div>
+        <h2 class="section-header">Top Picks For You</h2>
+        <div class="top-picks-scroll">
+            <div class="glow-box">
+                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop" alt="Hero">
+                <div class="glow-label">EXCLUSIVE: New Releases</div>
+            </div>
+            <div class="glow-box">
+                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop" alt="Action">
+                <div class="glow-label">ADRENALINE: Action Hits</div>
+            </div>
+            <div class="glow-box">
+                <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop" alt="Classic">
+                <div class="glow-label">GN ORIGINALS</div>
+            </div>
         </div>
+
+        <main>
+            <h2 class="section-header" style="padding-left: 0;">V2.2 Updates Every Week 🔥</h2>
+            
+            <div class="movie-grid">
+                <div class="movie-card">
+                    <img src="https://via.placeholder.com/240x380/1a1a1a/fff?text=Request+Movie" alt="Texas Chainsaw">
+                    <div class="movie-info">
+                        <div class="movie-title">Movie Request<span class="rating">0.0</span></div>
+                        <span style="cursor:pointer; color:var(--hulu-green);" onclick="toggleDetails(this)">⋮</span>
+                    </div>
+                    <div class="details">
+                        <p><strong>Title:</strong> Custom Request</p>
+                        <p><strong>Status:</strong> Available Now</p>
+                        <p>Request any movie using our form!</p>
+                        <button onclick="this.parentElement.classList.remove('active')" style="background:var(--hulu-green); border:none; padding:5px 10px; margin-top:10px; border-radius:4px; cursor:pointer;">Close</button>
+                    </div>
+                </div>
+                </div>
+        </main>
     </div>
-</header>
 
-<main>
+    <script>
+        function toggleDetails(btn) {
+            const card = btn.closest('.movie-card');
+            const details = card.querySelector('.details');
+            details.classList.toggle('active');
+        }
 
-<div class="slideshow-container">
-    <div class="slide active">
-        <img class="slide-bg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhAvTm0KxGWOU733Py4qIMr8rVkLTSzkBacVBMHIGxIta09yFj:https://static.cdn.turner.com/inline-images/wtd_tt_white_horiz_300dpi_v3.jpg&s">
-        <div class="slide-content">
-            <h2 class="slide-title">It: Welcome to Derry</h2>
-            <div class="slide-rating">★★★★☆ <span>8/10</span></div>
-            <p class="slide-description">The origins of IT.</p>
-        </div>
-    </div>
-</div>
-
-<h2 class="category-header">V2.2 Updates Every Week 🔥</h2>
-
-<div class="movie-grid">
-    <!-- YOUR MOVIE CARDS GO HERE (UNCHANGED) -->
-</div>
-
-</main>
-
-<footer>
-    <div class="footer-links">
-        <button class="footer-btn">About</button>
-        <button class="footer-btn">Contact</button>
-        <button class="footer-btn">Privacy</button>
-        <button class="footer-btn">Terms</button>
-    </div>
-    <div class="footer-text">
-        © 2026 GN-movies. All rights reserved.
-    </div>
-</footer>
-
-<script>
-function toggleMenu(){
-    document.getElementById("dropdownMenu").classList.toggle("active");
-}
-</script>
+        // Logic for auto-expanding search on scroll
+        window.onscroll = function() {
+            let search = document.querySelector(".search-bar");
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                search.style.borderColor = "rgba(28, 231, 131, 0.4)";
+            } else {
+                search.style.borderColor = "rgba(255,255,255,0.1)";
+            }
+        };
+    </script>
 
 </body>
 </html>
