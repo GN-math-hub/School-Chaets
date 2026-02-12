@@ -1095,7 +1095,7 @@
             <!-- Server Selector -->
             <div class="server-selector">
                 <span class="server-label">Server</span>
-                <select id="serverSelect" class="server-select" onchange="changeServer()">
+                <select id="serverSelect" class="server-select" onchange="changeServer(this.value)">
                     <option value="1">Server 1</option>
                     <option value="2">Server 2</option>
                 </select>
@@ -1113,7 +1113,7 @@
         <a onclick="scrollToSection('tv'); toggleMobileMenu();">📺 TV Shows</a>
         <div style="padding: 16px; border-top: 1px solid var(--border); margin-top: 8px;">
             <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase; font-weight: 600; margin-right: 10px;">Server</span>
-            <select id="mobileServerSelect" class="server-select" onchange="changeServer()" style="width: calc(100% - 60px);">
+            <select id="mobileServerSelect" class="server-select" onchange="changeServer(this.value)" style="width: calc(100% - 60px);">
                 <option value="1">Server 1</option>
                 <option value="2">Server 2</option>
             </select>
@@ -1342,11 +1342,15 @@
         serverSelect.value = currentServer;
         mobileServerSelect.value = currentServer;
 
-        function changeServer() {
-            const newServer = serverSelect.value;
-            currentServer = newServer;
+        // FIXED: Accept the value parameter instead of reading from select
+        function changeServer(serverValue) {
+            currentServer = serverValue;
             localStorage.setItem('gnStreamServer', currentServer);
+            
+            // Sync both selects to show the same value
+            serverSelect.value = currentServer;
             mobileServerSelect.value = currentServer;
+            
             showToast(`Switched to Server ${currentServer}`, 'success');
         }
 
