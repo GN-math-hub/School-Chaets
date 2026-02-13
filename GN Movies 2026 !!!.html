@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>GN-Stream</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300 ;400;500;600;700;800;900&display=swap');
         
         * {
             box-sizing: border-box;
@@ -95,7 +95,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg '%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Header */
@@ -254,10 +254,11 @@
             font-weight: 500;
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23737373' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23737373' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             transition: all 0.2s;
+            min-width: 140px;
         }
 
         .server-select:hover, .server-select:focus {
@@ -1073,6 +1074,11 @@
             .server-label {
                 display: none;
             }
+            
+            .server-select {
+                min-width: 100px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -1096,8 +1102,14 @@
             <div class="server-selector">
                 <span class="server-label">Server</span>
                 <select id="serverSelect" class="server-select" onchange="changeServer(this.value)">
-                    <option value="1">Server 1</option>
-                    <option value="2">Server 2</option>
+                    <option value="1">AutoEmbed Test</option>
+                    <option value="2">AutoEmbed Player</option>
+                    <option value="3">VidSrc.cc</option>
+                    <option value="4">VidSrc.to</option>
+                    <option value="5">2Embed</option>
+                    <option value="6">MultiEmbed</option>
+                    <option value="7">Embed.su</option>
+                    <option value="8">VidSrc.xyz</option>
                 </select>
             </div>
         </nav>
@@ -1114,8 +1126,14 @@
         <div style="padding: 16px; border-top: 1px solid var(--border); margin-top: 8px;">
             <span style="color: var(--text-muted); font-size: 12px; text-transform: uppercase; font-weight: 600; margin-right: 10px;">Server</span>
             <select id="mobileServerSelect" class="server-select" onchange="changeServer(this.value)" style="width: calc(100% - 60px);">
-                <option value="1">Server 1</option>
-                <option value="2">Server 2</option>
+                <option value="1">AutoEmbed Test</option>
+                <option value="2">AutoEmbed Player</option>
+                <option value="3">VidSrc.cc</option>
+                <option value="4">VidSrc.to</option>
+                <option value="5">2Embed</option>
+                <option value="6">MultiEmbed</option>
+                <option value="7">Embed.su</option>
+                <option value="8">VidSrc.xyz</option>
             </select>
         </div>
     </div>
@@ -1300,15 +1318,15 @@
     <div id="playerModal" onclick="closePlayerOnBackdrop(event)">
         <div id="playerContent" onclick="event.stopPropagation()">
             <button class="player-close-btn" onclick="closePlayer()">✕ Close</button>
-            <iframe id="playerIframe" allowfullscreen></iframe>
+            <iframe id="playerIframe" allowfullscreen sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation"></iframe>
         </div>
     </div>
 
     <script>
         const API_KEY = '3a73619bbb8fc6d47742d1b5b2b707b5';
-        const baseURL = 'https://api.themoviedb.org/3';
-        const FALLBACK_POSTER = 'https://via.placeholder.com/300x450/141414/666?text=No+Poster';
-        const FALLBACK_BACKDROP = 'https://via.placeholder.com/1280x720/141414/666?text=No+Backdrop';
+        const baseURL = 'https://api.themoviedb.org/3 ';
+        const FALLBACK_POSTER = 'https://via.placeholder.com/300x450/141414/666?text=No+Poster ';
+        const FALLBACK_BACKDROP = 'https://via.placeholder.com/1280x720/141414/666?text=No+Backdrop ';
 
         let myList = JSON.parse(localStorage.getItem('gnStreamMyList')) || [];
         let continueWatching = JSON.parse(localStorage.getItem('gnStreamContinue')) || [];
@@ -1326,6 +1344,84 @@
             COMEDY: 35,
             HORROR: 27,
             SCIFI: 878
+        };
+
+        // Server configurations with URL builders
+        const SERVERS = {
+            '1': {
+                name: 'AutoEmbed Test',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://test.autoembed.cc/embed/tv/${id}/${season}/${episode}?autoplay=true`;
+                    }
+                    return `https://test.autoembed.cc/embed/movie/${id}?autoplay=true`;
+                }
+            },
+            '2': {
+                name: 'AutoEmbed Player',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://player.autoembed.cc/embed/tv/${id}/${season}/${episode}`;
+                    }
+                    return `https://player.autoembed.cc/embed/movie/${id}`;
+                }
+            },
+            '3': {
+                name: 'VidSrc.cc',
+                buildUrl: (id, isTv, season, episode) => {
+                    // VidSrc.cc uses IMDB ID, so we need to handle that
+                    // For now using TMDB ID as fallback (some support it)
+                    if (isTv) {
+                        return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?poster=true&autoPlay=true`;
+                    }
+                    return `https://vidsrc.cc/v2/embed/movie/${id}?poster=true&autoPlay=true`;
+                }
+            },
+            '4': {
+                name: 'VidSrc.to',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`;
+                    }
+                    return `https://vidsrc.to/embed/movie/${id}`;
+                }
+            },
+            '5': {
+                name: '2Embed',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`;
+                    }
+                    return `https://www.2embed.cc/embed/${id}`;
+                }
+            },
+            '6': {
+                name: 'MultiEmbed',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${episode}`;
+                    }
+                    return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+                }
+            },
+            '7': {
+                name: 'Embed.su',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://embed.su/embed/tv/${id}/${season}/${episode}`;
+                    }
+                    return `https://embed.su/embed/movie/${id}`;
+                }
+            },
+            '8': {
+                name: 'VidSrc.xyz',
+                buildUrl: (id, isTv, season, episode) => {
+                    if (isTv) {
+                        return `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`;
+                    }
+                    return `https://vidsrc.xyz/embed/movie?tmdb=${id}`;
+                }
+            }
         };
 
         // Elements
@@ -1351,7 +1447,8 @@
             serverSelect.value = currentServer;
             mobileServerSelect.value = currentServer;
             
-            showToast(`Switched to Server ${currentServer}`, 'success');
+            const serverName = SERVERS[currentServer]?.name || `Server ${currentServer}`;
+            showToast(`Switched to ${serverName}`, 'success');
         }
 
         function showToast(message, type = 'info') {
@@ -1818,27 +1915,12 @@
             addToContinueWatching(currentDetailsItem, 0, currentDetailsItem.runtime ? currentDetailsItem.runtime * 60 : 7200);
             
             const isTvShow = currentDetailsItem.media_type === 'tv' || currentDetailsItem.first_air_date;
-            let src;
+            const season = isTvShow ? (document.getElementById('seasonSelect').value || 1) : null;
+            const episode = isTvShow ? (document.getElementById('episodeSelect').value || 1) : null;
             
-            if (currentServer === '2') {
-                // Server 2: player.autoembed.cc
-                if (isTvShow) {
-                    const season = document.getElementById('seasonSelect').value || 1;
-                    const episode = document.getElementById('episodeSelect').value || 1;
-                    src = `https://player.autoembed.cc/embed/tv/${currentDetailsItem.id}/${season}/${episode}`;
-                } else {
-                    src = `https://player.autoembed.cc/embed/movie/${currentDetailsItem.id}`;
-                }
-            } else {
-                // Server 1: test.autoembed.cc
-                if (isTvShow) {
-                    const season = document.getElementById('seasonSelect').value || 1;
-                    const episode = document.getElementById('episodeSelect').value || 1;
-                    src = `https://test.autoembed.cc/embed/tv/${currentDetailsItem.id}/${season}/${episode}?autoplay=true`;
-                } else {
-                    src = `https://test.autoembed.cc/embed/movie/${currentDetailsItem.id}?autoplay=true`;
-                }
-            }
+            // Use the server configuration to build URL
+            const server = SERVERS[currentServer] || SERVERS['1'];
+            const src = server.buildUrl(currentDetailsItem.id, isTvShow, season, episode);
             
             detailsModal.classList.remove('active');
             setTimeout(() => {
