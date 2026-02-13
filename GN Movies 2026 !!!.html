@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>GN-Stream</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300 ;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         * {
             box-sizing: border-box;
@@ -95,7 +95,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg '%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Header */
@@ -254,7 +254,7 @@
             font-weight: 500;
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23737373' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23737373' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             transition: all 0.2s;
@@ -1318,15 +1318,15 @@
     <div id="playerModal" onclick="closePlayerOnBackdrop(event)">
         <div id="playerContent" onclick="event.stopPropagation()">
             <button class="player-close-btn" onclick="closePlayer()">✕ Close</button>
-            <iframe id="playerIframe" allowfullscreen sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation"></iframe>
+            <iframe id="playerIframe" allowfullscreen></iframe>
         </div>
     </div>
 
     <script>
         const API_KEY = '3a73619bbb8fc6d47742d1b5b2b707b5';
-        const baseURL = 'https://api.themoviedb.org/3 ';
-        const FALLBACK_POSTER = 'https://via.placeholder.com/300x450/141414/666?text=No+Poster ';
-        const FALLBACK_BACKDROP = 'https://via.placeholder.com/1280x720/141414/666?text=No+Backdrop ';
+        const baseURL = 'https://api.themoviedb.org/3';
+        const FALLBACK_POSTER = 'https://via.placeholder.com/300x450/141414/666?text=No+Poster';
+        const FALLBACK_BACKDROP = 'https://via.placeholder.com/1280x720/141414/666?text=No+Backdrop';
 
         let myList = JSON.parse(localStorage.getItem('gnStreamMyList')) || [];
         let continueWatching = JSON.parse(localStorage.getItem('gnStreamContinue')) || [];
@@ -1369,8 +1369,6 @@
             '3': {
                 name: 'VidSrc.cc',
                 buildUrl: (id, isTv, season, episode) => {
-                    // VidSrc.cc uses IMDB ID, so we need to handle that
-                    // For now using TMDB ID as fallback (some support it)
                     if (isTv) {
                         return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${episode}?poster=true&autoPlay=true`;
                     }
@@ -1438,12 +1436,10 @@
         serverSelect.value = currentServer;
         mobileServerSelect.value = currentServer;
 
-        // FIXED: Accept the value parameter instead of reading from select
         function changeServer(serverValue) {
             currentServer = serverValue;
             localStorage.setItem('gnStreamServer', currentServer);
             
-            // Sync both selects to show the same value
             serverSelect.value = currentServer;
             mobileServerSelect.value = currentServer;
             
@@ -1467,7 +1463,6 @@
             header.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // ===== SMOOTH SEARCH - No auto-search, only on Enter or Button click =====
         searchInput.addEventListener('input', () => {
             searchClear.classList.toggle('visible', searchInput.value.length > 0);
         });
@@ -1501,6 +1496,7 @@
                 apiCache.set(url, { data, timestamp: Date.now() });
                 return data;
             } catch (e) {
+                console.error('Fetch error:', e);
                 return null;
             }
         }
@@ -1593,14 +1589,15 @@
             const cert = item._cert || 'NR';
             const card = document.createElement('div');
             card.className = 'card';
-            card.dataset.id = item.id; // Add ID for easy selection
+            card.dataset.id = item.id;
             
             const inList = myList.some(i => i.id === item.id);
+            
+            // FIXED: Removed spaces in URL construction
             const imageUrl = item.poster_path 
                 ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
                 : FALLBACK_POSTER;
             
-            // Determine badge based on genre or properties
             let badge = '';
             if (item.genre_ids?.includes(GENRES.HORROR)) badge = '<div class="bookmark-badge badge-horror">Horror</div>';
             else if (item.genre_ids?.includes(GENRES.SCIFI)) badge = '<div class="bookmark-badge badge-scifi">Sci-Fi</div>';
@@ -1608,7 +1605,7 @@
             
             card.innerHTML = `
                 ${badge}
-                <img src="${imageUrl}" alt="${item.title || item.name}" loading="lazy">
+                <img src="${imageUrl}" alt="${item.title || item.name}" loading="lazy" onerror="this.src='${FALLBACK_POSTER}'">
                 <div class="card-overlay">
                     <div class="card-title">${item.title || item.name}</div>
                     <div class="card-rating">★ ${(item.vote_average || 0).toFixed(1)} • ${cert}</div>
@@ -1634,22 +1631,18 @@
             localStorage.setItem('gnStreamMyList', JSON.stringify(myList));
             updateMyListCount();
             
-            // Update UI immediately if in My List view
             if (document.getElementById('myListSection').style.display === 'block') {
                 renderMyList();
             }
             
-            // Update button state on all visible cards
             updateListButtonState(item.id, index === -1);
             
-            // Update details modal button if open
             if (currentDetailsItem && currentDetailsItem.id === item.id) {
                 updateDetailsListButton();
             }
         }
 
         function updateListButtonState(itemId, isInList) {
-            // Update any visible card with this item
             document.querySelectorAll('.card').forEach(card => {
                 if (parseInt(card.dataset.id) === itemId) {
                     const btn = card.querySelector('.add-to-list-btn');
@@ -1695,9 +1688,15 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 const progress = Math.min(100, Math.round((item.progress / item.duration) * 100));
+                
+                // FIXED: Removed spaces in URL construction
+                const imageUrl = item.poster_path 
+                    ? `https://image.tmdb.org/t/p/w342${item.poster_path}`
+                    : FALLBACK_POSTER;
+                
                 card.innerHTML = `
                     <div class="bookmark-badge badge-binge">Resume</div>
-                    <img src="${item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : FALLBACK_POSTER}" alt="${item.title || item.name}">
+                    <img src="${imageUrl}" alt="${item.title || item.name}" onerror="this.src='${FALLBACK_POSTER}'">
                     <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
                     <div class="card-overlay">
                         <div class="card-title">${item.title || item.name}</div>
@@ -1715,7 +1714,10 @@
             const data = await fetchWithCache(`${baseURL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
             container.innerHTML = '';
             
-            if (!data?.results) return;
+            if (!data?.results) {
+                container.innerHTML = '<div style="color: var(--text-muted); padding: 40px;">Failed to load movies</div>';
+                return;
+            }
             
             for (const item of data.results.slice(0, 20)) {
                 item.media_type = 'movie';
@@ -1743,7 +1745,6 @@
             }
         }
 
-        // Search - Smooth, no auto-delay
         async function performSearch(query) {
             hideAllSections();
             document.getElementById('searchResults').style.display = 'block';
@@ -1783,11 +1784,16 @@
             currentDetailsItem = item;
             scrollPosition = window.pageYOffset;
             
+            // FIXED: Removed spaces in URL construction
             const posterUrl = item.backdrop_path 
                 ? `https://image.tmdb.org/t/p/original${item.backdrop_path}` 
                 : (item.poster_path ? `https://image.tmdb.org/t/p/w780${item.poster_path}` : FALLBACK_BACKDROP);
             
             document.getElementById('posterImage').src = posterUrl;
+            document.getElementById('posterImage').onerror = function() {
+                this.src = FALLBACK_BACKDROP;
+            };
+            
             document.getElementById('detailsTitle').textContent = item.title || item.name;
             document.getElementById('detailsYear').textContent = (item.release_date || item.first_air_date || '').substring(0, 4);
             document.getElementById('detailsOverview').textContent = item.overview || 'No overview available.';
@@ -1918,9 +1924,10 @@
             const season = isTvShow ? (document.getElementById('seasonSelect').value || 1) : null;
             const episode = isTvShow ? (document.getElementById('episodeSelect').value || 1) : null;
             
-            // Use the server configuration to build URL
             const server = SERVERS[currentServer] || SERVERS['1'];
             const src = server.buildUrl(currentDetailsItem.id, isTvShow, season, episode);
+            
+            console.log('Loading stream from:', src); // Debug log
             
             detailsModal.classList.remove('active');
             setTimeout(() => {
@@ -1969,11 +1976,20 @@
 
         async function loadCategory(endpoint, containerId, type, genreId = null) {
             const container = document.getElementById(containerId);
+            container.innerHTML = '<div class="loading-container"><div class="spinner"></div></div>';
+            
             let url = `${baseURL}${endpoint}?api_key=${API_KEY}&language=en-US`;
             if (genreId) url += `&with_genres=${genreId}`;
             
             const data = await fetchWithCache(url);
-            const items = data?.results?.slice(0, 16) || []; // Increased to 16 items
+            container.innerHTML = '';
+            
+            if (!data?.results) {
+                container.innerHTML = '<div style="color: var(--text-muted); padding: 40px;">Failed to load</div>';
+                return;
+            }
+            
+            const items = data.results.slice(0, 16);
             
             for (const item of items) {
                 item.media_type = type;
