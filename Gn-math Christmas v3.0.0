@@ -25,8 +25,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leif likes dih</title>
-    <meta name="title" content="Leif likes dih">
+    <title>gn-math</title>
+    <meta name="title" content="GN-Math">
     <meta name="description" content="Play unbl*cked games like Crazy Cattle 3D and DriveMad on GN-Math. Fast, free, no downloads—perfect for school or home.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gn-math.github.io/">
@@ -718,7 +718,7 @@ footer {
 
     <header>
         <div class="header-content">
-            <div class="logo">Leif likes dih</div>
+            <div class="logo">gn-math</div>
             <div class="search-container">
                 <input type="text" id="searchBar" placeholder="Search zones..." oninput="filterZones()">
                 <select id="sortOptions" onchange="sortZones()">
