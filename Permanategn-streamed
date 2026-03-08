@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>GN-Stream</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -679,7 +679,121 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
 }
 </style>
 </head>
-<body>
+<body><!-- PlayCode Free Banner - Matches site design -->
+<!-- Clean, minimal top banner for free user sites -->
+<div id="playcode-free-banner" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 52px;
+  padding: 0 16px;
+  background: rgba(4, 7, 15, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+">
+  <!-- Logo + Text -->
+  <a 
+    href="https://playcode.io/ai-website-builder?ref=free-banner" 
+    target="_blank"
+    rel="noopener noreferrer"
+    style="
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+    "
+  >
+    <!-- PlayCode Logo -->
+    <svg width="20" height="18" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M10.9868 0.477384L10.7089 0.704008C10.1475 1.16191 9.81668 1.88602 9.81738 2.65515L9.83431 18.6182C9.83502 19.3834 10.1644 20.1036 10.7223 20.5608C11.5165 21.2112 12.6069 21.2003 13.3891 20.5328L23.049 12.2968C23.5878 11.8373 23.9031 11.1295 23.9031 10.379V10.3511C23.9031 9.59667 23.5836 8.88498 23.0398 8.42552L13.6409 0.500667C12.8601 -0.15825 11.7774 -0.167563 10.9868 0.477384ZM19.4432 9.52769L13.9831 4.92761C13.6719 4.66584 13.2324 4.91953 13.2324 5.36164V6.72632C13.2324 6.89388 13.3007 7.05269 13.4172 7.1543L16.8606 10.274V10.3116L13.4272 13.2624C13.3048 13.364 13.2324 13.5262 13.2324 13.6984V15.2408C13.2324 15.6829 13.6725 15.9373 13.9837 15.6741L19.4438 11.0579C19.5638 10.9563 19.635 10.7955 19.635 10.6245V9.96172C19.635 9.79013 19.5638 9.6293 19.4432 9.52769ZM6.02871 4.92761L0.204576 9.52769C0.0759315 9.6293 0 9.79013 0 9.96172V10.6245C0 10.7955 0.0759316 10.9563 0.203948 11.0579L6.02809 15.6741C6.36005 15.9373 6.82945 15.6829 6.82945 15.2408V13.6984C6.82945 13.5262 6.75226 13.364 6.62173 13.2624L2.98788 10.3116V10.274L6.6324 7.1543C6.75665 7.05269 6.82945 6.89388 6.82945 6.72632V5.36164C6.82945 4.91953 6.36068 4.66584 6.02871 4.92761Z"
+        fill="#fff"/>
+    </svg>
+    <span>Made with <strong>PlayCode</strong></span>
+  </a>
+
+  <!-- CTA Button - Matches site style -->
+  <a 
+    href="https://playcode.io/ai-website-builder?ref=free-banner-cta" 
+    target="_blank"
+    rel="noopener noreferrer"
+    style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: linear-gradient(0deg, #df6f0d -0.61%, #d53e3e 11.01%, #ffb800 100%);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.25);
+      transition: transform 0.15s ease;
+    "
+    onmouseover="this.style.transform='scale(1.02)'"
+    onmouseout="this.style.transform=''"
+  >
+    Build with AI
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.5 7H11.5M11.5 7L7.5 3M11.5 7L7.5 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+
+  <!-- Close Button -->
+  <button
+    id="playcode-free-banner-close"
+    title="Close"
+    style="
+      position: absolute;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    "
+    onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='rgba(255,255,255,0.8)';this.style.background='rgba(255,255,255,0.05)'"
+    onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)';this.style.background='transparent'"
+    onclick="document.getElementById('playcode-free-banner').style.display='none';document.body.style.paddingTop='0';try{localStorage.setItem('playcode-free-banner-hidden','1')}catch(e){}"
+  >
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1L11 11M1 11L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+<style>
+  body { padding-top: 52px !important; }
+</style>
+<script>
+(function(){
+  try {
+    if (localStorage.getItem('playcode-free-banner-hidden') === '1') {
+      var banner = document.getElementById('playcode-free-banner');
+      if (banner) banner.style.display = 'none';
+      document.body.style.paddingTop = '0';
+    }
+  } catch(e) {}
+})();
+</script>
+
 
 <!-- STARTUP TIP POPUP -->
 <div id="startupTip">
@@ -715,10 +829,10 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
 <div class="kids-mode-banner" id="kidsBanner">🦁 Kids Mode Active — Showing family-friendly content only</div>
 
 <a href="https://www.tiktok.com/@gnstream0" target="_blank" class="tiktok-btn" title="Follow on TikTok">
-<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" fill="white"/><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#69C9D0"/><stop offset="100%" stop-color="#EE1D52"/></linearGradient></defs></svg>
+<svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" fill="white"></path><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#69C9D0"></stop><stop offset="100%" stop-color="#EE1D52"></stop></linearGradient></defs></svg>
 </a>
 <a href="https://discord.gg/WhAJBMDUc" target="_blank" class="discord-btn" title="Join Discord">
-<svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+<svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"></path></svg>
 </a>
 <button class="premium-fab" onclick="openPremiumModal()" title="Premium">👑</button>
 
@@ -729,7 +843,7 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
     <div class="profiles-subtitle">Choose your profile to personalize recommendations</div>
     <div class="add-profile-form" id="addProfileForm">
       <h3>➕ New Profile</h3>
-      <input class="add-profile-input" id="newProfileName" type="text" placeholder="Profile name (e.g. Dad, Mom, Sarah)" maxlength="14" autocomplete="off"/>
+      <input class="add-profile-input" id="newProfileName" type="text" placeholder="Profile name (e.g. Dad, Mom, Sarah)" maxlength="14" autocomplete="off">
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Choose an emoji</div>
       <div class="emoji-picker" id="emojiPicker"></div>
       <div class="is-kids-toggle-row">
@@ -904,14 +1018,14 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
           <div class="premium-feature"><div class="feature-icon">👥</div><span>Up to 5 profiles</span></div>
         </div>
         <a href="https://discord.gg/WhAJBMDUc" target="_blank" class="discord-cta">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"></path></svg>
           Join Discord for Premium
         </a>
         <div class="premium-divider">or sign in</div>
         <div class="login-section">
           <div class="login-title">🔐 Premium Sign In</div>
-          <input class="login-input" id="premiumUser" type="text" placeholder="Username" autocomplete="off"/>
-          <input class="login-input" id="premiumPass" type="password" placeholder="Password" autocomplete="off"/>
+          <input class="login-input" id="premiumUser" type="text" placeholder="Username" autocomplete="off">
+          <input class="login-input" id="premiumPass" type="password" placeholder="Password" autocomplete="off">
           <button class="login-btn" onclick="loginPremium()">Sign In</button>
           <div class="login-error" id="loginError">❌ Invalid credentials</div>
           <div class="login-success" id="loginSuccess">✅ Welcome! Premium unlocked.</div>
@@ -985,10 +1099,10 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
     <div class="hero-overview" id="heroOverview"></div>
     <div class="hero-actions">
       <button class="hero-play-btn" onclick="heroPlay()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>Play
       </button>
       <button class="hero-info-btn" onclick="heroMoreInfo()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8" stroke-linecap="round"/><line x1="12" y1="12" x2="12" y2="16" stroke-linecap="round"/></svg>More Info
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="8" stroke-linecap="round"></line><line x1="12" y1="12" x2="12" y2="16" stroke-linecap="round"></line></svg>More Info
       </button>
       <button class="hero-trailer-btn" onclick="heroPlayTrailer()">▶ Trailer</button>
       <button class="hero-watchlist-btn" id="heroWatchlistBtn" onclick="heroToggleList()" title="Add to My List">＋</button>
@@ -1045,7 +1159,7 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
     <div class="search-wrapper">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input id="searchInput" placeholder="Search movies, shows…" autocomplete="off"/>
+        <input id="searchInput" placeholder="Search movies, shows…" autocomplete="off">
         <button class="search-clear" id="searchClear" onclick="clearSearchInput()">✕</button>
       </div>
     </div>
@@ -1085,1436 +1199,4 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
   <div class="category-header"><div class="category-title">🕐 Watch History</div><button class="btn-secondary" onclick="showHome()" style="padding:7px 13px;font-size:12px">← Back</button></div>
   <div class="history-filter-row">
     <button class="history-filter-btn active" onclick="filterHistory('all',this)">All</button>
-    <button class="history-filter-btn" onclick="filterHistory('movie',this)">Movies</button>
-    <button class="history-filter-btn" onclick="filterHistory('tv',this)">TV Shows</button>
-    <button class="history-clear-btn" onclick="clearFullHistory()">🗑 Clear All</button>
-  </div>
-  <div class="history-grid" id="historyGrid"></div>
-</div>
-
-<!-- HOME CATEGORIES -->
-<div id="categoriesContainer">
-  <div style="padding:28px 4% 0;display:none" id="continueWatchingInlineSection">
-    <div class="category-header"><div class="category-title">▶️ Continue Watching</div><div class="view-all" onclick="clearContinueWatching()">Clear</div></div>
-    <div style="display:flex;gap:12px;overflow-x:auto;padding:10px 0 14px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--primary) transparent" id="continueWatchingInlineRow"></div>
-  </div>
-
-  <div class="category-section" id="section-hot">
-    <div class="category-header"><div class="category-title">🌡️ What's Hot Today</div><div class="view-all" onclick="scrollToSection('trending')">See Trending →</div></div>
-    <div class="hot-today-grid" id="hotTodayGrid"><div class="loading-container" style="padding:20px"><div class="spinner"></div></div></div>
-  </div>
-
-  <div class="category-section" id="section-trending"><div class="category-header"><div class="category-title">🔥 Trending Now</div></div><div class="movie-row" id="trendingRow"></div></div>
-  <div class="category-section" id="section-top10">
-    <div class="category-header"><div class="category-title">🏆 Top 10 This Week</div></div>
-    <div class="movie-row" id="top10Row" style="padding-bottom:20px"></div>
-  </div>
-  <div class="category-section" id="section-newrelease"><div class="category-header"><div class="category-title">🆕 New Releases <span style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:2px 7px;border-radius:7px;font-size:10px;margin-left:6px;font-weight:800">👑 Premium</span></div></div><div class="movie-row" id="newReleaseRow"></div></div>
-  <div class="category-section" id="section-action"><div class="category-header"><div class="category-title">💥 Action</div></div><div class="movie-row" id="actionRow"></div></div>
-  <div class="category-section" id="section-comedy"><div class="category-header"><div class="category-title">😂 Comedy</div></div><div class="movie-row" id="comedyRow"></div></div>
-  <div class="category-section" id="section-horror"><div class="category-header"><div class="category-title">👻 Horror</div></div><div class="movie-row" id="horrorRow"></div></div>
-  <div class="category-section" id="section-scifi"><div class="category-header"><div class="category-title">🚀 Sci-Fi</div></div><div class="movie-row" id="scifiRow"></div></div>
-  <div class="category-section" id="section-romance"><div class="category-header"><div class="category-title">💕 Romance</div></div><div class="movie-row" id="romanceRow"></div></div>
-  <div class="category-section" id="section-thriller"><div class="category-header"><div class="category-title">🔪 Thriller</div></div><div class="movie-row" id="thrillerRow"></div></div>
-  <div class="category-section" id="section-drama"><div class="category-header"><div class="category-title">🎭 Drama</div></div><div class="movie-row" id="dramaRow"></div></div>
-  <div class="category-section" id="section-animation"><div class="category-header"><div class="category-title">✨ Animation</div></div><div class="movie-row" id="animationRow"></div></div>
-  <div class="category-section" id="section-documentary"><div class="category-header"><div class="category-title">📹 Documentary</div></div><div class="movie-row" id="documentaryRow"></div></div>
-  <div class="category-section" id="section-crime"><div class="category-header"><div class="category-title">🚔 Crime</div></div><div class="movie-row" id="crimeRow"></div></div>
-  <div class="category-section" id="section-mystery"><div class="category-header"><div class="category-title">🔮 Mystery</div></div><div class="movie-row" id="mysteryRow"></div></div>
-  <div class="category-section" id="section-fantasy"><div class="category-header"><div class="category-title">🐉 Fantasy</div></div><div class="movie-row" id="fantasyRow"></div></div>
-  <div class="category-section" id="section-family"><div class="category-header"><div class="category-title">👨‍👩‍👧‍👦 Family</div></div><div class="movie-row" id="familyRow"></div></div>
-  <div class="category-section" id="section-adventure"><div class="category-header"><div class="category-title">🏔️ Adventure</div></div><div class="movie-row" id="adventureRow"></div></div>
-  <div class="category-section" id="section-movies"><div class="category-header"><div class="category-title">🎬 Popular Movies</div></div><div class="movie-row" id="popularMoviesRow"></div></div>
-  <div class="category-section" id="section-tv"><div class="category-header"><div class="category-title">📺 TV Shows</div></div><div class="movie-row" id="popularTvRow"></div></div>
-  <div class="category-section" id="section-korean"><div class="category-header"><div class="category-title">🇰🇷 K-Drama</div></div><div class="movie-row" id="koreanRow"></div></div>
-  <div class="category-section" id="section-anime"><div class="category-header"><div class="category-title">⛩️ Anime</div></div><div class="movie-row" id="animeRow"></div></div>
-  <div class="category-section" id="section-award"><div class="category-header"><div class="category-title">🏅 Award Winners</div></div><div class="movie-row" id="awardRow"></div></div>
-</div>
-
-<!-- DISCOVER -->
-<div id="discoverMoreSection">
-  <div class="discover-header">
-    <div class="discover-title">Discover More</div>
-    <div class="discover-subtitle">Explore our massive library — updated daily</div>
-    <div class="discover-stats">
-      <div class="stat-item"><span class="stat-number" id="totalMovies">2,200,000+</span><span class="stat-label">Titles</span></div>
-      <div class="stat-item"><span class="stat-number">25+</span><span class="stat-label">Genres</span></div>
-      <div class="stat-item"><span class="stat-number">Daily</span><span class="stat-label">Updated</span></div>
-    </div>
-  </div>
-  <div class="discover-grid" id="discoverGrid"></div>
-  <div class="load-more-container"><button class="load-more-btn" id="loadMoreBtn" onclick="loadDiscoverMore()">Load More</button></div>
-</div>
-
-<!-- SEARCH RESULTS -->
-<div id="searchResults" style="display:none;padding:24px 4% 40px;min-height:50vh">
-  <div class="category-header"><div class="category-title">🔍 Search Results</div><button class="btn-secondary" onclick="clearSearch()" style="padding:7px 13px;font-size:12px">Back</button></div>
-  <div class="search-grid" id="searchResultsGrid"></div>
-</div>
-
-<!-- DETAILS MODAL -->
-<div id="detailsModal" onclick="closeDetailsOnBackdrop(event)">
-  <button class="modal-close-btn" onclick="closeDetails()">✕</button>
-  <div id="detailsContent" onclick="event.stopPropagation()">
-    <div id="posterContainer">
-      <img id="posterImage" src="" alt="Poster">
-      <div class="poster-gradient"></div>
-      <button class="trailer-play-btn" onclick="playModalTrailer()" title="Watch Trailer">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </button>
-    </div>
-    <div class="details-info">
-      <div class="details-title" id="detailsTitle"></div>
-      <div class="details-meta">
-        <span class="match-score" id="matchScore">98% Match</span>
-        <span id="detailsYear"></span>
-        <span id="detailsRuntime"></span>
-        <span class="details-rating" id="detailsRating">NR</span>
-        <span id="detailsGenre"></span>
-      </div>
-      <div class="details-actions">
-        <button class="btn-primary" onclick="playContent()">▶ Play</button>
-        <button class="btn-secondary" id="detailsAddToList" onclick="toggleListFromDetails()">+ My List</button>
-        <button class="btn-download" onclick="downloadContent()">⬇ Download</button>
-        <div class="skip-buttons">
-          <button class="skip-btn" onclick="skipIntro()">⏭ Skip Intro</button>
-          <button class="skip-btn" onclick="skipRecap()">⏭ Skip Recap</button>
-        </div>
-      </div>
-    </div>
-    <div id="detailsBody">
-      <div class="details-section"><h3>About</h3><p id="detailsOverview"></p></div>
-      <div class="details-section"><h3>Cast</h3><div class="cast-list" id="detailsCast"></div></div>
-      <div class="details-section" id="tagsSection" style="display:none"><h3>Tags</h3><div class="details-tags" id="detailsTags"></div></div>
-    </div>
-
-    <div class="episode-section" id="episodeSectionWrap" style="display:none">
-      <div class="episode-header">
-        <div class="episode-header-title">Episodes</div>
-        <div class="season-select-wrap">
-          <label>Season</label>
-          <select id="seasonDropdown" class="season-dropdown" onchange="onSeasonChange()"></select>
-        </div>
-      </div>
-      <div class="episodes-grid" id="episodesGrid"><div class="loading-container"><div class="spinner"></div></div></div>
-    </div>
-
-    <div class="paw-section" id="pawSection" style="display:none">
-      <div class="paw-title">👥 People Also Watched</div>
-      <div class="paw-row" id="pawRow"></div>
-    </div>
-
-    <div class="recommendations-section">
-      <div class="recommendations-title">📺 More Like This</div>
-      <div class="recommendations-row" id="recommendationsRow"><div class="loading-container" style="padding:18px"><div class="spinner"></div></div></div>
-    </div>
-
-    <div class="ratings-section" id="ratingsSection">
-      <div class="ratings-title">⭐ Ratings & Reviews</div>
-      <div class="avg-rating-bar" id="avgRatingBar" style="display:none">
-        <div class="avg-rating-num" id="avgRatingNum">0.0</div>
-        <div class="avg-rating-right">
-          <div class="avg-stars" id="avgStarsDisplay">☆☆☆☆☆</div>
-          <div class="avg-count" id="avgRatingCount">0 reviews</div>
-        </div>
-      </div>
-      <div class="your-rating-display" id="yourRatingDisplay">
-        <span class="your-rating-stars" id="yourRatingStars"></span>
-        <span class="your-rating-text">Your rating</span>
-        <button class="edit-rating-btn" onclick="editRating()">Edit</button>
-      </div>
-      <div class="rating-widget" id="ratingInputWidget">
-        <div class="rating-widget-label">Rate this title</div>
-        <div class="star-row" id="starRow">
-          <button class="star-btn" data-val="1" onclick="setRating(1)">★</button>
-          <button class="star-btn" data-val="2" onclick="setRating(2)">★</button>
-          <button class="star-btn" data-val="3" onclick="setRating(3)">★</button>
-          <button class="star-btn" data-val="4" onclick="setRating(4)">★</button>
-          <button class="star-btn" data-val="5" onclick="setRating(5)">★</button>
-        </div>
-        <textarea class="review-textarea" id="reviewTextarea" placeholder="Write a review (optional)…" maxlength="500" oninput="updateCharCount()"></textarea>
-        <div class="review-submit-row">
-          <span class="review-char-count" id="charCount">0 / 500</span>
-          <button class="review-submit-btn" id="submitReviewBtn" onclick="submitReview()" disabled>Submit</button>
-        </div>
-      </div>
-      <div class="reviews-list" id="reviewsList"></div>
-    </div>
-  </div>
-</div>
-
-<!-- PLAYER -->
-<div id="playerModal" onclick="closePlayerOnBackdrop(event)">
-  <div id="playerContent" onclick="event.stopPropagation()">
-    <div class="player-btn-row">
-      <button class="player-top-btn" onclick="openPlayerControls()">⚙️ Settings</button>
-      <button class="player-top-btn" onclick="launchMiniPlayer()">⊡ Mini</button>
-      <button class="player-top-btn fullscreen-btn" onclick="togglePlayerFullscreen()" id="fullscreenBtn" title="Fullscreen">⛶ Fullscreen</button>
-      <button class="player-top-btn" onclick="closePlayer()">✕ Close</button>
-    </div>
-    <iframe id="playerIframe" allowfullscreen allow="fullscreen; autoplay; encrypted-media"></iframe>
-  </div>
-</div>
-
-<!-- MINI PLAYER -->
-<div id="miniPlayer">
-  <iframe id="miniPlayerIframe" allowfullscreen></iframe>
-  <div class="mini-player-controls">
-    <button class="mini-ctrl-btn" onclick="expandMiniPlayer()">⛶</button>
-    <button class="mini-ctrl-btn" onclick="closeMiniPlayer()">✕</button>
-  </div>
-  <div class="mini-player-title" id="miniPlayerTitle">Now Playing</div>
-  <div class="mini-drag" id="miniDrag"><span></span><span></span><span></span></div>
-</div>
-
-<div class="noise"></div>
-<div class="toast" id="toast"></div>
-
-<script>
-const API_KEY='3a73619bbb8fc6d47742d1b5b2b707b5';
-const BASE='https://api.themoviedb.org/3';
-const IMG='https://image.tmdb.org/t/p/';
-const FB_POSTER='https://via.placeholder.com/300x450/111/444?text=No+Poster';
-const FB_BACK='https://via.placeholder.com/1280x720/111/444?text=No+Backdrop';
-const PREMIUM_USERS={'lebron':'67'};
-const GENRES={ACTION:28,COMEDY:35,HORROR:27,SCIFI:878,ROMANCE:10749,THRILLER:53,DRAMA:18,ANIMATION:16,DOCUMENTARY:99,CRIME:80,MYSTERY:9648,FANTASY:14,FAMILY:10751,ADVENTURE:12};
-const KIDS_GENRES=[10751,16,10762];
-const MOOD_MAP={
-  happy:{name:'Feel-Good Picks 😄',genres:[35,10751,12],emoji:'😄',class:'mood-happy'},
-  scary:{name:'Scary Stuff 😱',genres:[27,9648,53],emoji:'😱',class:'mood-scary'},
-  romantic:{name:'Romantic Picks 💕',genres:[10749,35,18],emoji:'💕',class:'mood-romantic'},
-  tense:{name:'Edge-of-Seat 😤',genres:[53,28,80],emoji:'😤',class:'mood-tense'},
-  funny:{name:'Comedy Night 🤣',genres:[35,16,10751],emoji:'🤣',class:'mood-funny'},
-  chill:{name:'Chill Vibes 😌',genres:[99,18,12],emoji:'😌',class:'mood-chill'},
-  inspire:{name:'Inspiring Stories ✨',genres:[18,36,10752],emoji:'✨',class:'mood-inspire'}
-};
-const SERVERS={
-  '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://test.autoembed.cc/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://test.autoembed.cc/embed/movie/${id}?autoplay=true`},
-  '2':{name:'AutoEmbed Player',url:(id,tv,s,e)=>tv?`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`:`https://player.autoembed.cc/embed/movie/${id}`},
-  '3':{name:'GN-stream FLixy',url:(id,tv,s,e)=>tv?`https://player.vidify.top/embed/tv/${id}/${s}/${e}?poster=true&autoPlay=true`:`https://player.vidify.top/embed/movie/${id}?poster=true&autoPlay=true`},
-  '4':{name:'VidSrc.to',url:(id,tv,s,e)=>tv?`https://vidsrc.to/embed/tv/${id}/${s}/${e}`:`https://vidsrc.to/embed/movie/${id}`},
-  '5':{name:'2Embed',url:(id,tv,s,e)=>tv?`https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`:`https://www.2embed.cc/embed/${id}`},
-  '6':{name:'MultiEmbed',url:(id,tv,s,e)=>tv?`https://multiembed.mov/?video_id=${id}&tmdb=1&s=${s}&e=${e}`:`https://multiembed.mov/?video_id=${id}&tmdb=1`},
-  '7':{name:'Embed.su',url:(id,tv,s,e)=>tv?`https://embed.su/embed/tv/${id}/${s}/${e}`:`https://embed.su/embed/movie/${id}`},
-  '8':{name:'VidSrc.xyz',url:(id,tv,s,e)=>tv?`https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${s}&episode=${e}`:`https://vidsrc.xyz/embed/movie?tmdb=${id}`},
-  '9':{name:'VidSrc.me',url:(id,tv,s,e)=>tv?`https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}`:`https://vidsrc.me/embed/movie?tmdb=${id}`},
-  '10':{name:'VidSrc.in',url:(id,tv,s,e)=>tv?`https://vidsrc.in/embed/tv?tmdb=${id}&season=${s}&episode=${e}`:`https://vidsrc.in/embed/movie?tmdb=${id}`}
-};
-
-const PROFILE_EMOJIS=['🎬','🌟','🎮','🎵','🏆','🦁','🐼','🦊','🐸','🦄','🚀','🍕','🎸','🌈','⚡'];
-let selectedNewEmoji=PROFILE_EMOJIS[0];
-const DEFAULT_PROFILES=[
-  {id:1,name:'Main',emoji:'🎬',isKids:false,color:'#e50914'},
-  {id:2,name:'Kids',emoji:'🦁',isKids:true,color:'#22c55e'},
-  {id:3,name:'Guest',emoji:'🙂',isKids:false,color:'#6366f1'},
-];
-let profiles=JSON.parse(localStorage.getItem('gnStreamProfiles')||JSON.stringify(DEFAULT_PROFILES));
-let activeProfile=JSON.parse(localStorage.getItem('gnStreamActiveProfile')||JSON.stringify(profiles[0]));
-
-// ============================================================
-// FIX: Load myList from profile-specific key, preserve all item fields including _isNewRelease
-// ============================================================
-function loadMyList(){
-  const key=`gnStreamMyList_${activeProfile.id}`;
-  const data=localStorage.getItem(key)||localStorage.getItem('gnStreamMyList')||'[]';
-  try{ return JSON.parse(data); } catch{ return []; }
-}
-function saveMyList(){
-  const key=`gnStreamMyList_${activeProfile.id}`;
-  localStorage.setItem(key,JSON.stringify(myList));
-  localStorage.setItem('gnStreamMyList',JSON.stringify(myList));
-}
-
-let myList=loadMyList();
-let continueWatching=JSON.parse(localStorage.getItem('gnStreamContinue')||'[]');
-let watchHistory=JSON.parse(localStorage.getItem('gnStreamHistory')||'[]');
-let userReviews=JSON.parse(localStorage.getItem('gnStreamReviews')||'{}');
-let currentDetailsItem=null;
-let selectedRating=0;
-let historyFilter='all';
-let scrollPos=0;
-let currentServer=localStorage.getItem('gnStreamServer')||'1';
-let discoverPage=1;
-let discoverLoaded=0;
-let isLoadingDiscover=false;
-let isPremiumUser=localStorage.getItem('gnStreamPremium')==='true';
-let premiumUsername=localStorage.getItem('gnStreamPremiumUser')||'';
-let miniPlayerActive=false;
-let heroItems=[];
-let heroIdx=0;
-let heroTimer=null;
-let currentEpisodeSeason=1;
-let currentEpisodeNum=1;
-let activeGenreFilter=null;
-let currentSpeed=1;
-let currentSubtitle='off';
-let currentQuality='720';
-const apiCache=new Map();
-const CACHE_DUR=5*60*1000;
-
-// Track now-playing IDs for lock logic
-let nowPlayingIds=new Set();
-// Load now-playing IDs early for lock logic
-(async()=>{
-  try{
-    const d=await fetch(`${BASE}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`).then(r=>r.json());
-    if(d?.results) nowPlayingIds=new Set(d.results.map(r=>r.id));
-  }catch{}
-})();
-
-document.getElementById('serverSelect').value=currentServer;
-document.getElementById('mobileServerSelect').value=currentServer;
-
-// STARTUP TIP
-function dismissTip(){
-  const el=document.getElementById('startupTip');
-  el.style.opacity='0';el.style.transition='opacity .4s';
-  setTimeout(()=>el.style.display='none',400);
-  localStorage.setItem('gnStreamTipDismissed','true');
-}
-if(localStorage.getItem('gnStreamTipDismissed')==='true'){
-  document.getElementById('startupTip').style.display='none';
-}
-
-// KIDS MODE BANNER
-function updateKidsBanner(){
-  document.getElementById('kidsBanner').classList.toggle('show',isKidsMode());
-}
-function isKidsMode(){return activeProfile.isKids===true;}
-
-// CACHE
-async function fetchWithCache(url){
-  const c=apiCache.get(url);
-  if(c&&Date.now()-c.t<CACHE_DUR)return c.d;
-  try{const r=await fetch(url);const d=await r.json();apiCache.set(url,{d,t:Date.now()});return d;}
-  catch{return null;}
-}
-
-// THEME
-function initTheme(){
-  const t=localStorage.getItem('gnStreamTheme')||'dark';
-  document.documentElement.setAttribute('data-theme',t);
-  document.getElementById('themeToggleBtn').textContent=t==='dark'?'☀️':'🌙';
-}
-function toggleTheme(){
-  const cur=document.documentElement.getAttribute('data-theme');
-  const next=cur==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',next);
-  localStorage.setItem('gnStreamTheme',next);
-  document.getElementById('themeToggleBtn').textContent=next==='dark'?'☀️':'🌙';
-  const sel=document.getElementById('themeSelect');if(sel)sel.value=next;
-  showToast(`${next==='dark'?'🌙':'☀️'} ${next.charAt(0).toUpperCase()+next.slice(1)} mode`,'success');
-}
-
-// SCROLL ANIMATIONS
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
-},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-function observeSections(){document.querySelectorAll('.category-section').forEach(s=>observer.observe(s));}
-
-// HERO
-async function loadHero(){
-  let url=`${BASE}/trending/all/day?api_key=${API_KEY}&language=en-US`;
-  if(isKidsMode())url=`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${KIDS_GENRES.join(',')}&sort_by=popularity.desc`;
-  const d=await fetchWithCache(url);
-  if(!d?.results?.length)return;
-  heroItems=d.results.filter(i=>i.backdrop_path).slice(0,6);
-  buildHeroDots();setHero(0);
-  heroTimer=setInterval(()=>setHero((heroIdx+1)%heroItems.length),7500);
-}
-function buildHeroDots(){
-  const w=document.getElementById('heroScrollDots');w.innerHTML='';
-  heroItems.forEach((_,i)=>{
-    const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');
-    d.onclick=()=>{clearInterval(heroTimer);setHero(i);heroTimer=setInterval(()=>setHero((heroIdx+1)%heroItems.length),7500);};
-    w.appendChild(d);
-  });
-}
-function setHero(idx){
-  heroIdx=idx;const item=heroItems[idx];if(!item)return;
-  const isTv=!!item.first_air_date;const title=item.title||item.name;
-  const year=(item.release_date||item.first_air_date||'').substring(0,4);
-  const rating=item.vote_average?item.vote_average.toFixed(1):'';
-  const backdrop=document.getElementById('heroBackdrop');
-  backdrop.style.opacity='0';
-  setTimeout(()=>{backdrop.style.backgroundImage=`url(${IMG}original${item.backdrop_path})`;backdrop.style.opacity='1';},150);
-  document.getElementById('heroTitle').textContent=title;
-  document.getElementById('heroOverview').textContent=item.overview||'';
-  document.getElementById('heroBadge').innerHTML=`🔥 #${idx+1} ${isTv?'TV Show':'Movie'}`;
-  document.getElementById('heroMeta').innerHTML=`<span class="hero-match">${Math.floor(Math.random()*15+83)}% Match</span><span>${year}</span>${rating?`<span>★ ${rating}</span>`:''}<span class="hero-meta-rating" id="heroRatingBadge">NR</span><span>${isTv?'Series':'Movie'}</span>`;
-  getCert(item).then(c=>{const el=document.getElementById('heroRatingBadge');if(el)el.textContent=c;});
-  document.querySelectorAll('.hero-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-  item.media_type=isTv?'tv':'movie';window._heroItem=item;
-  const inList=myList.some(i=>i.id===item.id);
-  const btn=document.getElementById('heroWatchlistBtn');
-  btn.textContent=inList?'✓':'＋';btn.classList.toggle('in-list',inList);
-}
-function heroPlay(){const item=window._heroItem;if(!item)return;addToHistory(item);addToContinue(item,0,7200);openPlayer(item.id,item.media_type==='tv',1,1);}
-function heroMoreInfo(){if(window._heroItem)openDetails(window._heroItem);}
-function heroToggleList(){
-  const item=window._heroItem;if(!item)return;
-  toggleMyList(item);
-  const inList=myList.some(i=>i.id===item.id);
-  const btn=document.getElementById('heroWatchlistBtn');btn.textContent=inList?'✓':'＋';btn.classList.toggle('in-list',inList);
-}
-async function heroPlayTrailer(){
-  const item=window._heroItem;if(!item)return;
-  const type=item.media_type==='tv'?'tv':'movie';
-  const d=await fetchWithCache(`${BASE}/${type}/${item.id}/videos?api_key=${API_KEY}`);
-  const trailer=d?.results?.find(v=>v.type==='Trailer'&&v.site==='YouTube')||d?.results?.[0];
-  if(trailer?.key){window.open(`https://www.youtube.com/watch?v=${trailer.key}`,'_blank');showToast('🎬 Opening trailer…','success');}
-  else showToast('No trailer available','error');
-}
-
-// UTIL
-function showToast(msg,type='info'){
-  const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);
-}
-function toggleMobileMenu(){document.getElementById('mobileNav').classList.toggle('active');}
-window.addEventListener('scroll',()=>document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>50));
-const searchInput=document.getElementById('searchInput');
-const searchClear=document.getElementById('searchClear');
-searchInput.addEventListener('input',()=>searchClear.classList.toggle('visible',searchInput.value.length>0));
-searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')executeSearch();});
-function clearSearchInput(){searchInput.value='';searchInput.focus();searchClear.classList.remove('visible');}
-function executeSearch(){const q=searchInput.value.trim();if(q)performSearch(q);}
-function changeServer(v){
-  currentServer=v;localStorage.setItem('gnStreamServer',v);
-  ['serverSelect','mobileServerSelect','defaultServerSelect'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
-  showToast(`Switched to ${SERVERS[v]?.name||'Server '+v}`,'success');
-}
-
-// NAV
-function setActiveNav(id){document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));document.getElementById(id)?.classList.add('active');}
-function hideAllSections(){
-  ['nowPlayingSection','continueWatchingSection','myListSection','categoriesContainer',
-   'searchResults','discoverMoreSection','upcomingSection','historySection',
-   'homeSearchSection','heroFeatured','homeGenreSection','moodResultsSection',
-   'homeMoodBar'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-}
-function showHome(){
-  hideAllSections();
-  document.getElementById('heroFeatured').style.display='flex';
-  document.getElementById('homeMoodBar').style.display=isKidsMode()?'none':'block';
-  document.getElementById('homeGenreSection').style.display='block';
-  document.getElementById('homeSearchSection').style.display='block';
-  document.getElementById('categoriesContainer').style.display='block';
-  document.getElementById('discoverMoreSection').style.display='block';
-  setActiveNav('nav-home');
-  searchInput.value='';searchClear.classList.remove('visible');
-  document.querySelectorAll('.mood-pill').forEach(p=>{p.classList.remove('active');Object.values(MOOD_MAP).forEach(m=>p.classList.remove(m.class));});
-  if(continueWatching.length>0){document.getElementById('continueWatchingInlineSection').style.display='block';renderContinueWatchingInline();}
-  if(isKidsMode()){
-    const adultSections=['section-horror','section-thriller','section-crime','section-mystery','section-documentary','section-romance','section-korean'];
-    adultSections.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  } else {
-    document.querySelectorAll('[id^="section-"]').forEach(el=>el.style.display='');
-  }
-  observeSections();
-}
-function showNowPlaying(){hideAllSections();document.getElementById('nowPlayingSection').style.display='block';setActiveNav('nav-nowplaying');renderNowPlaying();}
-function showContinueWatching(){
-  hideAllSections();document.getElementById('continueWatchingSection').style.display='block';setActiveNav('nav-continue');renderContinueWatching();
-}
-function showMyList(){
-  if(!isPremiumUser){openPremiumModal();showToast('👑 My List is a Premium feature','error');return;}
-  hideAllSections();document.getElementById('myListSection').style.display='block';setActiveNav('nav-mylist');renderMyList();
-}
-async function showUpcoming(){hideAllSections();document.getElementById('upcomingSection').style.display='block';setActiveNav('nav-upcoming');await loadUpcoming();}
-function showHistory(){
-  hideAllSections();document.getElementById('historySection').style.display='block';setActiveNav('nav-history');
-  historyFilter='all';document.querySelectorAll('.history-filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderHistory();
-}
-function scrollToSection(s){showHome();setTimeout(()=>document.getElementById(`section-${s}`)?.scrollIntoView({behavior:'smooth'}),120);}
-function clearSearch(){showHome();}
-
-// ============================================================
-// PROFILES
-// ============================================================
-function openProfiles(){
-  document.getElementById('profilesModal').classList.add('active');
-  document.body.classList.add('modal-open');
-  hideAddProfileForm();renderProfiles();
-}
-function closeProfiles(){document.getElementById('profilesModal').classList.remove('active');document.body.classList.remove('modal-open');}
-function renderProfiles(){
-  const grid=document.getElementById('profilesGrid');grid.innerHTML='';
-  profiles.forEach(p=>{
-    const item=document.createElement('div');item.className='profile-item';
-    const isActive=p.id===activeProfile.id;
-    const bg=p.isKids?'background:linear-gradient(135deg,#15803d,#16a34a)':'background:'+p.color+'22';
-    item.innerHTML=`<div class="profile-avatar-wrap ${isActive?'active-profile':''}" style="${bg}"><div style="font-size:40px">${p.emoji}</div></div><div class="profile-name">${p.name}</div>${p.isKids?`<div class="profile-badge profile-badge-kids">Kids</div>`:''}${p.id>3?`<button class="profile-remove" onclick="event.stopPropagation();removeProfile(${p.id})" title="Remove profile">✕</button>`:''}`;
-    item.onclick=()=>selectProfile(p);
-    grid.appendChild(item);
-  });
-  if(profiles.length<5){
-    const add=document.createElement('div');add.className='profile-add';
-    add.innerHTML=`<div class="profile-add-circle">+</div><div class="profile-name">Add Profile</div>`;
-    add.onclick=showAddProfileForm;grid.appendChild(add);
-  }
-}
-function selectProfile(p){
-  activeProfile=p;localStorage.setItem('gnStreamActiveProfile',JSON.stringify(p));
-  myList=loadMyList();
-  updateMyListCount();
-  document.getElementById('headerProfile').textContent=p.emoji;
-  updateKidsBanner();
-  closeProfiles();
-  showToast(`Switched to ${p.name} ${p.emoji}`+(p.isKids?' 🦁 Kids Mode!':''),'success');
-  reloadCategoriesForProfile();
-}
-function removeProfile(id){
-  if(!confirm('Remove this profile?'))return;
-  profiles=profiles.filter(p=>p.id!==id);
-  localStorage.setItem('gnStreamProfiles',JSON.stringify(profiles));
-  if(activeProfile.id===id){
-    activeProfile=profiles[0];
-    localStorage.setItem('gnStreamActiveProfile',JSON.stringify(activeProfile));
-    document.getElementById('headerProfile').textContent=activeProfile.emoji;
-  }
-  renderProfiles();showToast('Profile removed','info');
-}
-function showAddProfileForm(){
-  const form=document.getElementById('addProfileForm');form.classList.add('show');
-  document.getElementById('newProfileName').value='';
-  document.getElementById('newProfileKids').checked=false;
-  selectedNewEmoji=PROFILE_EMOJIS[0];
-  const picker=document.getElementById('emojiPicker');picker.innerHTML='';
-  PROFILE_EMOJIS.forEach(em=>{
-    const btn=document.createElement('div');btn.className='emoji-opt'+(em===selectedNewEmoji?' selected':'');
-    btn.textContent=em;
-    btn.onclick=()=>{selectedNewEmoji=em;document.querySelectorAll('.emoji-opt').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');};
-    picker.appendChild(btn);
-  });
-}
-function hideAddProfileForm(){document.getElementById('addProfileForm').classList.remove('show');}
-function saveNewProfile(){
-  const name=document.getElementById('newProfileName').value.trim();
-  if(!name){document.getElementById('newProfileName').focus();showToast('Enter a profile name','error');return;}
-  const isKids=document.getElementById('newProfileKids').checked;
-  const colors=['#e50914','#1d9bf0','#22c55e','#a855f7','#f97316','#ec4899','#fbbf24'];
-  const newP={id:Date.now(),name:name.substring(0,14),emoji:selectedNewEmoji,isKids,color:colors[Math.floor(Math.random()*colors.length)]};
-  profiles.push(newP);
-  localStorage.setItem('gnStreamProfiles',JSON.stringify(profiles));
-  hideAddProfileForm();renderProfiles();
-  showToast(`Profile "${newP.name}" created${isKids?' 🦁':''}`,'success');
-}
-async function reloadCategoriesForProfile(){
-  if(isKidsMode()) loadKidsContent();
-  else loadAllCategories();
-  loadHero();
-  loadHotToday();
-}
-async function loadKidsContent(){
-  const kidsCat=[
-    {id:'animationRow',genre:16,type:'movie'},
-    {id:'familyRow',genre:10751,type:'movie'},
-    {id:'adventureRow',genre:12,type:'movie'},
-    {id:'trendingRow',genre:null,type:'movie'},
-  ];
-  for(const cat of kidsCat){
-    const c=document.getElementById(cat.id);if(!c)continue;c.innerHTML='';
-    const url=cat.genre
-      ?`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${cat.genre}&certification_country=US&certification.lte=PG&sort_by=popularity.desc`
-      :`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${KIDS_GENRES.join(',')}&sort_by=popularity.desc`;
-    const d=await fetchWithCache(url);if(!d?.results)continue;
-    for(const item of d.results.slice(0,16)){item.media_type='movie';item._cert=await getCert(item);createCard(item,c,0,'card');}
-  }
-  const tvC=document.getElementById('popularTvRow');if(tvC){tvC.innerHTML='';
-    const d=await fetchWithCache(`${BASE}/discover/tv?api_key=${API_KEY}&with_genres=10762,16,10751&sort_by=popularity.desc`);
-    if(d?.results)for(const item of d.results.slice(0,16)){item.media_type='tv';item._cert=await getCert(item);createCard(item,tvC,0,'card');}
-  }
-}
-
-// CERT
-async function getCert(item){
-  try{
-    const isTv=item.media_type==='tv'||!!item.first_air_date;
-    if(isTv){const d=await fetchWithCache(`${BASE}/tv/${item.id}/content_ratings?api_key=${API_KEY}`);return d?.results?.find(r=>r.iso_3166_1==='US')?.rating||'NR';}
-    else{const d=await fetchWithCache(`${BASE}/movie/${item.id}/release_dates?api_key=${API_KEY}`);return d?.results?.find(r=>r.iso_3166_1==='US')?.release_dates?.[0]?.certification||'NR';}
-  }catch{return 'NR';}
-}
-function certOk(cert,group){
-  if(group==='all')return true;cert=(cert||'').toUpperCase();
-  if(group==='gpg')return['G','PG','TV-Y','TV-G','TV-Y7'].includes(cert);
-  if(group==='pg13')return cert==='PG-13'||cert==='TV-14';
-  if(group==='r')return cert==='R'||cert==='TV-MA';
-  if(group==='nc17')return cert==='NC-17';return false;
-}
-
-// ============================================================
-// MY LIST — Premium only feature
-// ============================================================
-function toggleMyList(item){
-  // Block non-premium users
-  if(!isPremiumUser){
-    openPremiumModal();
-    showToast('👑 My List is a Premium feature','error');
-    return;
-  }
-  const idx=myList.findIndex(i=>i.id===item.id);
-  const adding=idx===-1;
-  if(adding){
-    myList.push({...item});
-  } else {
-    myList.splice(idx,1);
-  }
-  saveMyList();
-  updateMyListCount();
-  document.querySelectorAll(`.card-action-btn[data-lid="${item.id}"]`).forEach(b=>{
-    b.classList.toggle('in-list',adding);
-    b.textContent=adding?'✓':'＋';
-  });
-  showToast(adding?'✓ Added to My List':'Removed from My List',adding?'success':'info');
-  if(document.getElementById('myListSection').style.display!=='none') renderMyList();
-  if(currentDetailsItem?.id===item.id) updateDetailsListBtn();
-}
-function updateDetailsListBtn(){
-  const btn=document.getElementById('detailsAddToList');if(!btn||!currentDetailsItem)return;
-  if(!isPremiumUser){
-    btn.textContent='👑 My List';
-    btn.classList.remove('btn-red');
-    btn.title='Premium feature';
-    return;
-  }
-  const inList=myList.some(i=>i.id===currentDetailsItem.id);
-  btn.textContent=inList?'✓ In My List':'+ My List';
-  btn.classList.toggle('btn-red',inList);
-  btn.title='';
-}
-function toggleListFromDetails(){if(currentDetailsItem)toggleMyList(currentDetailsItem);}
-function updateMyListCount(){const c=myList.length,b=document.getElementById('myListCount');if(c>0){b.textContent=c>99?'99+':c;b.style.display='inline';}else b.style.display='none';}
-
-// ============================================================
-// CARDS — createCard now checks _isNewRelease on the item itself
-// The lock status is determined by whether the item has _isNewRelease=true AND user is not premium
-// ============================================================
-function isItemLocked(item){
-  return item._isNewRelease===true && !isPremiumUser;
-}
-
-function createCard(item,container,index=0,sz='card',forceLockedArg){
-  // forceLockedArg is kept for backward compatibility but we also check item._isNewRelease
-  const isLocked = forceLockedArg===true ? !isPremiumUser : isItemLocked(item);
-  const card=document.createElement('div');card.className=`card ${sz}`;card.dataset.id=item.id;
-  const inList=myList.some(i=>i.id===item.id);
-  const posterUrl=item.poster_path?`${IMG}w342${item.poster_path}`:FB_POSTER;
-
-  // Store item reference for the action button
-  window[`item_${item.id}_ref`]=item;
-
-  card.innerHTML=`
-    <img src="${posterUrl}" alt="${item.title||item.name}" loading="lazy" onerror="this.src='${FB_POSTER}'">
-    <div class="card-overlay">
-      <div class="card-title">${item.title||item.name}</div>
-      <div class="card-rating">★ ${(item.vote_average||0).toFixed(1)} · ${item._cert||'NR'}</div>
-    </div>
-    <div class="card-actions">
-      <button class="card-action-btn ${inList?'in-list':''}" data-lid="${item.id}" onclick="event.stopPropagation();handleCardListToggle(${item.id})" title="My List">${inList?'✓':'＋'}</button>
-    </div>
-    ${isLocked?`<div class="premium-lock-overlay" onclick="event.stopPropagation();openPremiumModal()"><span class="lock-icon">🔒</span><div class="lock-text">Premium Required</div></div>`:''}
-  `;
-
-  card.addEventListener('click',e=>{
-    if(e.target.closest('.card-action-btn'))return;
-    if(e.target.closest('.premium-lock-overlay'))return;
-    if(isLocked){openPremiumModal();return;}
-    openDetails(item);
-  });
-  container.appendChild(card);
-}
-
-// ============================================================
-// FIX: handleCardListToggle — looks up item from the global ref
-// This ensures _isNewRelease is preserved when adding to list
-// ============================================================
-function handleCardListToggle(itemId){
-  const item=window[`item_${itemId}_ref`];
-  if(!item){showToast('Could not find item','error');return;}
-  toggleMyList(item);
-}
-
-// TOP 10
-function createTop10Card(item,num,container){
-  const wrap=document.createElement('div');wrap.className='top10-card';
-  const posterUrl=item.poster_path?`${IMG}w342${item.poster_path}`:FB_POSTER;
-  wrap.innerHTML=`<div class="top10-number">${num}</div><div class="top10-poster"><img src="${posterUrl}" alt="${item.title||item.name}" loading="lazy" onerror="this.src='${FB_POSTER}'"></div>`;
-  wrap.onclick=()=>openDetails(item);container.appendChild(wrap);
-}
-
-// WIDE CARDS
-function createWideCard(item,container){
-  const card=document.createElement('div');card.className='wide-card';
-  const img=item.backdrop_path?`${IMG}w300${item.backdrop_path}`:(item.poster_path?`${IMG}w342${item.poster_path}`:FB_BACK);
-  const pct=Math.min(100,Math.round(((item.progress||0)/(item.duration||7200))*100));
-  const remain=item.duration?Math.round((item.duration-(item.progress||0))/60)+'m left':'';
-  card.innerHTML=`<div class="wide-card-thumb"><img src="${img}" alt="${item.title||item.name}" onerror="this.src='${FB_BACK}'"><div class="wide-card-play"><div class="wide-play-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="wide-card-info"><div class="wide-card-title">${item.title||item.name}</div><div class="wide-card-meta"><span>${item._cert||'NR'}</span><span>★ ${(item.vote_average||0).toFixed(1)}</span></div><div class="wide-progress"><div class="wide-progress-fill" style="width:${pct}%"></div></div>${remain?`<div class="wide-card-time">${remain}</div>`:''}</div>`;
-  card.onclick=()=>openDetails(item);container.appendChild(card);
-}
-
-// HOT TODAY
-async function loadHotToday(){
-  const grid=document.getElementById('hotTodayGrid');
-  let url=`${BASE}/trending/all/day?api_key=${API_KEY}&language=en-US`;
-  if(isKidsMode())url=`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${KIDS_GENRES.join(',')}&sort_by=popularity.desc`;
-  const d=await fetchWithCache(url);
-  grid.innerHTML='';if(!d?.results)return;
-  d.results.slice(0,8).forEach((item,i)=>{
-    item.media_type=item.first_air_date?'tv':'movie';
-    const poster=item.poster_path?`${IMG}w92${item.poster_path}`:FB_POSTER;
-    const score=Math.round(80+Math.random()*19);
-    const el=document.createElement('div');el.className='hot-item';
-    el.innerHTML=`<div class="hot-rank">${i+1}</div><img class="hot-poster" src="${poster}" alt="${item.title||item.name}" onerror="this.src='${FB_POSTER}'"><div class="hot-info"><div class="hot-title">${item.title||item.name}</div><div class="hot-meta"><span>${item.first_air_date?'TV':'Movie'}</span><span>★ ${(item.vote_average||0).toFixed(1)}</span><span class="hot-score">${score}🔥</span></div></div>`;
-    el.onclick=()=>openDetails(item);grid.appendChild(el);
-  });
-}
-
-// LOAD CATEGORY
-async function loadCategory(endpoint,containerId,type,genreId=null,sz='card'){
-  const c=document.getElementById(containerId);c.innerHTML='';
-  for(let i=0;i<6;i++){const s=document.createElement('div');s.className=`skeleton skeleton-card`;c.appendChild(s);}
-  let url=`${BASE}${endpoint}?api_key=${API_KEY}&language=en-US`;
-  if(genreId)url+=`&with_genres=${genreId}`;
-  if(isKidsMode()&&type==='movie')url+=`&certification_country=US&certification.lte=PG`;
-  const d=await fetchWithCache(url);c.innerHTML='';
-  if(!d?.results){c.innerHTML='<div class="empty-state">Failed to load</div>';return;}
-  for(const item of d.results.slice(0,18)){item.media_type=type;item._cert=await getCert(item);createCard(item,c,0,sz);}
-}
-
-// NOW PLAYING
-async function renderNowPlaying(){
-  const c=document.getElementById('nowPlayingRow');c.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  const d=await fetchWithCache(`${BASE}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
-  c.innerHTML='';if(!d?.results){c.innerHTML='<div class="empty-state">Failed to load</div>';return;}
-  for(const item of d.results.slice(0,20)){item.media_type='movie';item._cert=await getCert(item);createCard(item,c,0,'card-large');}
-}
-
-async function refreshNewReleases(){
-  const c=document.getElementById('newReleaseRow');c.innerHTML='';
-  const d=await fetchWithCache(`${BASE}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
-  if(!d?.results)return;
-  if(d.results) nowPlayingIds=new Set(d.results.map(r=>r.id));
-  for(const item of d.results.slice(0,16)){
-    item.media_type='movie';
-    item._cert=await getCert(item);
-    item._isNewRelease=true; // Mark as new release — this is the key flag
-    createCard(item,c,0,'card',true); // forceLockedArg=true means premium required
-  }
-}
-
-// CONTINUE WATCHING
-function renderContinueWatchingInline(){const c=document.getElementById('continueWatchingInlineRow');c.innerHTML='';continueWatching.forEach(item=>createWideCard(item,c));}
-function renderContinueWatching(){
-  const c=document.getElementById('continueWatchingRow');c.innerHTML='';
-  if(!continueWatching.length){c.innerHTML='<div class="empty-state">No titles in progress</div>';return;}
-  continueWatching.forEach(item=>createWideCard(item,c));
-}
-
-// ============================================================
-// FIX: renderMyList — checks _isNewRelease flag on each item in myList
-// Items added via + button from new releases section will have _isNewRelease=true
-// Those items will show the premium lock unless user is premium
-// ============================================================
-function renderMyList(){
-  const c=document.getElementById('myListRow');c.innerHTML='';
-  if(!myList.length){c.innerHTML='<div class="empty-state">Your list is empty — click ＋ on any poster</div>';return;}
-  myList.forEach(item=>{
-    // Check the item's own _isNewRelease flag — this is the KEY FIX
-    const shouldLock = item._isNewRelease===true && !isPremiumUser;
-    createCard(item,c,0,'card',shouldLock);
-  });
-}
-
-function clearContinueWatching(){
-  continueWatching=[];
-  localStorage.setItem('gnStreamContinue','[]');
-  const row=document.getElementById('continueWatchingRow');
-  if(row)row.innerHTML='<div class="empty-state">No titles in progress</div>';
-  const inlineRow=document.getElementById('continueWatchingInlineRow');
-  if(inlineRow)inlineRow.innerHTML='';
-  const inlineSec=document.getElementById('continueWatchingInlineSection');
-  if(inlineSec)inlineSec.style.display='none';
-  showToast('Continue watching cleared','success');
-}
-
-// GENRE FILTER
-async function filterGenre(genreId,btn){
-  activeGenreFilter=genreId;
-  document.querySelectorAll('.genre-pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');
-  if(!genreId){document.querySelectorAll('[id^="section-"]').forEach(s=>s.style.display='');document.getElementById('discoverMoreSection').style.display='block';return;}
-  document.querySelectorAll('[id^="section-"]').forEach(s=>s.style.display='none');document.getElementById('discoverMoreSection').style.display='none';
-  const genreSection=document.getElementById('section-trending');genreSection.style.display='block';
-  const row=document.getElementById('trendingRow');row.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  let url1=`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&page=1`;
-  let url2=`${BASE}/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=en-US&page=1`;
-  if(isKidsMode()){url1+=`&certification_country=US&certification.lte=PG`;}
-  const [d,d2]=await Promise.all([fetchWithCache(url1),fetchWithCache(url2)]);
-  row.innerHTML='';
-  const items=[...(d?.results||[]).map(i=>({...i,media_type:'movie'})),...(d2?.results||[]).map(i=>({...i,media_type:'tv'}))];
-  items.sort((a,b)=>(b.popularity||0)-(a.popularity||0)).slice(0,24).forEach(item=>createCard(item,row,0,'card'));
-  document.getElementById('section-trending').querySelector('.category-title').innerHTML=`<span style="color:var(--primary)">●</span> Results for ${btn.textContent}`;
-}
-
-// MOOD
-async function filterByMood(mood,btn){
-  if(isKidsMode()){showToast('Mood filtering disabled in Kids Mode 🦁','info');return;}
-  const config=MOOD_MAP[mood];if(!config)return;
-  const isActive=btn.classList.contains('active');
-  document.querySelectorAll('.mood-pill').forEach(p=>{p.classList.remove('active');Object.values(MOOD_MAP).forEach(m=>p.classList.remove(m.class));});
-  if(isActive){closeMoodResults();return;}
-  btn.classList.add('active',config.class);
-  const sec=document.getElementById('moodResultsSection');
-  const grid=document.getElementById('moodResultsGrid');
-  sec.style.display='block';
-  document.getElementById('moodResultsTitle').innerHTML=`${config.emoji} ${config.name}`;
-  grid.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  const genreStr=config.genres.slice(0,2).join(',');
-  const [movies,tv]=await Promise.all([
-    fetchWithCache(`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${genreStr}&sort_by=popularity.desc&vote_count.gte=100`),
-    fetchWithCache(`${BASE}/discover/tv?api_key=${API_KEY}&with_genres=${genreStr}&sort_by=popularity.desc&vote_count.gte=50`)
-  ]);
-  grid.innerHTML='';
-  const combined=[...(movies?.results||[]).map(i=>({...i,media_type:'movie'})),...(tv?.results||[]).map(i=>({...i,media_type:'tv'}))];
-  combined.sort(()=>Math.random()-.5).slice(0,20).forEach(item=>createCard(item,grid,0,'card'));
-  sec.scrollIntoView({behavior:'smooth',block:'start'});
-}
-function closeMoodResults(){
-  document.getElementById('moodResultsSection').style.display='none';
-  document.querySelectorAll('.mood-pill').forEach(p=>{p.classList.remove('active');Object.values(MOOD_MAP).forEach(m=>p.classList.remove(m.class));});
-}
-
-// TRAILER
-async function playModalTrailer(){
-  if(!currentDetailsItem)return;
-  const type=currentDetailsItem.first_air_date?'tv':'movie';
-  const d=await fetchWithCache(`${BASE}/${type}/${currentDetailsItem.id}/videos?api_key=${API_KEY}`);
-  const trailer=d?.results?.find(v=>v.type==='Trailer'&&v.site==='YouTube')||d?.results?.find(v=>v.site==='YouTube');
-  if(trailer?.key){window.open(`https://www.youtube.com/watch?v=${trailer.key}`,'_blank');showToast('🎬 Opening trailer…','success');}
-  else showToast('No trailer available for this title','error');
-}
-
-// SEARCH
-async function performSearch(q){
-  hideAllSections();document.getElementById('searchResults').style.display='block';
-  const grid=document.getElementById('searchResultsGrid');
-  grid.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  try{
-    const d=await fetchWithCache(`${BASE}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}&language=en-US`);
-    grid.innerHTML='';if(!d?.results){grid.innerHTML='<div class="empty-state">Search failed</div>';return;}
-    const filtered=d.results.filter(i=>i.media_type==='movie'||i.media_type==='tv');
-    if(!filtered.length){grid.innerHTML='<div class="empty-state">No results found</div>';return;}
-    const rg=document.getElementById('ratingSelect').value;
-    for(const item of filtered.slice(0,24)){
-      item._cert=await getCert(item);
-      if(certOk(item._cert,rg)){
-        // FIX: check if item is a now-playing (new release) and mark it accordingly
-        if(nowPlayingIds.has(item.id)){
-          item._isNewRelease=true;
-        }
-        createCard(item,grid,0,'card', nowPlayingIds.has(item.id));
-      }
-    }
-  }catch{grid.innerHTML='<div class="empty-state">Error</div>';}
-}
-
-// ============================================================
-// DETAILS — FIX: block new releases for non-premium, also handle
-// case where user opens details of an item in their list that's locked
-// ============================================================
-async function openDetails(item){
-  // FIX: If item is a new release and user is not premium, show premium modal
-  if((item._isNewRelease===true || nowPlayingIds.has(item.id)) && !isPremiumUser){
-    openPremiumModal();
-    return;
-  }
-  currentDetailsItem=item;scrollPos=window.pageYOffset;
-  const posterUrl=item.backdrop_path?`${IMG}original${item.backdrop_path}`:(item.poster_path?`${IMG}w780${item.poster_path}`:FB_BACK);
-  const pi=document.getElementById('posterImage');pi.src=posterUrl;pi.onerror=()=>pi.src=FB_BACK;
-  document.getElementById('detailsTitle').textContent=item.title||item.name;
-  document.getElementById('detailsYear').textContent=(item.release_date||item.first_air_date||'').substring(0,4);
-  document.getElementById('detailsOverview').textContent=item.overview||'No overview available.';
-  document.getElementById('detailsRating').textContent=item._cert||'NR';
-  document.getElementById('matchScore').textContent=`${Math.floor(Math.random()*15+83)}% Match`;
-  document.getElementById('detailsGenre').textContent=await getGenreNames(item.genre_ids);
-  updateDetailsListBtn();
-  await Promise.all([loadCast(item),loadRecommendations(item),loadPeopleAlsoWatched(item)]);
-  loadRatingsSection(item);
-  if(item.genre_ids?.length){
-    const genreNames=await getGenreNamesArr(item.genre_ids);
-    const tagsDiv=document.getElementById('detailsTags');
-    tagsDiv.innerHTML=genreNames.map(g=>`<div class="detail-tag">${g}</div>`).join('');
-    document.getElementById('tagsSection').style.display='block';
-  } else {
-    document.getElementById('tagsSection').style.display='none';
-  }
-  const isTv=item.media_type==='tv'||!!item.first_air_date;
-  if(isTv){document.getElementById('episodeSectionWrap').style.display='block';await loadTvSeasons(item.id);}
-  else document.getElementById('episodeSectionWrap').style.display='none';
-  document.body.classList.add('modal-open');document.getElementById('detailsModal').classList.add('active');
-}
-function closeDetails(){
-  document.getElementById('detailsModal').classList.remove('active');document.body.classList.remove('modal-open');
-  document.getElementById('posterImage').src='';currentDetailsItem=null;
-  setTimeout(()=>window.scrollTo(0,scrollPos),10);
-}
-function closeDetailsOnBackdrop(e){if(e.target===document.getElementById('detailsModal'))closeDetails();}
-async function getGenreNames(ids){if(!ids?.length)return'Various';const d=await fetchWithCache(`${BASE}/genre/movie/list?api_key=${API_KEY}`);return(ids.map(id=>d?.genres?.find(g=>g.id===id)?.name).filter(Boolean).slice(0,3).join(', '))||'Various';}
-async function getGenreNamesArr(ids){if(!ids?.length)return[];const d=await fetchWithCache(`${BASE}/genre/movie/list?api_key=${API_KEY}`);return ids.map(id=>d?.genres?.find(g=>g.id===id)?.name).filter(Boolean).slice(0,5);}
-async function loadCast(item){
-  const c=document.getElementById('detailsCast');c.innerHTML='';
-  const type=item.media_type==='tv'||item.first_air_date?'tv':'movie';
-  const d=await fetchWithCache(`${BASE}/${type}/${item.id}/credits?api_key=${API_KEY}`);
-  const cast=d?.cast?.slice(0,8)||[];
-  if(!cast.length){c.innerHTML='<div class="cast-member">Cast unavailable</div>';return;}
-  cast.forEach(a=>{const el=document.createElement('div');el.className='cast-member';el.textContent=a.name;c.appendChild(el);});
-}
-async function loadRecommendations(item){
-  const c=document.getElementById('recommendationsRow');c.innerHTML='<div class="loading-container" style="padding:16px"><div class="spinner"></div></div>';
-  try{
-    const type=item.first_air_date?'tv':'movie';
-    const d=await fetchWithCache(`${BASE}/${type}/${item.id}/recommendations?api_key=${API_KEY}&language=en-US`);
-    c.innerHTML='';if(!d?.results?.length){c.innerHTML='<div class="empty-state" style="padding:16px;font-size:13px">No recommendations</div>';return;}
-    for(const rec of d.results.filter(r=>r.id!==item.id).slice(0,10)){rec.media_type=type;rec._cert=await getCert(rec);createRecCard(rec,c);}
-  }catch{c.innerHTML='<div class="empty-state" style="padding:16px;font-size:13px">Failed</div>';}
-}
-function createRecCard(item,container){
-  const card=document.createElement('div');card.className='recommendation-card';
-  const img=item.backdrop_path?`${IMG}w300${item.backdrop_path}`:(item.poster_path?`${IMG}w342${item.poster_path}`:FB_BACK);
-  card.innerHTML=`<img src="${img}" alt="${item.title||item.name}" loading="lazy" onerror="this.src='${FB_BACK}'"><div class="recommendation-overlay"><div class="recommendation-title">${item.title||item.name}</div><div class="recommendation-rating">★ ${(item.vote_average||0).toFixed(1)}</div></div>`;
-  card.onclick=()=>{closeDetails();setTimeout(()=>openDetails(item),300);};container.appendChild(card);
-}
-async function loadPeopleAlsoWatched(item){
-  const sec=document.getElementById('pawSection');const row=document.getElementById('pawRow');row.innerHTML='';sec.style.display='none';
-  try{
-    const type=item.first_air_date?'tv':'movie';
-    const d=await fetchWithCache(`${BASE}/${type}/${item.id}/similar?api_key=${API_KEY}&language=en-US`);
-    const results=d?.results?.filter(r=>r.id!==item.id)?.slice(0,8)||[];if(!results.length)return;
-    sec.style.display='block';
-    results.forEach(rec=>{
-      rec.media_type=type;const card=document.createElement('div');card.className='paw-card';
-      const img=rec.poster_path?`${IMG}w185${rec.poster_path}`:FB_POSTER;
-      card.innerHTML=`<img src="${img}" alt="${rec.title||rec.name}" loading="lazy" onerror="this.src='${FB_POSTER}'"><div class="paw-card-title">${rec.title||rec.name}</div>`;
-      card.onclick=()=>{closeDetails();setTimeout(()=>openDetails(rec),300);};row.appendChild(card);
-    });
-  }catch{}
-}
-
-// EPISODES
-async function loadTvSeasons(tvId){
-  const d=await fetchWithCache(`${BASE}/tv/${tvId}?api_key=${API_KEY}&language=en-US`);
-  const seasons=(d?.seasons||[]).filter(s=>s.season_number>0);
-  const sel=document.getElementById('seasonDropdown');sel.innerHTML='';
-  seasons.forEach(s=>{const o=document.createElement('option');o.value=s.season_number;o.textContent=`Season ${s.season_number}`;sel.appendChild(o);});
-  currentEpisodeSeason=seasons.length>0?seasons[0].season_number:1;sel.value=currentEpisodeSeason;
-  await loadEpisodes(tvId,currentEpisodeSeason);
-}
-async function onSeasonChange(){const s=parseInt(document.getElementById('seasonDropdown').value);currentEpisodeSeason=s;if(currentDetailsItem)await loadEpisodes(currentDetailsItem.id,s);}
-async function loadEpisodes(tvId,season){
-  const grid=document.getElementById('episodesGrid');grid.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  try{
-    const d=await fetchWithCache(`${BASE}/tv/${tvId}/season/${season}?api_key=${API_KEY}&language=en-US`);
-    grid.innerHTML='';const eps=d?.episodes||[];
-    if(!eps.length){grid.innerHTML='<div class="empty-state" style="padding:20px">No episodes found</div>';return;}
-    eps.forEach(ep=>{
-      const card=document.createElement('div');card.className='episode-card';
-      const still=ep.still_path?`${IMG}w300${ep.still_path}`:(currentDetailsItem?.backdrop_path?`${IMG}w300${currentDetailsItem.backdrop_path}`:FB_BACK);
-      const airDate=ep.air_date?new Date(ep.air_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
-      const runtime=ep.runtime?`${ep.runtime} min`:'';const rating=ep.vote_average>0?`★ ${ep.vote_average.toFixed(1)}`:'';
-      card.innerHTML=`<div class="episode-thumb-wrap"><img class="episode-thumb" src="${still}" alt="Ep ${ep.episode_number}" loading="lazy" onerror="this.src='${FB_BACK}'"><div class="episode-play-overlay"><div class="ep-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div><div class="episode-num-badge">E${ep.episode_number}</div></div><div class="episode-info"><div class="episode-title">${ep.name||'Episode '+ep.episode_number}</div><div class="episode-meta-row">${runtime?`<span class="episode-runtime">${runtime}</span>`:''}${airDate?`<span class="episode-air-date">${airDate}</span>`:''}${rating?`<span class="episode-rating">${rating}</span>`:''}</div><div class="episode-overview">${ep.overview||'No description available.'}</div></div>`;
-      card.onclick=()=>playEpisode(tvId,season,ep.episode_number,ep.name);grid.appendChild(card);
-    });
-  }catch{grid.innerHTML='<div class="empty-state" style="padding:20px">Failed to load episodes</div>';}
-}
-function playEpisode(tvId,season,ep,name){
-  document.getElementById('detailsModal').classList.remove('active');
-  setTimeout(()=>{openPlayer(tvId,true,season,ep);showToast(`Playing S${season}E${ep}: ${name||''}`, 'success');},280);
-  if(currentDetailsItem)addToHistory(currentDetailsItem);
-}
-
-// PLAYER
-function openPlayer(id,isTv,s=1,e=1){
-  const src=SERVERS[currentServer].url(id,isTv,s,e);
-  document.getElementById('playerIframe').src=src;
-  document.getElementById('playerModal').classList.add('active');
-  document.body.classList.add('modal-open');
-}
-function playContent(){
-  if(!currentDetailsItem)return;
-  addToContinue(currentDetailsItem,0,currentDetailsItem.runtime?currentDetailsItem.runtime*60:7200);
-  addToHistory(currentDetailsItem);
-  const isTv=currentDetailsItem.media_type==='tv'||!!currentDetailsItem.first_air_date;
-  document.getElementById('detailsModal').classList.remove('active');
-  setTimeout(()=>openPlayer(currentDetailsItem.id,isTv,currentEpisodeSeason,currentEpisodeNum),280);
-}
-function closePlayer(){
-  document.getElementById('playerModal').classList.remove('active');
-  document.getElementById('playerControlsModal').classList.remove('active');
-  document.getElementById('playerIframe').src='';
-  if(currentDetailsItem){
-    setTimeout(()=>document.getElementById('detailsModal').classList.add('active'),280);
-  } else {
-    document.body.classList.remove('modal-open');
-  }
-}
-function closePlayerOnBackdrop(e){if(e.target===document.getElementById('playerModal'))closePlayer();}
-function downloadContent(){
-  if(!currentDetailsItem)return;
-  const isTv=currentDetailsItem.media_type==='tv'||!!currentDetailsItem.first_air_date;
-  const url=isTv?`https://dl.vidsrc.vip/tv/${currentDetailsItem.id}/${currentEpisodeSeason}/${currentEpisodeNum}`:`https://dl.vidsrc.vip/movie/${currentDetailsItem.id}`;
-  window.open(url,'_blank');showToast('Download started ⬇','success');
-}
-function addToContinue(item,progress,duration){
-  const idx=continueWatching.findIndex(i=>i.id===item.id);
-  const data={...item,progress,duration,lastWatched:new Date().toISOString()};
-  if(idx!==-1)continueWatching.splice(idx,1);
-  continueWatching.unshift(data);
-  if(continueWatching.length>15)continueWatching=continueWatching.slice(0,15);
-  localStorage.setItem('gnStreamContinue',JSON.stringify(continueWatching));
-}
-function skipIntro(){showToast('⏭ Skipping intro…','success');}
-function skipRecap(){showToast('⏭ Skipping recap…','success');}
-
-// FULLSCREEN
-function togglePlayerFullscreen(){
-  const content=document.getElementById('playerContent');
-  const btn=document.getElementById('fullscreenBtn');
-  if(!document.fullscreenElement){
-    const elem=content||document.documentElement;
-    if(elem.requestFullscreen)elem.requestFullscreen();
-    else if(elem.webkitRequestFullscreen)elem.webkitRequestFullscreen();
-    else if(elem.mozRequestFullScreen)elem.mozRequestFullScreen();
-    btn.textContent='⛶ Exit Full';
-    showToast('Entering fullscreen — press Esc to exit','success');
-  } else {
-    if(document.exitFullscreen)document.exitFullscreen();
-    else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
-    btn.textContent='⛶ Fullscreen';
-  }
-}
-document.addEventListener('fullscreenchange',()=>{
-  const btn=document.getElementById('fullscreenBtn');
-  if(btn)btn.textContent=document.fullscreenElement?'⛶ Exit Full':'⛶ Fullscreen';
-});
-
-// MINI PLAYER
-function launchMiniPlayer(){
-  const src=document.getElementById('playerIframe').src;if(!src||src==='about:blank'){showToast('Nothing playing','error');return;}
-  const title=currentDetailsItem?(currentDetailsItem.title||currentDetailsItem.name):'Now Playing';
-  document.getElementById('miniPlayerIframe').src=src;
-  document.getElementById('miniPlayerTitle').textContent=title;
-  document.getElementById('miniPlayer').classList.add('active');
-  miniPlayerActive=true;
-  closePlayer();
-  showToast('Mini player 🎬','success');
-  initMiniDrag();
-}
-function closeMiniPlayer(){
-  document.getElementById('miniPlayer').classList.remove('active');
-  document.getElementById('miniPlayerIframe').src='';
-  miniPlayerActive=false;
-}
-function expandMiniPlayer(){
-  const src=document.getElementById('miniPlayerIframe').src;
-  if(!src||src==='about:blank')return;
-  document.getElementById('playerIframe').src=src;
-  document.getElementById('playerModal').classList.add('active');
-  document.body.classList.add('modal-open');
-  closeMiniPlayer();
-}
-let isDragging=false,dragStartX,dragStartY,pStartX,pStartY;
-function initMiniDrag(){
-  const p=document.getElementById('miniPlayer'),drag=document.getElementById('miniDrag');
-  const down=e=>{
-    isDragging=true;
-    const cx=e.touches?e.touches[0].clientX:e.clientX;
-    const cy=e.touches?e.touches[0].clientY:e.clientY;
-    dragStartX=cx;dragStartY=cy;
-    const r=p.getBoundingClientRect();pStartX=r.left;pStartY=r.top;
-    e.preventDefault();
-  };
-  const move=e=>{
-    if(!isDragging)return;
-    const cx=e.touches?e.touches[0].clientX:e.clientX;
-    const cy=e.touches?e.touches[0].clientY:e.clientY;
-    p.style.right='auto';p.style.bottom='auto';
-    p.style.left=Math.max(0,Math.min(window.innerWidth-p.offsetWidth,pStartX+(cx-dragStartX)))+'px';
-    p.style.top=Math.max(0,Math.min(window.innerHeight-p.offsetHeight,pStartY+(cy-dragStartY)))+'px';
-  };
-  drag.removeEventListener('mousedown',drag._down);
-  drag._down=down;
-  drag.addEventListener('mousedown',down);
-  drag.addEventListener('touchstart',down,{passive:false});
-  document.addEventListener('mousemove',move);
-  document.addEventListener('touchmove',move,{passive:false});
-  document.addEventListener('mouseup',()=>isDragging=false);
-  document.addEventListener('touchend',()=>isDragging=false);
-}
-
-// UPCOMING
-async function loadUpcoming(){
-  const grid=document.getElementById('upcomingGrid');grid.innerHTML='<div class="loading-container"><div class="spinner"></div></div>';
-  const today=new Date().toISOString().split('T')[0];
-  const future=new Date(Date.now()+120*86400000).toISOString().split('T')[0];
-  let url=`${BASE}/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=release_date.asc&primary_release_date.gte=${today}&primary_release_date.lte=${future}`;
-  if(isKidsMode())url+=`&with_genres=${KIDS_GENRES.join(',')}`;
-  const d=await fetchWithCache(url);
-  grid.innerHTML='';
-  if(!d?.results?.length){grid.innerHTML='<div class="empty-state">No upcoming releases</div>';return;}
-  for(const item of d.results.slice(0,24)){
-    item.media_type='movie';item._cert=await getCert(item);
-    const card=document.createElement('div');card.className='upcoming-card';
-    const poster=item.poster_path?`${IMG}w342${item.poster_path}`:FB_POSTER;
-    const rel=item.release_date||'';
-    const days=rel?Math.max(0,Math.ceil((new Date(rel)-Date.now())/86400000)):'?';
-    const fmtDate=rel?new Date(rel).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'TBA';
-    card.innerHTML=`<img class="upcoming-poster" src="${poster}" alt="${item.title}" onerror="this.src='${FB_POSTER}'"><div class="upcoming-info"><div class="upcoming-title">${item.title}</div><div class="upcoming-date">📅 ${fmtDate}</div><div class="upcoming-overview">${item.overview||'No description.'}</div><div class="upcoming-countdown"><span class="days">${days}</span> days away</div></div>`;
-    card.onclick=()=>openDetails(item);
-    grid.appendChild(card);
-  }
-}
-
-// HISTORY
-function addToHistory(item){
-  const entry={id:item.id,title:item.title||item.name,poster_path:item.poster_path||null,media_type:item.media_type||(item.first_air_date?'tv':'movie'),vote_average:item.vote_average||0,_cert:item._cert||'NR',watchedAt:new Date().toISOString()};
-  watchHistory=watchHistory.filter(h=>h.id!==item.id);watchHistory.unshift(entry);
-  if(watchHistory.length>100)watchHistory=watchHistory.slice(0,100);
-  localStorage.setItem('gnStreamHistory',JSON.stringify(watchHistory));
-}
-function renderHistory(){
-  const grid=document.getElementById('historyGrid');grid.innerHTML='';
-  const filtered=historyFilter==='all'?watchHistory:watchHistory.filter(h=>h.media_type===historyFilter);
-  if(!filtered.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1">No watch history yet.</div>';return;}
-  filtered.forEach(item=>{
-    const el=document.createElement('div');el.className='history-item';
-    const poster=item.poster_path?`${IMG}w92${item.poster_path}`:FB_POSTER;
-    const ago=timeAgo(new Date(item.watchedAt));
-    el.innerHTML=`<img class="history-poster" src="${poster}" alt="${item.title}" onerror="this.src='${FB_POSTER}'"><div class="history-info"><div class="history-title">${item.title}</div><div class="history-meta"><span class="history-badge">${item.media_type==='tv'?'TV':'Movie'}</span><span>★ ${(item.vote_average||0).toFixed(1)}</span></div><div class="history-timestamp">🕐 ${ago}</div></div><button class="history-delete-btn" onclick="event.stopPropagation();removeFromHistory(${item.id})">✕</button>`;
-    el.addEventListener('click',()=>openDetails(item));
-    grid.appendChild(el);
-  });
-}
-function filterHistory(t,btn){historyFilter=t;document.querySelectorAll('.history-filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderHistory();}
-function removeFromHistory(id){watchHistory=watchHistory.filter(h=>h.id!==id);localStorage.setItem('gnStreamHistory',JSON.stringify(watchHistory));renderHistory();showToast('Removed','info');}
-function clearFullHistory(){
-  if(!confirm('Clear all watch history?'))return;
-  watchHistory=[];localStorage.setItem('gnStreamHistory','[]');renderHistory();showToast('History cleared','success');
-}
-function timeAgo(date){
-  const diff=Date.now()-date.getTime(),m=Math.floor(diff/60000),h=Math.floor(diff/3600000),d=Math.floor(diff/86400000);
-  if(m<1)return'Just now';if(m<60)return`${m}m ago`;if(h<24)return`${h}h ago`;if(d<7)return`${d}d ago`;
-  return date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-}
-
-// RATINGS
-function loadRatingsSection(item){
-  selectedRating=0;const key=`item_${item.id}`;const all=userReviews[key]||[];const mine=all.find(r=>r.isOwn);
-  document.getElementById('reviewTextarea').value='';updateCharCount();document.getElementById('submitReviewBtn').disabled=true;
-  const stars=document.querySelectorAll('#starRow .star-btn');
-  stars.forEach(s=>{
-    s.classList.remove('active','hovered');
-    s.onmouseenter=()=>{const v=parseInt(s.dataset.val);stars.forEach(b=>b.classList.toggle('hovered',parseInt(b.dataset.val)<=v));};
-    s.onmouseleave=()=>stars.forEach(b=>b.classList.remove('hovered'));
-  });
-  if(mine){
-    selectedRating=mine.rating;renderStarSel(selectedRating);
-    document.getElementById('yourRatingStars').textContent='★'.repeat(mine.rating)+'☆'.repeat(5-mine.rating);
-    document.getElementById('yourRatingDisplay').classList.add('show');
-    document.getElementById('ratingInputWidget').style.display='none';
-  } else {
-    document.getElementById('yourRatingDisplay').classList.remove('show');
-    document.getElementById('ratingInputWidget').style.display='block';
-  }
-  renderAvgRating(all);renderReviews(all,key);
-}
-function setRating(v){selectedRating=v;renderStarSel(v);document.getElementById('submitReviewBtn').disabled=false;}
-function renderStarSel(v){document.querySelectorAll('#starRow .star-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.val)<=v));}
-function updateCharCount(){
-  const l=document.getElementById('reviewTextarea').value.length;
-  document.getElementById('charCount').textContent=`${l} / 500`;
-  if(selectedRating>0)document.getElementById('submitReviewBtn').disabled=false;
-}
-function editRating(){
-  const key=`item_${currentDetailsItem.id}`;const all=userReviews[key]||[];const mi=all.findIndex(r=>r.isOwn);
-  if(mi!==-1){
-    document.getElementById('reviewTextarea').value=all[mi].text||'';
-    selectedRating=all[mi].rating;renderStarSel(selectedRating);updateCharCount();
-    all.splice(mi,1);userReviews[key]=all;saveReviews();
-  }
-  document.getElementById('yourRatingDisplay').classList.remove('show');
-  document.getElementById('ratingInputWidget').style.display='block';
-  document.getElementById('submitReviewBtn').disabled=false;
-  renderAvgRating(all);renderReviews(all,key);
-}
-function submitReview(){
-  if(!selectedRating||!currentDetailsItem)return;
-  const key=`item_${currentDetailsItem.id}`;if(!userReviews[key])userReviews[key]=[];
-  const review={id:Date.now(),user:isPremiumUser?premiumUsername:'You',rating:selectedRating,text:document.getElementById('reviewTextarea').value.trim(),isOwn:true,date:new Date().toISOString()};
-  userReviews[key]=userReviews[key].filter(r=>!r.isOwn);
-  userReviews[key].unshift(review);saveReviews();
-  document.getElementById('yourRatingStars').textContent='★'.repeat(selectedRating)+'☆'.repeat(5-selectedRating);
-  document.getElementById('yourRatingDisplay').classList.add('show');
-  document.getElementById('ratingInputWidget').style.display='none';
-  renderAvgRating(userReviews[key]);renderReviews(userReviews[key],key);
-  showToast('Review submitted! ⭐','success');
-}
-function deleteReview(id){
-  if(!currentDetailsItem)return;
-  const key=`item_${currentDetailsItem.id}`;
-  userReviews[key]=(userReviews[key]||[]).filter(r=>r.id!==id);
-  saveReviews();loadRatingsSection(currentDetailsItem);
-  showToast('Deleted','info');
-}
-function saveReviews(){localStorage.setItem('gnStreamReviews',JSON.stringify(userReviews));}
-function renderAvgRating(reviews){
-  const bar=document.getElementById('avgRatingBar');if(!reviews.length){bar.style.display='none';return;}
-  const avg=reviews.reduce((s,r)=>s+r.rating,0)/reviews.length;
-  bar.style.display='flex';
-  document.getElementById('avgRatingNum').textContent=avg.toFixed(1);
-  const f=Math.round(avg);
-  document.getElementById('avgStarsDisplay').textContent='★'.repeat(f)+'☆'.repeat(5-f);
-  document.getElementById('avgRatingCount').textContent=`${reviews.length} review${reviews.length!==1?'s':''}`;
-}
-function renderReviews(reviews){
-  const list=document.getElementById('reviewsList');list.innerHTML='';
-  if(!reviews.length){list.innerHTML='<div class="no-reviews">No reviews yet — be the first!</div>';return;}
-  reviews.forEach(r=>{
-    const el=document.createElement('div');el.className='review-item';
-    const date=new Date(r.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    el.innerHTML=`<div class="review-item-header"><span class="review-item-user">${r.isOwn?'👤 ':''}${r.user}</span><span class="review-item-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span><span class="review-item-date">${date}</span>${r.isOwn?`<button class="review-item-delete" onclick="deleteReview(${r.id})">🗑</button>`:''}</div>${r.text?`<div class="review-item-text">${r.text}</div>`:''}`;
-    list.appendChild(el);
-  });
-}
-
-// PREMIUM
-function openPremiumModal(){
-  document.getElementById('premiumModal').classList.add('active');
-  document.body.classList.add('modal-open');
-  updatePremiumState();
-  document.getElementById('loginError').style.display='none';
-  document.getElementById('loginSuccess').style.display='none';
-}
-function closePremiumModal(){document.getElementById('premiumModal').classList.remove('active');document.body.classList.remove('modal-open');}
-function updatePremiumState(){
-  const on=isPremiumUser;
-  document.getElementById('premiumLoggedInState').style.display=on?'block':'none';
-  document.getElementById('premiumGuestState').style.display=on?'none':'block';
-  if(on)document.getElementById('premiumUserName').textContent=premiumUsername;
-}
-function loginPremium(){
-  const u=document.getElementById('premiumUser').value.trim().toLowerCase();
-  const p=document.getElementById('premiumPass').value.trim();
-  document.getElementById('loginError').style.display='none';
-  document.getElementById('loginSuccess').style.display='none';
-  if(PREMIUM_USERS[u]&&PREMIUM_USERS[u]===p){
-    isPremiumUser=true;premiumUsername=u;
-    localStorage.setItem('gnStreamPremium','true');
-    localStorage.setItem('gnStreamPremiumUser',u);
-    document.getElementById('loginSuccess').style.display='block';
-    updatePremiumUI();
-    // FIX: Re-render my list so locks are removed after premium login
-    setTimeout(()=>{
-      closePremiumModal();
-      if(document.getElementById('myListSection').style.display!=='none') renderMyList();
-      // Re-render new releases section without locks
-      refreshNewReleases();
-    },1100);
-  } else {
-    document.getElementById('loginError').style.display='block';
-  }
-}
-function logoutPremium(){
-  isPremiumUser=false;premiumUsername='';
-  localStorage.removeItem('gnStreamPremium');
-  localStorage.removeItem('gnStreamPremiumUser');
-  updatePremiumUI();updatePremiumState();
-  // FIX: Re-render my list so locks appear again after logout
-  if(document.getElementById('myListSection').style.display!=='none') renderMyList();
-  refreshNewReleases();
-  showToast('Signed out','info');
-}
-function updatePremiumUI(){
-  const b=document.getElementById('premiumActiveBadge');
-  if(isPremiumUser){b.classList.add('show');showToast(`Welcome ${premiumUsername}! 👑`,'success');}
-  else b.classList.remove('show');
-}
-
-// DISCOVER
-async function loadDiscoverMore(){
-  if(isLoadingDiscover||discoverLoaded>=600)return;
-  isLoadingDiscover=true;const btn=document.getElementById('loadMoreBtn');btn.disabled=true;
-  const grid=document.getElementById('discoverGrid');
-  try{
-    let eps=[
-      `/movie/popular?api_key=${API_KEY}&language=en-US&page=${discoverPage}`,
-      `/tv/popular?api_key=${API_KEY}&language=en-US&page=${discoverPage}`,
-      `/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${discoverPage}`,
-      `/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${discoverPage}`
-    ];
-    if(isKidsMode())eps=[
-      `/discover/movie?api_key=${API_KEY}&with_genres=${KIDS_GENRES.join(',')}&sort_by=popularity.desc&page=${discoverPage}`,
-      `/discover/tv?api_key=${API_KEY}&with_genres=10762,16,10751&sort_by=popularity.desc&page=${discoverPage}`
-    ];
-    const picked=eps.sort(()=>.5-Math.random()).slice(0,2);
-    const results=await Promise.all(picked.map(u=>fetchWithCache(`${BASE}${u}`)));
-    const seen=new Set();let items=[];
-    results.forEach(d=>{if(d?.results)items=items.concat(d.results);});
-    items=items.filter(i=>{if(seen.has(i.id))return false;seen.add(i.id);return true;});
-    for(const item of items.slice(0,20)){
-      if(discoverLoaded>=600)break;
-      if(document.querySelector(`.discover-grid .card[data-id="${item.id}"]`))continue;
-      item.media_type=item.first_air_date?'tv':'movie';
-      item._cert=await getCert(item);
-      createCard(item,grid,0,'card');
-      discoverLoaded++;
-    }
-    discoverPage++;
-    document.getElementById('totalMovies').textContent=`${discoverLoaded}+`;
-    if(discoverLoaded>=600){btn.textContent='All Loaded ✓';btn.disabled=true;}
-    else{btn.textContent=`Load More (${discoverLoaded} / 600)`;btn.disabled=false;}
-  }catch{showToast('Failed to load more','error');btn.disabled=false;}
-  finally{isLoadingDiscover=false;}
-}
-
-// SETTINGS
-function openSettings(){
-  document.getElementById('settingsModal').classList.add('active');document.body.classList.add('modal-open');
-  const theme=localStorage.getItem('gnStreamTheme')||'dark';
-  document.getElementById('themeSelect').value=theme;
-  document.getElementById('defaultServerSelect').value=currentServer;
-}
-function closeSettings(){document.getElementById('settingsModal').classList.remove('active');document.body.classList.remove('modal-open');}
-function saveSetting(key,val){const s=JSON.parse(localStorage.getItem('gnStreamSettings')||'{}');s[key]=val;localStorage.setItem('gnStreamSettings',JSON.stringify(s));}
-function applyThemeSetting(v){
-  document.documentElement.setAttribute('data-theme',v);localStorage.setItem('gnStreamTheme',v);
-  document.getElementById('themeToggleBtn').textContent=v==='dark'?'☀️':'🌙';
-  showToast(`${v==='dark'?'🌙':'☀️'} ${v.charAt(0).toUpperCase()+v.slice(1)} mode`,'success');
-}
-function clearAllData(){
-  if(!confirm('⚠️ Clear all local data? This cannot be undone.'))return;
-  ['gnStreamMyList','gnStreamContinue','gnStreamHistory','gnStreamReviews','gnStreamSettings','gnStreamTheme','gnStreamPremium','gnStreamPremiumUser','gnStreamProfiles','gnStreamActiveProfile','gnStreamServer','gnStreamTipDismissed'].forEach(k=>localStorage.removeItem(k));
-  showToast('All data cleared. Refreshing…','success');
-  setTimeout(()=>location.reload(),1200);
-}
-
-// PLAYER CONTROLS
-function openPlayerControls(){document.getElementById('playerControlsModal').classList.add('active');}
-function closePlayerControls(){document.getElementById('playerControlsModal').classList.remove('active');}
-function setSpeed(speed,el){
-  currentSpeed=speed;
-  document.querySelectorAll('#speedOptions .pc-opt').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');showToast(`Speed: ${speed}×`,'success');
-}
-function setSubtitle(lang,el){
-  currentSubtitle=lang;
-  document.querySelectorAll('#subtitleOptions .subtitle-track').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');
-  const names={'off':'Subtitles off','en':'English','es':'Spanish','fr':'French','de':'German','ja':'Japanese','pt':'Portuguese','ko':'Korean'};
-  showToast(`💬 ${names[lang]||lang}`,'success');
-}
-function setQuality(q,el){
-  if(q==='4k'&&!isPremiumUser){showToast('4K requires Premium 👑','error');openPremiumModal();return;}
-  currentQuality=q;
-  document.querySelectorAll('#qualityOptions .pc-opt').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');
-  showToast(`Quality: ${q==='4k'?'4K Ultra HD':q==='auto'?'Auto':q+'p'}`,'success');
-}
-
-// KEYBOARD SHORTCUTS
-document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT'){if(e.key==='Escape')e.target.blur();return;}
-  if(e.ctrlKey&&(e.key==='m'||e.key==='M')){e.preventDefault();if(miniPlayerActive)closeMiniPlayer();else if(document.getElementById('playerModal').classList.contains('active'))launchMiniPlayer();return;}
-  switch(e.key){
-    case't':case'T':toggleTheme();break;
-    case'g':case'G':e.preventDefault();if(document.getElementById('settingsModal').classList.contains('active'))closeSettings();else openSettings();break;
-    case'p':case'P':if(document.getElementById('playerModal').classList.contains('active')){if(document.getElementById('playerControlsModal').classList.contains('active'))closePlayerControls();else openPlayerControls();}break;
-    case's':case'S':if(document.getElementById('playerModal').classList.contains('active'))skipIntro();break;
-    case'f':case'F':if(document.getElementById('playerModal').classList.contains('active'))togglePlayerFullscreen();break;
-    case'/':e.preventDefault();document.getElementById('searchInput').focus();break;
-    case'Escape':
-      if(document.getElementById('settingsModal').classList.contains('active'))closeSettings();
-      else if(document.getElementById('playerControlsModal').classList.contains('active'))closePlayerControls();
-      else if(document.getElementById('profilesModal').classList.contains('active'))closeProfiles();
-      else if(document.getElementById('premiumModal').classList.contains('active'))closePremiumModal();
-      else if(document.getElementById('playerModal').classList.contains('active'))closePlayer();
-      else if(document.getElementById('detailsModal').classList.contains('active'))closeDetails();
-      break;
-  }
-});
-
-// ALL CATEGORIES LOADER
-function loadAllCategories(){
-  loadCategory('/trending/all/day','trendingRow','movie',null,'card-large');
-  loadCategory('/discover/movie','actionRow','movie',GENRES.ACTION);
-  loadCategory('/discover/movie','comedyRow','movie',GENRES.COMEDY);
-  loadCategory('/discover/movie','horrorRow','movie',GENRES.HORROR);
-  loadCategory('/discover/movie','scifiRow','movie',GENRES.SCIFI);
-  loadCategory('/discover/movie','romanceRow','movie',GENRES.ROMANCE);
-  loadCategory('/discover/movie','thrillerRow','movie',GENRES.THRILLER);
-  loadCategory('/discover/movie','dramaRow','movie',GENRES.DRAMA);
-  loadCategory('/discover/movie','animationRow','movie',GENRES.ANIMATION);
-  loadCategory('/discover/movie','documentaryRow','movie',GENRES.DOCUMENTARY);
-  loadCategory('/discover/movie','crimeRow','movie',GENRES.CRIME);
-  loadCategory('/discover/movie','mysteryRow','movie',GENRES.MYSTERY);
-  loadCategory('/discover/movie','fantasyRow','movie',GENRES.FANTASY);
-  loadCategory('/discover/movie','familyRow','movie',GENRES.FAMILY);
-  loadCategory('/discover/movie','adventureRow','movie',GENRES.ADVENTURE);
-  loadCategory('/movie/popular','popularMoviesRow','movie');
-  loadCategory('/tv/popular','popularTvRow','tv');
-  // Top 10
-  fetchWithCache(`${BASE}/trending/all/week?api_key=${API_KEY}&language=en-US`).then(d=>{
-    const row=document.getElementById('top10Row');row.innerHTML='';
-    if(d?.results){d.results.slice(0,10).forEach((item,i)=>{item.media_type=item.first_air_date?'tv':'movie';createTop10Card(item,i+1,row);});}
-  });
-  // Korean
-  fetchWithCache(`${BASE}/discover/tv?api_key=${API_KEY}&with_original_language=ko&sort_by=popularity.desc`).then(d=>{
-    const c=document.getElementById('koreanRow');c.innerHTML='';
-    if(d?.results)d.results.slice(0,16).forEach(item=>{item.media_type='tv';createCard(item,c,0,'card');});
-  });
-  // Anime
-  fetchWithCache(`${BASE}/discover/tv?api_key=${API_KEY}&with_keywords=210024&sort_by=popularity.desc`).then(d=>{
-    const c=document.getElementById('animeRow');c.innerHTML='';
-    if(d?.results)d.results.slice(0,16).forEach(item=>{item.media_type='tv';createCard(item,c,0,'card');});
-  });
-  // Award
-  fetchWithCache(`${BASE}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`).then(d=>{
-    const c=document.getElementById('awardRow');c.innerHTML='';
-    if(d?.results)d.results.slice(0,16).forEach(item=>{item.media_type='movie';createCard(item,c,0,'card');});
-  });
-}
-
-// ============================================================
-// INIT
-// ============================================================
-initTheme();
-updateMyListCount();
-if(isPremiumUser)updatePremiumUI();
-document.getElementById('headerProfile').textContent=activeProfile.emoji;
-updateKidsBanner();
-
-// Show continue watching inline if applicable
-if(continueWatching.length>0){
-  document.getElementById('continueWatchingInlineSection').style.display='block';
-  renderContinueWatchingInline();
-}
-
-// Load all content
-loadHero();
-loadHotToday();
-refreshNewReleases();
-
-if(isKidsMode()){
-  loadKidsContent();
-  const adultSections=['section-horror','section-thriller','section-crime','section-mystery','section-documentary','section-romance','section-korean'];
-  setTimeout(()=>adultSections.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';}),100);
-} else {
-  loadAllCategories();
-}
-
-loadDiscoverMore();
-loadDiscoverMore();
-observeSections();
-</script>
-</body>
-</html>
+    <button class="history-filter-btn" onclick="filterHistory('movie',t...
