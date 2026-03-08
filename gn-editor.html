@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GN-EDITOR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060606;
+      --surface: #0c0202;
+      --surface2: #110303;
+      --text: #f0e0e0;
+      --text-mute: #886655;
+      --primary: #e8001a;
+      --primary-d: #a80013;
+      --primary-glow: rgba(232,0,26,0.35);
+      --accent: #ff4444;
+      --border: rgba(180,30,30,0.2);
+      --header-h: 48px;
+      --toolbar-h: 42px;
+      --tab-h: 36px;
+      --statusbar-h: 26px;
+
+      /* Syntax colors */
+      --syn-tag: #ff6b6b;
+      --syn-attr: #ffa07a;
+      --syn-val: #98d982;
+      --syn-comment: #6b7a6b;
+      --syn-doctype: #888;
+      --syn-text: #d4d4d4;
+      --syn-entity: #ddb26f;
+      --syn-style: #79b8ff;
+      --syn-script: #e5c07b;
+      --syn-number: #b5cea8;
+      --syn-punct: #888;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ===== LAYOUT ===== */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* ===== HEADER ===== */
+    #header {
+      height: var(--header-h);
+      background: rgba(8,0,0,0.98);
+      border-bottom: 1px solid rgba(200,0,20,0.2);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 16px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    #header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 15%; right: 15%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.5;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, #1a0000, #000);
+      border: 1px solid var(--primary);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(240,180,180,0.8);
+    }
+
+    .header-divider {
+      width: 1px; height: 24px;
+      background: rgba(200,0,20,0.2);
+    }
+
+    /* Menu bar */
+    .menu-bar {
+      display: flex;
+      gap: 2px;
+    }
+
+    .menu-item {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+      color: rgba(240,180,180,0.6);
+      position: relative;
+    }
+
+    .menu-item:hover {
+      background: rgba(200,0,20,0.12);
+      color: var(--text);
+    }
+
+    .menu-item.has-dropdown:hover .dropdown { display: block; }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0;
+      min-width: 200px;
+      background: rgba(10,0,0,0.99);
+      border: 1px solid rgba(200,0,20,0.3);
+      border-radius: 2px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+      z-index: 100;
+      padding: 6px 0;
+    }
+
+    .dropdown::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+
+    .dd-item {
+      padding: 9px 16px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition: all 0.1s;
+      color: rgba(240,180,180,0.7);
+    }
+
+    .dd-item:hover { background: rgba(200,0,20,0.12); color: #fff; }
+    .dd-item .shortcut { color: rgba(150,80,80,0.5); font-family: 'Share Tech Mono', monospace; font-size: 10px; }
+    .dd-divider { height: 1px; background: rgba(200,0,20,0.1); margin: 4px 0; }
+
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid rgba(200,0,20,0.3);
+      border-radius: 2px;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .header-btn:hover {
+      background: rgba(200,0,20,0.15);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(200,0,20,0.2);
+    }
+
+    .header-btn.primary {
+      background: rgba(200,0,20,0.15);
+      border-color: var(--primary);
+    }
+
+    /* ===== TOOLBAR ===== */
+    #toolbar {
+      height: var(--toolbar-h);
+      background: rgba(10,2,2,0.95);
+      border-bottom: 1px solid rgba(200,0,20,0.12);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .tool-btn {
+      width: 30px; height: 30px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      color: rgba(200,140,140,0.5);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Share Tech Mono', monospace;
+      position: relative;
+    }
+
+    .tool-btn:hover {
+      background: rgba(200,0,20,0.1);
+      border-color: rgba(200,0,20,0.2);
+      color: var(--text);
+    }
+
+    .tool-btn[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      top: calc(100% + 6px); left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10,0,0,0.98);
+      border: 1px solid rgba(200,0,20,0.3);
+      padding: 4px 8px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .tool-divider {
+      width: 1px; height: 20px;
+      background: rgba(200,0,20,0.15);
+      margin: 0 4px;
+    }
+
+    .tool-spacer { flex: 1; }
+
+    /* Search bar in toolbar */
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(15,3,3,0.8);
+      border: 1px solid rgba(200,0,20,0.15);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .search-wrap input {
+      background: transparent;
+      border: none;
+      padding: 5px 10px;
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      outline: none;
+      width: 180px;
+    }
+
+    .search-wrap input::placeholder { color: rgba(150,80,80,0.4); }
+
+    .search-btn {
+      padding: 5px 8px;
+      background: transparent;
+      border: none;
+      border-left: 1px solid rgba(200,0,20,0.15);
+      color: rgba(200,0,20,0.5);
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.15s;
+    }
+
+    .search-btn:hover { background: rgba(200,0,20,0.1); color: var(--primary); }
+
+    /* ===== TABS ===== */
+    #tabs-bar {
+      height: var(--tab-h);
+      background: rgba(8,0,0,0.9);
+      border-bottom: 1px solid rgba(200,0,20,0.15);
+      display: flex;
+      align-items: flex-end;
+      padding: 0 8px;
+      gap: 2px;
+      flex-shrink: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    #tabs-bar::-webkit-scrollbar { height: 3px; }
+    #tabs-bar::-webkit-scrollbar-thumb { background: rgba(200,0,20,0.3); }
+
+    .tab {
+      height: 30px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15,3,3,0.6);
+      border: 1px solid rgba(200,0,20,0.1);
+      border-bottom: none;
+      border-radius: 2px 2px 0 0;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(200,140,140,0.5);
+      white-space: nowrap;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .tab:hover { background: rgba(20,4,4,0.8); color: rgba(240,180,180,0.8); }
+
+    .tab.active {
+      background: rgba(12,2,2,0.98);
+      border-color: rgba(200,0,20,0.3);
+      color: rgba(240,200,200,0.9);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0; height: 1px;
+      background: var(--bg);
+    }
+
+    .tab.dirty .tab-name::after { content: ' ●'; color: var(--primary); font-size: 10px; }
+
+    .tab-icon { font-size: 12px; opacity: 0.7; }
+
+    .tab-close {
+      width: 16px; height: 16px;
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      opacity: 0.4;
+      transition: all 0.15s;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .tab-close:hover { opacity: 1; background: rgba(200,0,20,0.3); color: #fff; }
+
+    .tab-new {
+      height: 26px;
+      width: 26px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(200,0,20,0.1);
+      border-radius: 2px;
+      cursor: pointer;
+      color: rgba(200,0,20,0.5);
+      font-size: 16px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      margin-bottom: 4px;
+      align-self: center;
+    }
+
+    .tab-new:hover { background: rgba(200,0,20,0.1); color: var(--primary); border-color: rgba(200,0,20,0.3); }
+
+    /* ===== MAIN AREA ===== */
+    #main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ===== EDITOR PANE ===== */
+    #editor-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #editor-wrap {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      background: #080404;
+    }
+
+    /* Line numbers */
+    #line-numbers {
+      width: 52px;
+      background: rgba(5,0,0,0.5);
+      border-right: 1px solid rgba(200,0,20,0.08);
+      padding: 14px 0;
+      overflow: hidden;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .line-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(150,60,60,0.35);
+      text-align: right;
+      padding-right: 10px;
+      transition: color 0.1s;
+    }
+
+    .line-num.active { color: rgba(200,0,20,0.7); }
+
+    /* Code editor textarea (hidden, for input) */
+    #code-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      color: transparent;
+      caret-color: var(--primary);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      line-height: 20px;
+      padding: 14px 16px;
+      border: none;
+      outline: none;
+      resize: none;
+      white-space: pre;
+      overflow: auto;
+      z-index: 2;
+      tab-size: 2;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Syntax highlight layer */
+    #highlight-layer {
+      position: absolute;
+      inset: 0;
+      padding: 14px 16px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--syn-text);
+      white-space: pre;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      word-break: break-all;
+    }
+
+    /* Syntax colors */
+    .s-tag { color: var(--syn-tag); }
+    .s-attr { color: var(--syn-attr); }
+    .s-val { color: var(--syn-val); }
+    .s-comment { color: var(--syn-comment); font-style: italic; }
+    .s-doctype { color: var(--syn-doctype); }
+    .s-entity { color: var(--syn-entity); }
+    .s-number { color: var(--syn-number); }
+    .s-keyword { color: #c792ea; }
+    .s-string { color: var(--syn-val); }
+    .s-punct { color: var(--syn-punct); }
+
+    /* ===== PREVIEW PANE ===== */
+    #preview-pane {
+      width: 50%;
+      border-left: 1px solid rgba(200,0,20,0.15);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: width 0.2s;
+    }
+
+    #preview-pane.hidden { width: 0; overflow: hidden; border: none; }
+
+    .preview-header {
+      height: 32px;
+      background: rgba(8,0,0,0.9);
+      border-bottom: 1px solid rgba(200,0,20,0.12);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .preview-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(200,0,20,0.5);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .preview-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(200,0,20,0.4);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .preview-dot.live { background: #44ff88; animation: blink-green 2s ease-in-out infinite; }
+
+    @keyframes blink { 0%,100%{opacity:0.4} 50%{opacity:1} }
+    @keyframes blink-green { 0%,100%{opacity:0.4} 50%{opacity:1; box-shadow: 0 0 6px #44ff88} }
+
+    .preview-refresh {
+      margin-left: auto;
+      padding: 3px 8px;
+      background: transparent;
+      border: 1px solid rgba(200,0,20,0.2);
+      border-radius: 2px;
+      color: rgba(200,0,20,0.5);
+      font-size: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 1px;
+    }
+
+    .preview-refresh:hover { background: rgba(200,0,20,0.1); color: var(--primary); border-color: rgba(200,0,20,0.4); }
+
+    #preview-frame {
+      flex: 1;
+      border: none;
+      background: #fff;
+    }
+
+    /* ===== STATUS BAR ===== */
+    #statusbar {
+      height: var(--statusbar-h);
+      background: rgba(120,0,20,0.15);
+      border-top: 1px solid rgba(200,0,20,0.2);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 20px;
+      flex-shrink: 0;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: rgba(200,100,100,0.5);
+      letter-spacing: 1px;
+    }
+
+    .status-item { display: flex; align-items: center; gap: 6px; }
+    .status-sep { width: 1px; height: 12px; background: rgba(200,0,20,0.15); }
+    .status-right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+
+    /* ===== NOTIFICATIONS ===== */
+    .notif {
+      position: fixed;
+      top: 16px; right: 16px;
+      padding: 12px 20px;
+      background: rgba(8,0,0,0.99);
+      border: 1px solid var(--primary);
+      border-radius: 2px;
+      box-shadow: 0 0 30px rgba(200,0,20,0.3);
+      z-index: 9999;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      animation: notif-in 0.25s ease;
+      font-family: 'Rajdhani', sans-serif;
+      max-width: 320px;
+    }
+
+    .notif::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20%; right: 20%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+
+    @keyframes notif-in { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+    .notif.success { border-color: #44ff88; color: #44ff88; }
+    .notif.success::before { background: linear-gradient(90deg, transparent, #44ff88, transparent); }
+    .notif.error { border-color: #ff4444; color: #ff4444; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 5000;
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    .modal {
+      background: rgba(10,0,0,0.99);
+      border: 1px solid rgba(200,0,20,0.4);
+      border-radius: 2px;
+      padding: 32px;
+      min-width: 380px;
+      box-shadow: 0 0 60px rgba(200,0,20,0.2);
+      position: relative;
+    }
+
+    .modal::before {
+      content:'';
+      position:absolute; top:0; left:20%; right:20%; height:1px;
+      background:linear-gradient(90deg,transparent,var(--primary),transparent);
+    }
+
+    .modal h3 {
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      margin-bottom: 20px;
+      color: rgba(240,180,180,0.9);
+    }
+
+    .modal input, .modal select {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(15,3,3,0.8);
+      border: 1px solid rgba(200,0,20,0.25);
+      border-radius: 2px;
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      outline: none;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+
+    .modal input:focus, .modal select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(200,0,20,0.1);
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(200,0,20,0.3);
+      background: transparent;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn:hover { background: rgba(200,0,20,0.1); }
+    .modal-btn.confirm { border-color: var(--primary); color: var(--primary); }
+    .modal-btn.confirm:hover { background: rgba(200,0,20,0.2); color: #fff; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(200,0,20,0.25); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(200,0,20,0.45); }
+
+    /* Resize handle */
+    #resize-handle {
+      width: 4px;
+      background: rgba(200,0,20,0.1);
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    #resize-handle:hover { background: rgba(200,0,20,0.4); }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <div id="header">
+    <div class="logo">
+      <div class="logo-mark">GN</div>
+      <div class="logo-text">Editor</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="menu-bar">
+      <div class="menu-item has-dropdown">File
+        <div class="dropdown">
+          <div class="dd-item" onclick="newTab()">New File <span class="shortcut">Ctrl+N</span></div>
+          <div class="dd-item" onclick="openFileDialog()">Open File <span class="shortcut">Ctrl+O</span></div>
+          <div class="dd-divider"></div>
+          <div class="dd-item" onclick="saveFile()">Save <span class="shortcut">Ctrl+S</span></div>
+          <div class="dd-item" onclick="saveAs()">Save As… <span class="shortcut">Ctrl+Shift+S</span></div>
+          <div class="dd-item" onclick="downloadFile()">Download <span class="shortcut">Ctrl+D</span></div>
+          <div class="dd-divider"></div>
+          <div class="dd-item" onclick="closeCurrentTab()">Close Tab <span class="shortcut">Ctrl+W</span></div>
+        </div>
+      </div>
+      <div class="menu-item has-dropdown">Edit
+        <div class="dropdown">
+          <div class="dd-item" onclick="editorCmd('undo')">Undo <span class="shortcut">Ctrl+Z</span></div>
+          <div class="dd-item" onclick="editorCmd('redo')">Redo <span class="shortcut">Ctrl+Y</span></div>
+          <div class="dd-divider"></div>
+          <div class="dd-item" onclick="editorCmd('selectAll')">Select All <span class="shortcut">Ctrl+A</span></div>
+          <div class="dd-item" onclick="formatCode()">Format HTML</div>
+          <div class="dd-divider"></div>
+          <div class="dd-item" onclick="findReplace()">Find & Replace <span class="shortcut">Ctrl+H</span></div>
+        </div>
+      </div>
+      <div class="menu-item has-dropdown">View
+        <div class="dropdown">
+          <div class="dd-item" onclick="togglePreview()">Toggle Preview <span class="shortcut">Ctrl+P</span></div>
+          <div class="dd-item" onclick="toggleLivePreview()">Live Preview</div>
+          <div class="dd-divider"></div>
+          <div class="dd-item" onclick="changeFontSize(1)">Zoom In <span class="shortcut">Ctrl++</span></div>
+          <div class="dd-item" onclick="changeFontSize(-1)">Zoom Out <span class="shortcut">Ctrl+-</span></div>
+        </div>
+      </div>
+      <div class="menu-item has-dropdown">Insert
+        <div class="dropdown">
+          <div class="dd-item" onclick="insertSnippet('html5')">HTML5 Boilerplate</div>
+          <div class="dd-item" onclick="insertSnippet('table')">Table</div>
+          <div class="dd-item" onclick="insertSnippet('form')">Form</div>
+          <div class="dd-item" onclick="insertSnippet('script')">Script Tag</div>
+          <div class="dd-item" onclick="insertSnippet('style')">Style Tag</div>
+          <div class="dd-item" onclick="insertSnippet('link')">CSS Link</div>
+          <div class="dd-item" onclick="insertSnippet('meta')">Meta Viewport</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="header-btn" onclick="openFileDialog()">📂 OPEN</button>
+      <button class="header-btn primary" onclick="downloadFile()">⬇ DOWNLOAD</button>
+      <button class="header-btn" onclick="runPreview()" style="border-color:#44ff88;color:#44ff88;">▶ RUN</button>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div id="toolbar">
+    <button class="tool-btn" onclick="editorCmd('undo')" title="Undo (Ctrl+Z)">↩</button>
+    <button class="tool-btn" onclick="editorCmd('redo')" title="Redo (Ctrl+Y)">↪</button>
+    <div class="tool-divider"></div>
+    <button class="tool-btn" onclick="downloadFile()" title="Download File">⬇</button>
+    <button class="tool-btn" onclick="openFileDialog()" title="Open File">📂</button>
+    <div class="tool-divider"></div>
+    <button class="tool-btn" onclick="formatCode()" title="Format HTML" style="font-size:10px;width:auto;padding:0 8px;">FMT</button>
+    <button class="tool-btn" onclick="insertSnippet('html5')" title="Insert HTML5 Boilerplate" style="font-size:10px;width:auto;padding:0 8px;">H5</button>
+    <div class="tool-divider"></div>
+    <button class="tool-btn" onclick="wrapSelection('b')" title="Bold"><b>B</b></button>
+    <button class="tool-btn" onclick="wrapSelection('i')" title="Italic"><i>I</i></button>
+    <button class="tool-btn" onclick="wrapSelection('u')" title="Underline" style="text-decoration:underline">U</button>
+    <button class="tool-btn" onclick="wrapSelection('span')" title="Wrap in Span">( )</button>
+    <button class="tool-btn" onclick="wrapSelection('div')" title="Wrap in Div">[ ]</button>
+    <div class="tool-divider"></div>
+    <button class="tool-btn" onclick="commentSelection()" title="Comment/Uncomment">// </button>
+    <button class="tool-btn" onclick="indentSelection()" title="Indent">→</button>
+    <button class="tool-btn" onclick="dedentSelection()" title="Dedent">←</button>
+    <div class="tool-spacer"></div>
+    <div class="search-wrap">
+      <input id="searchInput" placeholder="Search…" onkeydown="handleSearch(event)"/>
+      <button class="search-btn" onclick="doSearch()">▸</button>
+      <button class="search-btn" onclick="doSearchPrev()">◂</button>
+    </div>
+    <div class="tool-divider"></div>
+    <button class="tool-btn" onclick="togglePreview()" title="Toggle Preview" style="font-size:10px;width:auto;padding:0 8px;">SPLIT</button>
+    <button class="tool-btn" onclick="runPreview()" title="Run Preview" style="font-size:10px;width:auto;padding:0 8px;color:#44ff88;">RUN</button>
+  </div>
+
+  <!-- TABS -->
+  <div id="tabs-bar">
+    <button class="tab-new" onclick="newTab()" title="New Tab">+</button>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="editor-pane">
+      <div id="editor-wrap">
+        <div id="line-numbers"></div>
+        <div style="flex:1;position:relative;overflow:hidden;">
+          <div id="highlight-layer"></div>
+          <textarea id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+        </div>
+      </div>
+    </div>
+    <div id="resize-handle" onmousedown="startResize(event)"></div>
+    <div id="preview-pane">
+      <div class="preview-header">
+        <div class="preview-dot" id="previewDot"></div>
+        <div class="preview-label">PREVIEW</div>
+        <button class="preview-refresh" onclick="runPreview()">↻ REFRESH</button>
+      </div>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-modals"></iframe>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <div class="status-item">GN-EDITOR v1.0</div>
+    <div class="status-sep"></div>
+    <div class="status-item" id="statusFile">untitled.html</div>
+    <div class="status-sep"></div>
+    <div class="status-item" id="statusLang">HTML</div>
+    <div class="status-right">
+      <div class="status-item" id="statusCursor">Ln 1, Col 1</div>
+      <div class="status-sep"></div>
+      <div class="status-item" id="statusLines">1 lines</div>
+      <div class="status-sep"></div>
+      <div class="status-item" id="statusSize">0 B</div>
+      <div class="status-sep"></div>
+      <div class="status-item" id="statusEncoding">UTF-8</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept=".html,.htm,.css,.js,.txt,.json,.xml,.svg" style="display:none" onchange="handleFileOpen(event)"/>
+
+<script>
+// ===== STATE =====
+let tabs = [];
+let activeTabId = null;
+let tabCounter = 0;
+let fontSize = 13;
+let livePreview = false;
+let previewVisible = true;
+let searchMatches = [];
+let searchIndex = 0;
+
+const DEFAULT_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Page</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    h1 { color: #e8001a; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Hello from GN-Editor!</h1>
+    <p>Edit this code and click RUN to see your changes.</p>
+  </div>
+</body>
+</html>`;
+
+// ===== TAB MANAGEMENT =====
+function createTab(name = 'untitled.html', content = '', dirty = false) {
+  const id = ++tabCounter;
+  const tab = { id, name, content, dirty, cursor: { line: 1, col: 1 }, scrollTop: 0 };
+  tabs.push(tab);
+  renderTabs();
+  switchTab(id);
+  return tab;
+}
+
+function newTab(content = '', name = 'untitled.html') {
+  createTab(name, content || DEFAULT_HTML);
+}
+
+function switchTab(id) {
+  // Save current tab state
+  if (activeTabId) {
+    const cur = getTab(activeTabId);
+    if (cur) {
+      cur.content = getEditor().value;
+      cur.scrollTop = getEditor().scrollTop;
+    }
+  }
+  activeTabId = id;
+  const tab = getTab(id);
+  if (!tab) return;
+  getEditor().value = tab.content;
+  getEditor().scrollTop = tab.scrollTop || 0;
+  syncHighlight();
+  updateLineNumbers();
+  renderTabs();
+  updateStatus();
+  if (livePreview) runPreview();
+  // Sync scroll between textarea and highlight layer
+  syncScroll();
+}
+
+function closeTab(id, e) {
+  if (e) e.stopPropagation();
+  const idx = tabs.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  const tab = tabs[idx];
+  if (tab.dirty) {
+    if (!confirm(`Close "${tab.name}" without saving?`)) return;
+  }
+  tabs.splice(idx, 1);
+  if (tabs.length === 0) {
+    createTab('untitled.html', DEFAULT_HTML);
+    return;
+  }
+  const newActive = tabs[Math.min(idx, tabs.length - 1)].id;
+  activeTabId = null;
+  renderTabs();
+  switchTab(newActive);
+}
+
+function closeCurrentTab() { closeTab(activeTabId); }
+
+function getTab(id) { return tabs.find(t => t.id === id); }
+
+function renderTabs() {
+  const bar = document.getElementById('tabs-bar');
+  // Remove old tabs
+  bar.querySelectorAll('.tab').forEach(el => el.remove());
+  const newBtn = bar.querySelector('.tab-new');
+  tabs.forEach(tab => {
+    const el = document.createElement('div');
+    el.className = 'tab' + (tab.id === activeTabId ? ' active' : '') + (tab.dirty ? ' dirty' : '');
+    el.innerHTML = `
+      <span class="tab-icon">📄</span>
+      <span class="tab-name">${escHtml(tab.name)}</span>
+      <span class="tab-close" onclick="closeTab(${tab.id},event)">×</span>`;
+    el.onclick = () => switchTab(tab.id);
+    bar.insertBefore(el, newBtn);
+  });
+}
+
+// ===== EDITOR =====
+function getEditor() { return document.getElementById('code-input'); }
+
+function syncHighlight() {
+  const code = getEditor().value;
+  document.getElementById('highlight-layer').innerHTML = highlight(code);
+  updateLineNumbers();
+  updateStatus();
+}
+
+function syncScroll() {
+  const ta = getEditor();
+  const hl = document.getElementById('highlight-layer');
+  const ln = document.getElementById('line-numbers');
+  ta.addEventListener('scroll', () => {
+    hl.style.transform = `translate(-${ta.scrollLeft}px, -${ta.scrollTop}px)`;
+    ln.scrollTop = ta.scrollTop;
+  });
+}
+
+function updateLineNumbers() {
+  const code = getEditor().value;
+  const lines = code.split('\n').length;
+  const ln = document.getElementById('line-numbers');
+  let html = '';
+  for (let i = 1; i <= lines; i++) {
+    html += `<div class="line-num" id="ln${i}">${i}</div>`;
+  }
+  ln.innerHTML = html;
+}
+
+function updateStatus() {
+  const ta = getEditor();
+  const val = ta.value;
+  const lines = val.split('\n').length;
+  const pos = ta.selectionStart;
+  const before = val.substring(0, pos);
+  const lineNum = before.split('\n').length;
+  const col = before.split('\n').pop().length + 1;
+  document.getElementById('statusCursor').textContent = `Ln ${lineNum}, Col ${col}`;
+  document.getElementById('statusLines').textContent = `${lines} lines`;
+  const bytes = new Blob([val]).size;
+  document.getElementById('statusSize').textContent = bytes < 1024 ? `${bytes} B` : `${(bytes/1024).toFixed(1)} KB`;
+  const tab = getTab(activeTabId);
+  if (tab) document.getElementById('statusFile').textContent = tab.name;
+}
+
+// Mark tab dirty on edit
+getEditor().addEventListener('input', () => {
+  syncHighlight();
+  const tab = getTab(activeTabId);
+  if (tab) {
+    tab.dirty = true;
+    tab.content = getEditor().value;
+    renderTabs();
+  }
+  if (livePreview) debouncePreview();
+});
+
+getEditor().addEventListener('keyup', updateStatus);
+getEditor().addEventListener('click', updateStatus);
+
+// Tab key → indent
+getEditor().addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = getEditor();
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    if (start === end) {
+      insertAtCursor('  ');
+    } else {
+      indentSelection();
+    }
+  }
+  // Auto-close brackets
+  const pairs = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+  if (pairs[e.key] && !e.ctrlKey && !e.metaKey) {
+    const ta = getEditor();
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    if (start !== end) return; // don't auto-close on selection
+    // Don't auto-close quotes if next char is same quote
+    const nextChar = ta.value[start];
+    if ((e.key === '"' || e.key === "'") && nextChar === e.key) {
+      e.preventDefault();
+      ta.selectionStart = ta.selectionEnd = start + 1;
+      return;
+    }
+    e.preventDefault();
+    insertAtCursor(e.key + pairs[e.key]);
+    ta.selectionStart = ta.selectionEnd = start + 1;
+    syncHighlight();
+  }
+  // Auto-close > for tags
+  if (e.key === '>' && !e.ctrlKey) {
+    // Let it type, then check
+  }
+});
+
+// ===== SYNTAX HIGHLIGHTING =====
+function highlight(code) {
+  // Escape HTML first
+  let s = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Comments
+  s = s.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="s-comment">$1</span>');
+  // DOCTYPE
+  s = s.replace(/(&lt;!DOCTYPE[^&]*&gt;)/gi, '<span class="s-doctype">$1</span>');
+  // Tags with attributes
+  s = s.replace(/(&lt;\/?)([\w-]+)((?:\s+[\w-:]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s&]+))?)*\s*\/?)(&gt;)/g,
+    (_, open, tag, attrs, close) => {
+      const coloredAttrs = attrs.replace(/([\w-:]+)(\s*=\s*)("([^"]*)")/g,
+        '<span class="s-attr">$1</span>$2<span class="s-val">$3</span>');
+      const coloredAttrs2 = coloredAttrs.replace(/([\w-:]+)(\s*=\s*)('([^']*)')/g,
+        '<span class="s-attr">$1</span>$2<span class="s-val">$3</span>');
+      return `<span class="s-punct">${open}</span><span class="s-tag">${tag}</span>${coloredAttrs2}<span class="s-punct">${close}</span>`;
+    });
+  return s;
+}
+
+// ===== FILE OPERATIONS =====
+function saveFile() {
+  const tab = getTab(activeTabId);
+  if (!tab) return;
+  tab.content = getEditor().value;
+  tab.dirty = false;
+  localStorage.setItem('gneditor_' + tab.name, tab.content);
+  renderTabs();
+  showNotif('Saved: ' + tab.name, 'success');
+}
+
+function saveAs() {
+  const tab = getTab(activeTabId);
+  if (!tab) return;
+  showInputModal('Save As', 'Filename:', tab.name, name => {
+    if (!name) return;
+    tab.name = name;
+    tab.content = getEditor().value;
+    tab.dirty = false;
+    renderTabs();
+    downloadBlob(tab.content, tab.name);
+    showNotif('Saved: ' + tab.name, 'success');
+  });
+}
+
+function downloadFile() {
+  const tab = getTab(activeTabId);
+  if (!tab) return;
+  tab.content = getEditor().value;
+  downloadBlob(tab.content, tab.name);
+  tab.dirty = false;
+  renderTabs();
+  showNotif('Downloaded: ' + tab.name, 'success');
+}
+
+function downloadBlob(content, filename) {
+  const blob = new Blob([content], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function openFileDialog() { document.getElementById('fileInput').click(); }
+
+function handleFileOpen(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    createTab(file.name, ev.target.result);
+    showNotif('Opened: ' + file.name, 'success');
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ===== PREVIEW =====
+function runPreview() {
+  const tab = getTab(activeTabId);
+  if (!tab) return;
+  const content = getEditor().value;
+  const frame = document.getElementById('preview-frame');
+  const blob = new Blob([content], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  frame.src = url;
+  frame.onload = () => URL.revokeObjectURL(url);
+  const dot = document.getElementById('previewDot');
+  dot.classList.add('live');
+  setTimeout(() => dot.classList.remove('live'), 1000);
+  if (!previewVisible) togglePreview();
+}
+
+let previewTimer = null;
+function debouncePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(runPreview, 800);
+}
+
+function togglePreview() {
+  previewVisible = !previewVisible;
+  document.getElementById('preview-pane').classList.toggle('hidden', !previewVisible);
+  document.getElementById('resize-handle').style.display = previewVisible ? '' : 'none';
+}
+
+function toggleLivePreview() {
+  livePreview = !livePreview;
+  showNotif('Live Preview: ' + (livePreview ? 'ON' : 'OFF'), livePreview ? 'success' : 'info');
+  if (livePreview) runPreview();
+}
+
+// ===== RESIZE =====
+let resizing = false;
+let resizeStart = 0;
+let resizeStartW = 0;
+
+function startResize(e) {
+  resizing = true;
+  resizeStart = e.clientX;
+  const pane = document.getElementById('preview-pane');
+  resizeStartW = pane.offsetWidth;
+  document.addEventListener('mousemove', doResize);
+  document.addEventListener('mouseup', stopResize);
+  e.preventDefault();
+}
+
+function doResize(e) {
+  if (!resizing) return;
+  const delta = resizeStart - e.clientX;
+  const newW = Math.max(200, Math.min(window.innerWidth - 300, resizeStartW + delta));
+  document.getElementById('preview-pane').style.width = newW + 'px';
+}
+
+function stopResize() {
+  resizing = false;
+  document.removeEventListener('mousemove', doResize);
+  document.removeEventListener('mouseup', stopResize);
+}
+
+// ===== EDIT COMMANDS =====
+function editorCmd(cmd) {
+  getEditor().focus();
+  document.execCommand(cmd);
+}
+
+function insertAtCursor(text) {
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const val = ta.value;
+  ta.value = val.substring(0, start) + text + val.substring(end);
+  ta.selectionStart = ta.selectionEnd = start + text.length;
+  syncHighlight();
+  const tab = getTab(activeTabId);
+  if (tab) { tab.content = ta.value; tab.dirty = true; renderTabs(); }
+}
+
+function wrapSelection(tag) {
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  const wrapped = `<${tag}>${sel}</${tag}>`;
+  ta.value = ta.value.substring(0, start) + wrapped + ta.value.substring(end);
+  ta.selectionStart = start + tag.length + 2;
+  ta.selectionEnd = start + tag.length + 2 + sel.length;
+  syncHighlight();
+  markDirty();
+}
+
+function commentSelection() {
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end) || '';
+  let replacement;
+  if (sel.startsWith('<!--') && sel.endsWith('-->')) {
+    replacement = sel.slice(4, -3);
+  } else {
+    replacement = `<!-- ${sel} -->`;
+  }
+  ta.value = ta.value.substring(0, start) + replacement + ta.value.substring(end);
+  syncHighlight(); markDirty();
+}
+
+function indentSelection() {
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const lines = ta.value.substring(start, end).split('\n');
+  const indented = lines.map(l => '  ' + l).join('\n');
+  ta.value = ta.value.substring(0, start) + indented + ta.value.substring(end);
+  syncHighlight(); markDirty();
+}
+
+function dedentSelection() {
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const lines = ta.value.substring(start, end).split('\n');
+  const dedented = lines.map(l => l.startsWith('  ') ? l.slice(2) : l.startsWith('\t') ? l.slice(1) : l).join('\n');
+  ta.value = ta.value.substring(0, start) + dedented + ta.value.substring(end);
+  syncHighlight(); markDirty();
+}
+
+function markDirty() {
+  const tab = getTab(activeTabId);
+  if (tab) { tab.content = getEditor().value; tab.dirty = true; renderTabs(); }
+}
+
+function changeFontSize(delta) {
+  fontSize = Math.max(10, Math.min(22, fontSize + delta));
+  getEditor().style.fontSize = fontSize + 'px';
+  document.getElementById('highlight-layer').style.fontSize = fontSize + 'px';
+  const lh = Math.round(fontSize * 1.55) + 'px';
+  getEditor().style.lineHeight = lh;
+  document.getElementById('highlight-layer').style.lineHeight = lh;
+  document.querySelectorAll('.line-num').forEach(el => el.style.lineHeight = lh);
+}
+
+// ===== FORMAT =====
+function formatCode() {
+  const ta = getEditor();
+  let code = ta.value;
+  // Basic HTML formatter
+  let indent = 0;
+  const voidTags = new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
+  const lines = code.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  const result = [];
+  for (let line of lines) {
+    const isClose = /^<\//.test(line);
+    const isOpen = /^<[^/!]/.test(line) && !/<\//.test(line);
+    const isSelfClose = />$/.test(line) && /\/$/.test(line.replace(/>$/, '').trimEnd());
+    const tagMatch = line.match(/^<(\w+)/);
+    const tag = tagMatch ? tagMatch[1].toLowerCase() : '';
+    const isVoid = voidTags.has(tag);
+    if (isClose && indent > 0) indent--;
+    result.push('  '.repeat(indent) + line);
+    if (isOpen && !isVoid && !isSelfClose && !line.includes('</')) indent++;
+  }
+  ta.value = result.join('\n');
+  syncHighlight(); markDirty();
+  showNotif('Code formatted!', 'success');
+}
+
+// ===== SEARCH =====
+function handleSearch(e) { if (e.key === 'Enter') doSearch(); }
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value;
+  if (!q) return;
+  const ta = getEditor();
+  const val = ta.value;
+  const idx = val.indexOf(q, ta.selectionEnd);
+  if (idx !== -1) {
+    ta.selectionStart = idx;
+    ta.selectionEnd = idx + q.length;
+    ta.focus();
+    updateStatus();
+    showNotif(`Found at position ${idx}`, 'success');
+  } else {
+    // Wrap around
+    const idxWrap = val.indexOf(q);
+    if (idxWrap !== -1) {
+      ta.selectionStart = idxWrap;
+      ta.selectionEnd = idxWrap + q.length;
+      ta.focus();
+      showNotif('Wrapped to start', 'info');
+    } else {
+      showNotif(`"${q}" not found`, 'error');
+    }
+  }
+}
+
+function doSearchPrev() {
+  const q = document.getElementById('searchInput').value;
+  if (!q) return;
+  const ta = getEditor();
+  const val = ta.value;
+  const idx = val.lastIndexOf(q, ta.selectionStart - 1);
+  if (idx !== -1) {
+    ta.selectionStart = idx;
+    ta.selectionEnd = idx + q.length;
+    ta.focus();
+  } else {
+    showNotif(`"${q}" not found`, 'error');
+  }
+}
+
+function findReplace() {
+  // Simple prompt-based find/replace
+  const find = prompt('Find:');
+  if (!find) return;
+  const replace = prompt('Replace with:');
+  if (replace === null) return;
+  const ta = getEditor();
+  const count = (ta.value.match(new RegExp(escapeRegex(find), 'g')) || []).length;
+  ta.value = ta.value.replaceAll(find, replace);
+  syncHighlight(); markDirty();
+  showNotif(`Replaced ${count} occurrence(s)`, 'success');
+}
+
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+// ===== SNIPPETS =====
+const SNIPPETS = {
+  html5: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <style>
+    /* styles here */
+  </style>
+</head>
+<body>
+  <!-- content here -->
+  <script>
+    // scripts here
+  <\/script>
+</body>
+</html>`,
+  table: `<table>
+  <thead>
+    <tr>
+      <th>Header 1</th>
+      <th>Header 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cell 1</td>
+      <td>Cell 2</td>
+    </tr>
+  </tbody>
+</table>`,
+  form: `<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" placeholder="Enter name"/>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Enter email"/>
+  <button type="submit">Submit</button>
+</form>`,
+  script: `<script>
+  // Your JavaScript here
+<\/script>`,
+  style: `<style>
+  /* Your CSS here */
+</style>`,
+  link: `<link rel="stylesheet" href="styles.css"/>`,
+  meta: `<meta name="viewport" content="width=device-width, initial-scale=1.0"/>`
+};
+
+function insertSnippet(key) {
+  const snip = SNIPPETS[key];
+  if (!snip) return;
+  const ta = getEditor();
+  const start = ta.selectionStart;
+  const val = ta.value;
+  ta.value = val.substring(0, start) + snip + val.substring(ta.selectionEnd);
+  ta.selectionStart = ta.selectionEnd = start + snip.length;
+  syncHighlight(); markDirty();
+  showNotif('Snippet inserted', 'success');
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey) {
+    switch(e.key.toLowerCase()) {
+      case 's': e.preventDefault(); e.shiftKey ? saveAs() : saveFile(); break;
+      case 'n': e.preventDefault(); newTab(); break;
+      case 'o': e.preventDefault(); openFileDialog(); break;
+      case 'w': e.preventDefault(); closeCurrentTab(); break;
+      case 'd': e.preventDefault(); downloadFile(); break;
+      case 'p': e.preventDefault(); togglePreview(); break;
+      case 'h': e.preventDefault(); findReplace(); break;
+      case '=': case '+': e.preventDefault(); changeFontSize(1); break;
+      case '-': e.preventDefault(); changeFontSize(-1); break;
+    }
+  }
+});
+
+// ===== UTILS =====
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showNotif(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = 'notif ' + type;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(20px)';
+    el.style.transition = 'all 0.3s';
+    setTimeout(() => el.remove(), 300);
+  }, 2500);
+}
+
+function showInputModal(title, label, defaultVal, cb) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h3>${title}</h3>
+      <label style="font-size:11px;color:var(--text-mute);letter-spacing:2px;display:block;margin-bottom:6px;">${label}</label>
+      <input type="text" id="modal-input" value="${escHtml(defaultVal || '')}"/>
+      <div class="modal-btns">
+        <button class="modal-btn" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+        <button class="modal-btn confirm" id="modal-confirm">Confirm</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const input = overlay.querySelector('#modal-input');
+  input.focus(); input.select();
+  overlay.querySelector('#modal-confirm').onclick = () => {
+    cb(input.value.trim());
+    overlay.remove();
+  };
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { cb(input.value.trim()); overlay.remove(); } });
+}
+
+// ===== INIT =====
+window.onload = () => {
+  createTab('untitled.html', DEFAULT_HTML);
+  syncScroll();
+  runPreview();
+};
+</script>
+</body>
+</html>
