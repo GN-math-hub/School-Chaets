@@ -865,7 +865,7 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
           </div>
         </div>
         <div style="margin-top:14px">
-          <div class="app-version-row"><span class="app-version-label">App Version</span><span class="app-version-val">GN-Stream v3.1.1</span></div>
+          <div class="app-version-row"><span class="app-version-label">App Version</span><span class="app-version-val">GN-Stream v1.1.1</span></div>
           <div class="app-version-row"><span class="app-version-label">Data Source</span><span class="app-version-val">TMDB API</span></div>
         </div>
       </div>
