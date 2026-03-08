@@ -5507,11 +5507,11 @@ header.scrolled{
         <div style="margin-top:14px">
           <div class="app-version-row">
             <span class="app-version-label">App Version</span>
-            <span class="app-version-val">GN-Stream v3.1.1</span>
+            <span class="app-version-val">GN-Stream V1.1.2</span>
           </div>
           <div class="app-version-row">
             <span class="app-version-label">Data Source</span>
-            <span class="app-version-val">TMDB API</span>
+            <span class="app-version-val">TMBD API</span>
           </div>
         </div>
       </div>
