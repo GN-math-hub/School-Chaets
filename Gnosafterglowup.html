@@ -381,6 +381,26 @@
 
     .taskbar-icon img { width:22px;height:22px;object-fit:contain; }
 
+    /* Tooltip on taskbar icons */
+    .taskbar-icon[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8,0,0,0.98);
+      border: 1px solid rgba(200,0,20,0.3);
+      color: var(--text);
+      font-size: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+      padding: 4px 8px;
+      white-space: nowrap;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 999;
+    }
+
     #taskbar-right {
       display:flex;align-items:center;gap:12px;margin-left:auto;
     }
@@ -491,11 +511,6 @@
     .window-content iframe { width:100%;height:100%;border:none;background:#000; }
 
     /* ===== HTML LOADER ===== */
-    .html-loader {
-      width:100%;height:100%;border:none;background:#000;
-      display:block;
-    }
-
     .loader-overlay {
       position:absolute;inset:0;
       background:#080808;
@@ -941,8 +956,11 @@
     </div>
   </div>
 
-  <button class="launcher-btn" onclick="openGNMath()" style="top:80px;">🎮 GN-MATH GAMES</button>
-  <button class="launcher-btn" onclick="openGNExtras()" style="top:130px;">🎯 GN-MATH EXTRAS</button>
+  <!-- Desktop launcher buttons -->
+  <button class="launcher-btn" onclick="openGNMath()"    style="top:80px;">🎮 GN-MATH GAMES</button>
+  <button class="launcher-btn" onclick="openGNExtras()"  style="top:130px;">🎯 GN-MATH EXTRAS</button>
+  <button class="launcher-btn" onclick="openGNEditor()"  style="top:180px;">📝 GN-EDITOR</button>
+  <button class="launcher-btn" onclick="openGNCalc()"    style="top:230px;">🧮 GN-CALC</button>
 
   <button class="discord-btn" onclick="window.open('https://discord.gg/CkZFWCmXJ','_blank')" title="Join Discord">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
@@ -969,6 +987,7 @@
 <!-- ===== TASKBAR ===== -->
 <div id="taskbar">
   <div id="taskbar-center">
+    <!-- Wallpapers -->
     <div class="taskbar-icon" onclick="openWallpaperGallery()" title="Wallpapers">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -976,6 +995,7 @@
         <polyline points="21 15 16 10 5 21"/>
       </svg>
     </div>
+    <!-- Store -->
     <div class="taskbar-icon" onclick="openStore()" title="GN Store">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -983,17 +1003,20 @@
         <path d="M16 10a4 4 0 01-8 0"/>
       </svg>
     </div>
+    <!-- GN Stream -->
     <div class="taskbar-icon" onclick="openRemoteApp('gn-stream','GN Stream','https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Permanategn-streamed')" title="GN Stream">
       <svg width="22" height="22" viewBox="0 0 24 24">
         <polygon points="5 3 19 12 5 21 5 3" fill="var(--primary)"/>
       </svg>
     </div>
+    <!-- GN TV -->
     <div class="taskbar-icon" onclick="openRemoteApp('gn-tv','GN TV','https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/gn-tv-for-os.html')" title="GN TV">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <rect x="2" y="7" width="20" height="15" rx="2"/>
         <polyline points="17 2 12 7 7 2"/>
       </svg>
     </div>
+    <!-- GN Music -->
     <div class="taskbar-icon" onclick="openRemoteApp('gn-music','GN Music','https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/GN-music-for-os.html')" title="GN Music">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <path d="M9 18V5l12-2v13"/>
@@ -1001,12 +1024,37 @@
         <circle cx="18" cy="16" r="3" fill="var(--primary)" stroke="none"/>
       </svg>
     </div>
+    <!-- GN Chat -->
     <div class="taskbar-icon" onclick="openGNChat()" title="GN Chat">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
       </svg>
     </div>
+    <!-- ── NEW: GN Editor ── -->
+    <div class="taskbar-icon" onclick="openGNEditor()" title="GN Editor">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+        <polyline points="16 18 22 12 16 6"/>
+        <polyline points="8 6 2 12 8 18"/>
+      </svg>
+    </div>
+    <!-- ── NEW: GN Calc ── -->
+    <div class="taskbar-icon" onclick="openGNCalc()" title="GN Calc">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+        <rect x="4" y="2" width="16" height="20" rx="2"/>
+        <line x1="8" y1="6" x2="16" y2="6"/>
+        <line x1="8" y1="10" x2="10" y2="10"/>
+        <line x1="12" y1="10" x2="14" y2="10"/>
+        <line x1="16" y1="10" x2="16" y2="10"/>
+        <line x1="8" y1="14" x2="10" y2="14"/>
+        <line x1="12" y1="14" x2="14" y2="14"/>
+        <line x1="16" y1="14" x2="16" y2="14"/>
+        <line x1="8" y1="18" x2="10" y2="18"/>
+        <line x1="12" y1="18" x2="14" y2="18"/>
+        <line x1="16" y1="18" x2="16" y2="18"/>
+      </svg>
+    </div>
   </div>
+
   <div id="taskbar-right">
     <div class="system-tray" onclick="openSettings()" title="Settings">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1031,8 +1079,7 @@
     <span class="fullscreen-title" id="fullscreen-title">APP</span>
     <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
   </div>
-  <div class="fullscreen-content" id="fullscreen-content">
-  </div>
+  <div class="fullscreen-content" id="fullscreen-content"></div>
 </div>
 
 <!-- ===== CONTEXT MENU ===== -->
@@ -1050,29 +1097,30 @@
 // ===== CONFIG =====
 const zonesURL = "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json";
 const coverBase = "https://cdn.jsdelivr.net/gh/gn-math/covers@main";
-const htmlBase = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
+const htmlBase  = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
 
-// Remote app URLs
 const REMOTE_URLS = {
-  'gn-music': 'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/GN-music-for-os.html',
-  'gn-stream': 'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Permanategn-streamed',
-  'gn-tv': 'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/gn-tv-for-os.html',
-  'gnmath': 'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Gn-math%20Christmas%20v3.0.0',
-  'gnextras': 'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Extra%20games%20For%20Gn-math%20Code'
+  'gn-music':   'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/GN-music-for-os.html',
+  'gn-stream':  'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Permanategn-streamed',
+  'gn-tv':      'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/gn-tv-for-os.html',
+  'gnmath':     'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Gn-math%20Christmas%20v3.0.0',
+  'gnextras':   'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Extra%20games%20For%20Gn-math%20Code',
+  'gn-editor':  'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/gn-editor.html',
+  'gn-calc':    'https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Gncalc.html'
 };
 
 const presetWallpapers = [
-  { name:"Neon City", url:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1920&q=80" },
-  { name:"Cyberpunk", url:"https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=1920&q=80" },
-  { name:"Abstract Red", url:"https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1920&q=80" },
+  { name:"Neon City",      url:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1920&q=80" },
+  { name:"Cyberpunk",      url:"https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=1920&q=80" },
+  { name:"Abstract Red",   url:"https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1920&q=80" },
   { name:"Dark Mountains", url:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80" },
-  { name:"Purple Nebula", url:"https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80" },
-  { name:"Red Gradient", url:"https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80" },
-  { name:"Night Sky", url:"https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80" },
-  { name:"Dark Forest", url:"https://images.unsplash.com/photo-1511497584788-876760111969?w=1920&q=80" },
-  { name:"Ocean Sunset", url:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80" },
-  { name:"Matrix", url:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&q=80" },
-  { name:"Space Station", url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80" },
+  { name:"Purple Nebula",  url:"https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80" },
+  { name:"Red Gradient",   url:"https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80" },
+  { name:"Night Sky",      url:"https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80" },
+  { name:"Dark Forest",    url:"https://images.unsplash.com/photo-1511497584788-876760111969?w=1920&q=80" },
+  { name:"Ocean Sunset",   url:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80" },
+  { name:"Matrix",         url:"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&q=80" },
+  { name:"Space Station",  url:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1920&q=80" },
   { name:"Abstract Waves", url:"https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=1920&q=80" }
 ];
 
@@ -1082,10 +1130,8 @@ let openWindows = new Map();
 let windowZIndex = 100;
 let activeWindow = null;
 
-// ===== HTML LOADER FUNCTION =====
-// Fetches HTML from a URL and renders it inside a window using srcdoc
+// ===== HTML LOADER =====
 async function loadRemoteHTML(url, containerEl) {
-  // Show loading state
   containerEl.innerHTML = `
     <div class="loader-overlay">
       <div class="loader-spinner"></div>
@@ -1095,7 +1141,6 @@ async function loadRemoteHTML(url, containerEl) {
     const response = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now());
     if (!response.ok) throw new Error('HTTP ' + response.status);
     const html = await response.text();
-    // Create a blob URL and use it in an iframe for proper isolation
     const blob = new Blob([html], { type: 'text/html' });
     const blobUrl = URL.createObjectURL(blob);
     const iframe = document.createElement('iframe');
@@ -1104,7 +1149,6 @@ async function loadRemoteHTML(url, containerEl) {
     iframe.src = blobUrl;
     containerEl.innerHTML = '';
     containerEl.appendChild(iframe);
-    // Revoke blob URL after load to free memory
     iframe.onload = () => URL.revokeObjectURL(blobUrl);
   } catch (err) {
     containerEl.innerHTML = `
@@ -1119,7 +1163,7 @@ async function loadRemoteHTML(url, containerEl) {
   }
 }
 
-// ===== BOOT SEQUENCE =====
+// ===== BOOT =====
 const bootMessages = [
   "[ OK ] Initializing kernel modules...",
   "[ OK ] Loading GN-OS core system...",
@@ -1138,7 +1182,6 @@ window.addEventListener('load', () => {
   const bar = document.getElementById('boot-bar');
   const pct = document.getElementById('boot-percent');
   let i = 0;
-
   function addLog() {
     if (i >= bootMessages.length) {
       setTimeout(() => {
@@ -1164,7 +1207,6 @@ window.addEventListener('load', () => {
     i++;
     setTimeout(addLog, 150 + Math.random() * 100);
   }
-
   setTimeout(addLog, 400);
 });
 
@@ -1297,23 +1339,42 @@ function applyWallpaper(url) {
 }
 
 // ===== REMOTE APP OPENER =====
-// Opens a remote HTML app fetched from a URL inside a window
 function openRemoteApp(id, title, url) {
   if (openWindows.has(id)) { focusWindow(id); return; }
   const win = createWindow({ id, title, icon:'', content:'<div class="loader-overlay"><div class="loader-spinner"></div><span>LOADING...</span></div>' });
   win.style.width = '1000px';
   win.style.height = '650px';
-  // Load the remote HTML into the window content
   loadRemoteHTML(url, win.querySelector('.window-content'));
+}
+
+// ===== NEW APP LAUNCHERS =====
+function openGNEditor() {
+  if (openWindows.has('gn-editor')) { focusWindow('gn-editor'); return; }
+  const win = createWindow({ id:'gn-editor', title:'GN EDITOR', icon:'', content:'' });
+  win.style.width  = '1200px';
+  win.style.height = '750px';
+  // Centre the window
+  win.style.left = Math.max(0, (window.innerWidth  - 1200) / 2) + 'px';
+  win.style.top  = Math.max(0, (window.innerHeight - 750)  / 2) + 'px';
+  loadRemoteHTML(REMOTE_URLS['gn-editor'], win.querySelector('.window-content'));
+}
+
+function openGNCalc() {
+  if (openWindows.has('gn-calc')) { focusWindow('gn-calc'); return; }
+  const win = createWindow({ id:'gn-calc', title:'GN CALC', icon:'', content:'' });
+  win.style.width  = '420px';
+  win.style.height = '680px';
+  // Centre the window
+  win.style.left = Math.max(0, (window.innerWidth  - 420) / 2) + 'px';
+  win.style.top  = Math.max(0, (window.innerHeight - 680) / 2) + 'px';
+  loadRemoteHTML(REMOTE_URLS['gn-calc'], win.querySelector('.window-content'));
 }
 
 // ===== GN-CHAT =====
 function openGNChat() {
   if (openWindows.has('gn-chat')) { focusWindow('gn-chat'); return; }
   const win = createWindow({
-    id: 'gn-chat',
-    title: 'GN-CHAT',
-    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e8001a"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+    id: 'gn-chat', title: 'GN-CHAT', icon:'',
     content: buildChatHTML()
   });
   win.style.width = '900px';
@@ -1326,7 +1387,7 @@ function buildChatHTML() {
   return `<iframe src="${blobUrl}" style="width:100%;height:100%;border:none;" onload="URL.revokeObjectURL(this.src)"></iframe>`;
 }
 
-// ===== GAME LAUNCHERS — now fetch from remote URLs =====
+// ===== GAME LAUNCHERS =====
 function openGNMath() {
   if (openWindows.has('gnmath')) { focusWindow('gnmath'); return; }
   openRemoteApp('gnmath', 'GN-Math Games', REMOTE_URLS['gnmath']);
@@ -1338,18 +1399,16 @@ function openGNExtras() {
 }
 
 // ===== WINDOW MANAGEMENT =====
-// Opens built-in apps in fullscreen overlay using HTML loader
 function openApp(appId) {
-  // Redirect to remote app loader
   const appMap = {
-    'gn-stream': { name: 'GN Stream', url: REMOTE_URLS['gn-stream'] },
-    'gn-tv': { name: 'GN TV', url: REMOTE_URLS['gn-tv'] },
-    'gn-music': { name: 'GN Music', url: REMOTE_URLS['gn-music'] }
+    'gn-stream': { name:'GN Stream', url:REMOTE_URLS['gn-stream'] },
+    'gn-tv':     { name:'GN TV',     url:REMOTE_URLS['gn-tv'] },
+    'gn-music':  { name:'GN Music',  url:REMOTE_URLS['gn-music'] }
   };
   const app = appMap[appId];
   if (!app) return;
-  const overlay = document.getElementById('fullscreen-overlay');
-  const content = document.getElementById('fullscreen-content');
+  const overlay  = document.getElementById('fullscreen-overlay');
+  const content  = document.getElementById('fullscreen-content');
   document.getElementById('fullscreen-title').textContent = app.name.toUpperCase();
   overlay.classList.add('active');
   loadRemoteHTML(app.url, content);
@@ -1363,7 +1422,7 @@ function closeFullscreen() {
 function openZone(zone) {
   const id = `zone-${zone.id}`;
   if (openWindows.has(id)) { focusWindow(id); return; }
-  const win = createWindow({ id, title: zone.name, icon:'', content:'<div class="loader-overlay"><div class="loader-spinner"></div><span>LOADING...</span></div>' });
+  const win = createWindow({ id, title:zone.name, icon:'', content:'<div class="loader-overlay"><div class="loader-spinner"></div><span>LOADING...</span></div>' });
   const isInternal = !zone.url.startsWith("http");
   let gameUrl = zone.url;
   if (isInternal) {
@@ -1399,10 +1458,10 @@ function createWindow({id, title, icon, content}) {
   win.className = 'window';
   win.id = id;
   win.style.zIndex = ++windowZIndex;
-  win.style.width = '900px';
+  win.style.width  = '900px';
   win.style.height = '600px';
-  win.style.left = (60 + (openWindows.size * 20) % 200) + 'px';
-  win.style.top = (60 + (openWindows.size * 20) % 150) + 'px';
+  win.style.left   = (60 + (openWindows.size * 20) % 200) + 'px';
+  win.style.top    = (60 + (openWindows.size * 20) % 150) + 'px';
   win.innerHTML = `
     <div class="window-header" onmousedown="startDrag(event,'${id}')">
       <div class="window-title">
@@ -1429,7 +1488,7 @@ function toggleMaxWindow(id) {
   if (win.classList.contains('fullscreen')) {
     win.classList.remove('fullscreen');
     win.style.width = '900px'; win.style.height = '600px';
-    win.style.left = '60px'; win.style.top = '60px';
+    win.style.left = '60px';   win.style.top = '60px';
   } else {
     win.classList.add('fullscreen');
   }
@@ -1475,7 +1534,7 @@ function startDrag(e, id) {
 function onDrag(e) {
   if (!dragWindow) return;
   dragWindow.style.left = (e.clientX - dragOffset.x) + 'px';
-  dragWindow.style.top = (e.clientY - dragOffset.y) + 'px';
+  dragWindow.style.top  = (e.clientY - dragOffset.y) + 'px';
 }
 
 function stopDrag() {
@@ -1492,15 +1551,17 @@ function openStore() {
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;" id="store-grid">
         <div style="color:var(--text-mute);padding:20px;font-family:'Share Tech Mono',monospace;font-size:12px;">Loading games...</div>
       </div>
-    </div>
-  `});
+    </div>`});
   setTimeout(renderStore, 100);
 }
 
 function renderStore() {
   const grid = document.getElementById('store-grid');
   if (!grid) return;
-  if (zones.length === 0) { grid.innerHTML = '<div style="color:var(--text-mute);padding:20px;font-family:\'Share Tech Mono\',monospace;font-size:12px;">No games found. Check your connection.</div>'; return; }
+  if (zones.length === 0) {
+    grid.innerHTML = '<div style="color:var(--text-mute);padding:20px;font-family:\'Share Tech Mono\',monospace;font-size:12px;">No games found. Check your connection.</div>';
+    return;
+  }
   grid.innerHTML = '';
   zones.forEach(zone => {
     const card = document.createElement('div');
@@ -1533,7 +1594,7 @@ function showSettingsTab(tab, el) {
   document.querySelectorAll('.settings-item').forEach(i => i.classList.remove('active'));
   if (el) el.classList.add('active');
   const panel = document.getElementById('settings-panel');
-  const map = { system: getSystemSettings, personalization: getPersonalizationSettings, account: getAccountSettings, about: getAboutSettings };
+  const map = { system:getSystemSettings, personalization:getPersonalizationSettings, account:getAccountSettings, about:getAboutSettings };
   if (map[tab]) panel.innerHTML = map[tab]();
 }
 
@@ -1572,6 +1633,16 @@ function getAboutSettings() {
     <div class="setting-card"><h4>Credits</h4>
       <p style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-mute);">Zox — Owner / Founder<br>Corbini — Beta / Developer</p>
     </div>
+    <div class="setting-card"><h4>Apps</h4>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-mute);">
+        GN Editor — <span style="color:var(--primary);">INSTALLED</span><br>
+        GN Calc — <span style="color:var(--primary);">INSTALLED</span><br>
+        GN Chat — <span style="color:var(--primary);">INSTALLED</span><br>
+        GN Music — <span style="color:var(--primary);">INSTALLED</span><br>
+        GN Stream — <span style="color:var(--primary);">INSTALLED</span><br>
+        GN TV — <span style="color:var(--primary);">INSTALLED</span>
+      </p>
+    </div>
   </div>`;
 }
 
@@ -1587,7 +1658,7 @@ document.addEventListener('contextmenu', e => {
   const menu = document.getElementById('context-menu');
   menu.style.display = 'block';
   menu.style.left = e.pageX + 'px';
-  menu.style.top = e.pageY + 'px';
+  menu.style.top  = e.pageY + 'px';
 });
 
 document.addEventListener('click', () => {
@@ -1607,7 +1678,7 @@ function showNotification(msg, type = 'info') {
   n.textContent = msg;
   document.body.appendChild(n);
   setTimeout(() => {
-    n.style.opacity = '0';n.style.transform = 'translateX(30px)';n.style.transition = 'all 0.3s';
+    n.style.opacity = '0'; n.style.transform = 'translateX(30px)'; n.style.transition = 'all 0.3s';
     setTimeout(() => n.remove(), 300);
   }, 3000);
 }
@@ -1623,7 +1694,7 @@ document.addEventListener('keydown', e => {
 
 document.addEventListener('dragstart', e => e.preventDefault());
 
-// ===== GN-CHAT HTML (inline, no remote fetch needed) =====
+// ===== GN-CHAT HTML =====
 const gnChatHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
