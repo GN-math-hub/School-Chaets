@@ -1289,8 +1289,8 @@ const MOOD_MAP={
   inspire:{name:'Inspiring Stories ✨',genres:[18,36,10752],emoji:'✨',class:'mood-inspire'}
 };
 const SERVERS={
-  '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://test.autoembed.cc/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://test.autoembed.cc/embed/movie/${id}?autoplay=true`},
-  '2':{name:'AutoEmbed Player',url:(id,tv,s,e)=>tv?`https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`:`https://player.autoembed.cc/embed/movie/${id}`},
+  '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://Player.autoembed.cc/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://player.autoembed.cc/embed/movie/${id}?autoplay=true`},
+  '2':{name:'AutoEmbed Player',url:(id,tv,s,e)=>tv?`https://vidsrc.me/embed/tv/${id}/${s}/${e}`:`https://player.autoembed.cc/embed/movie/${id}`},
   '3':{name:'GN-stream FLixy',url:(id,tv,s,e)=>tv?`https://player.vidify.top/embed/tv/${id}/${s}/${e}?poster=true&autoPlay=true`:`https://player.vidify.top/embed/movie/${id}?poster=true&autoPlay=true`},
   '4':{name:'VidSrc.to',url:(id,tv,s,e)=>tv?`https://vidsrc.to/embed/tv/${id}/${s}/${e}`:`https://vidsrc.to/embed/movie/${id}`},
   '5':{name:'2Embed',url:(id,tv,s,e)=>tv?`https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`:`https://www.2embed.cc/embed/${id}`},
