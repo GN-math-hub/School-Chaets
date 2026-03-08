@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>GN-OS</title>
+  <base href="https://cdn.jsdelivr.net/gh/gn-math/gn-math-DONTDMCA@main/">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000814;
+      --surface: #0d141f;
+      --surface-h: #172233;
+      --text: #e9f1ff;
+      --text-mute: #88a1c4;
+      --primary: #ff2e55;
+      --primary-d: #c91e3f;
+      --accent: #6d28d9;
+      --glass: rgba(18,26,42,0.85);
+      --glass-h: rgba(35,45,65,0.95);
+      --border: rgba(110,130,170,0.25);
+      --glow: 0 0 36px rgba(255,46,85,0.38);
+      --radius: 8px;
+      --taskbar-height: 48px;
+      --win-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      --win-border: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    html, body { 
+      height:100%; 
+      font-family:'Segoe UI',system-ui,sans-serif; 
+      background:var(--bg); 
+      color:var(--text); 
+      overflow:hidden; 
+      touch-action:manipulation;
+      user-select: none;
+    }
+
+    /* Windows 11 Animations */
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+    @keyframes slideUp { from { transform:translateY(100%); opacity:0; } to { transform:translateY(0); opacity:1; } }
+    @keyframes slideDown { from { transform:translateY(-100%); } to { transform:translateY(0); } }
+    @keyframes pulse-glow { 0%,100% { box-shadow:0 0 20px rgba(255,46,85,0.4); } 50% { box-shadow:0 0 40px rgba(255,46,85,0.8); } }
+    @keyframes window-open { 0% { transform:scale(0.8); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+    @keyframes taskbar-bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+
+    /* Login Screen */
+    #login-screen {
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,46,85,0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(109,40,217,0.1) 0%, transparent 40%),
+        linear-gradient(135deg, #000814 0%, #001233 100%);
+      z-index:1000;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .login-container {
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: var(--win-border);
+      border-radius: 12px;
+      padding: 48px;
+      width: 420px;
+      max-width: 90%;
+      box-shadow: var(--win-shadow), 0 0 60px rgba(255,46,85,0.2);
+      animation: slideUp 0.5s ease;
+    }
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 20px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 700;
+      box-shadow: 0 8px 32px rgba(255,46,85,0.4);
+      animation: pulse-glow 3s infinite;
+    }
+
+    .login-container h1 { 
+      font-size: 28px; 
+      margin-bottom: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .login-container p {
+      color: var(--text-mute);
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      background: rgba(255,46,85,0.05);
+      box-shadow: 0 0 0 3px rgba(255,46,85,0.15);
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-mute);
+      font-size: 15px;
+      pointer-events: none;
+      transition: all 0.2s;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -8px;
+      left: 12px;
+      font-size: 12px;
+      background: var(--surface);
+      padding: 0 4px;
+      color: var(--primary);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      background: var(--primary);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .login-btn:hover {
+      background: var(--primary-d);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(255,46,85,0.4);
+    }
+
+    /* Desktop */
+    #desktop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding-top: var(--taskbar-height);
+      overflow: hidden;
+    }
+
+    #desktop.default-bg {
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255,46,85,0.08) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(109,40,217,0.06) 0%, transparent 30%),
+        linear-gradient(45deg, #000814 0%, #001233 100%);
+    }
+
+    /* Taskbar - Windows 11 Style */
+    #taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--taskbar-height);
+      background: rgba(13, 20, 31, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    }
+
+    #taskbar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      background: rgba(255,255,255,0.03);
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .taskbar-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .taskbar-icon:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .taskbar-icon.active {
+      background: rgba(255,46,85,0.2);
+    }
+
+    .taskbar-icon.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      width: 16px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .taskbar-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    #taskbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+
+    .system-tray {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .system-tray:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .battery-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .battery-icon {
+      width: 20px;
+      height: 12px;
+      border: 1px solid var(--text-mute);
+      border-radius: 2px;
+      position: relative;
+      padding: 2px;
+    }
+
+    .battery-icon::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 6px;
+      background: var(--text-mute);
+      border-radius: 0 1px 1px 0;
+    }
+
+    .battery-fill {
+      height: 100%;
+      background: linear-gradient(to right, #4ade80, #22c55e);
+      border-radius: 1px;
+      transition: width 0.3s;
+    }
+
+    .battery-fill.low { background: linear-gradient(to right, #ef4444, #dc2626); }
+    .battery-fill.charging { 
+      background: linear-gradient(to right, #facc15, #eab308);
+      animation: pulse 2s infinite;
+    }
+
+    /* Start Menu */
+    #start-menu {
+      position: fixed;
+      bottom: calc(var(--taskbar-height) + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      width: 640px;
+      height: 720px;
+      max-height: calc(100vh - var(--taskbar-height) - 24px);
+      background: rgba(18, 26, 42, 0.98);
+      backdrop-filter: blur(40px) saturate(200%);
+      border: var(--win-border);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #start-menu.open {
+      display: flex;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .start-header {
+      padding: 32px 32px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .start-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .start-search {
+      padding: 0 32px 24px;
+    }
+
+    .start-search input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .start-search input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255,46,85,0.15);
+    }
+
+    .pinned-apps {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 32px 32px;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .app-tile {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .app-tile:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-2px);
+    }
+
+    .app-tile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .app-tile span {
+      font-size: 11px;
+      text-align: center;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .app-tile .uninstall-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(239,68,68,0.9);
+      border: none;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-tile:hover .uninstall-btn { opacity: 1; }
+
+    /* Windows */
+    .window {
+      position: fixed;
+      background: rgba(13, 20, 31, 0.98);
+      backdrop-filter: blur(20px);
+      border: var(--win-border);
+      border-radius: 8px;
+      box-shadow: var(--win-shadow), 0 0 0 1px rgba(255,46,85,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      animation: window-open 0.3s ease;
+      min-width: 400px;
+      min-height: 300px;
+      resize: both;
+    }
+
+    .window.maximized {
+      top: var(--taskbar-height) !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: calc(100vh - var(--taskbar-height)) !important;
+      border-radius: 0;
+      resize: none;
+    }
+
+    .window-header {
+      height: 40px;
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      -webkit-app-region: drag;
+    }
+
+    .window-title {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .window-title img {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 2px;
+      -webkit-app-region: no-drag;
+    }
+
+    .window-btn {
+      width: 46px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .window-btn:hover { background: rgba(255,255,255,0.1); }
+    .window-btn.close:hover { background: #e81123; color: white; }
+
+    .window-content {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .window-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000;
+    }
+
+    /* Fullscreen Overlay */
+    .fullscreen-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+    }
+
+    .fullscreen-overlay.active { display: flex; }
+
+    .fullscreen-header {
+      height: 48px;
+      background: rgba(13, 20, 31, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: var(--win-border);
+    }
+
+    .fullscreen-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .fullscreen-close {
+      width: 40px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .fullscreen-close:hover { background: #e81123; color: white; }
+
+    .fullscreen-content {
+      flex: 1;
+      position: relative;
+    }
+
+    .fullscreen-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Settings Window */
+    .settings-sidebar {
+      width: 280px;
+      background: rgba(0,0,0,0.2);
+      border-right: var(--win-border);
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+
+    .settings-item {
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .settings-item:hover { background: rgba(255,255,255,0.05); }
+    .settings-item.active {
+      background: rgba(255,46,85,0.1);
+      border-left-color: var(--primary);
+    }
+
+    .settings-item i {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .settings-panel {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .settings-section h3 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .setting-card {
+      background: rgba(255,255,255,0.03);
+      border: var(--win-border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .setting-card h4 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    /* Dev Menu */
+    .dev-badge {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      padding: 8px 16px;
+      background: rgba(255,46,85,0.2);
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 500;
+    }
+
+    .dev-badge:hover {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+
+    #dev-menu {
+      position: fixed;
+      top: 60px;
+      right: 16px;
+      width: 280px;
+      background: rgba(13, 20, 31, 0.98);
+      backdrop-filter: blur(20px);
+      border: var(--win-border);
+      border-radius: 12px;
+      box-shadow: var(--win-shadow);
+      z-index: 501;
+      display: none;
+      overflow: hidden;
+      animation: fadeIn 0.2s ease;
+    }
+
+    #dev-menu.open { display: block; }
+
+    .dev-header {
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(255,46,85,0.3), rgba(109,40,217,0.3));
+      text-align: center;
+    }
+
+    .dev-header h3 { font-size: 18px; margin-bottom: 4px; }
+    .dev-header p { font-size: 12px; opacity: 0.8; }
+
+    .dev-list {
+      padding: 16px;
+    }
+
+    .dev-member {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .dev-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .dev-info { flex: 1; }
+    .dev-info .name { font-weight: 600; font-size: 14px; }
+    .dev-info .role { font-size: 12px; color: var(--text-mute); }
+
+    /* Discord Button */
+    .discord-btn {
+      position: fixed;
+      right: 16px;
+      bottom: calc(var(--taskbar-height) + 16px);
+      width: 56px;
+      height: 56px;
+      background: #5865F2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(88,101,242,0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+      border: none;
+    }
+
+    .discord-btn:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 30px rgba(88,101,242,0.6);
+    }
+
+    .discord-btn img { width: 32px; height: 32px; }
+
+    /* Context Menu */
+    .context-menu {
+      position: fixed;
+      background: rgba(18, 26, 42, 0.98);
+      backdrop-filter: blur(20px);
+      border: var(--win-border);
+      border-radius: 8px;
+      padding: 8px 0;
+      min-width: 200px;
+      box-shadow: var(--win-shadow);
+      z-index: 10000;
+      display: none;
+      animation: fadeIn 0.1s ease;
+    }
+
+    .context-menu-item {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.1s;
+    }
+
+    .context-menu-item:hover { background: rgba(255,46,85,0.2); }
+    .context-menu-item.danger { color: #ff6b6b; }
+    .context-menu-item.danger:hover { background: rgba(239,68,68,0.2); }
+
+    .context-menu-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: fixed;
+      background: rgba(0,0,0,0.9);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .tooltip.show { opacity: 1; }
+
+    /* Loading Screen */
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.5s;
+    }
+
+    .boot-logo {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .boot-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,46,85,0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255,46,85,0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,46,85,0.5); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #start-menu { width: 100%; left: 0; transform: translateY(20px); border-radius: 12px 12px 0 0; }
+      #start-menu.open { transform: translateY(0); }
+      .apps-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Boot Screen -->
+<div id="boot-screen">
+  <div class="boot-logo">GN</div>
+  <div class="boot-spinner"></div>
+</div>
+
+<!-- Login Screen -->
+<div id="login-screen" style="display:none;">
+  <div class="login-container">
+    <div class="login-logo">GN</div>
+    <h1>Welcome to GN-OS</h1>
+    <p>Enter your credentials to continue</p>
+    <div class="input-group">
+      <input type="text" id="username" placeholder=" " autocomplete="off"/>
+      <label>Username</label>
+    </div>
+    <div class="input-group">
+      <input type="password" id="password" placeholder=" " autocomplete="new-password"/>
+      <label>Password</label>
+    </div>
+    <button class="login-btn" onclick="createAccount()">Sign In</button>
+  </div>
+</div>
+
+<!-- Desktop -->
+<div id="desktop" class="default-bg">
+  <!-- Dev Menu -->
+  <div class="dev-badge" onclick="toggleDevMenu()">⚡ Dev Menu</div>
+  <div id="dev-menu">
+    <div class="dev-header">
+      <h3>Development Team</h3>
+      <p>GN-OS v2.0</p>
+    </div>
+    <div class="dev-list">
+      <div class="dev-member">
+        <div class="dev-avatar">Z</div>
+        <div class="dev-info">
+          <div class="name">Zox</div>
+          <div class="role">Owner / Founder</div>
+        </div>
+      </div>
+      <div class="dev-member">
+        <div class="dev-avatar">C</div>
+        <div class="dev-info">
+          <div class="name">Corbini</div>
+          <div class="role">Beta / Developer</div>
+        </div>
+      </div>
+      <div class="context-menu-divider"></div>
+      <div class="context-menu-item" onclick="openSettings(); toggleDevMenu();">
+        <span>⚙️</span> Open Settings
+      </div>
+      <div class="context-menu-item" onclick="toggleDevMenu(); document.getElementById('start-menu').classList.add('open');">
+        <span>🚀</span> Open Start Menu
+      </div>
+    </div>
+  </div>
+
+  <!-- Discord Button -->
+  <button class="discord-btn" onclick="window.open('https://discord.gg/CkZFWCmXJ', '_blank')" title="Join our Discord">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+    </svg>
+  </button>
+
+  <!-- Windows Container -->
+  <div id="windows-container"></div>
+</div>
+
+<!-- Taskbar -->
+<div id="taskbar">
+  <div id="taskbar-center">
+    <div class="taskbar-icon" id="start-btn" onclick="toggleStartMenu()" title="Start">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="9" height="9" rx="1" fill="var(--primary)"/>
+        <rect x="13" y="2" width="9" height="9" rx="1" fill="var(--primary)"/>
+        <rect x="2" y="13" width="9" height="9" rx="1" fill="var(--primary)"/>
+        <rect x="13" y="13" width="9" height="9" rx="1" fill="var(--primary)"/>
+      </svg>
+    </div>
+    <div class="taskbar-icon" onclick="openStore()" title="GN Store">
+      <img src="https://img.icons8.com/fluency/96/google-play.png"/>
+    </div>
+    <div class="taskbar-icon" onclick="openApp('gn-stream')" title="GN Stream">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5 3 19 12 5 21 5 3" fill="var(--primary)" stroke="none"/>
+      </svg>
+    </div>
+    <div class="taskbar-icon" onclick="openApp('gn-tv')" title="GN TV">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="15" rx="2" stroke="var(--primary)"/>
+        <polyline points="17 2 12 7 7 2" stroke="var(--primary)"/>
+      </svg>
+    </div>
+    <div class="taskbar-icon" onclick="openApp('gn-music')" title="GN Music">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18V5l12-2v13" stroke="var(--primary)"/>
+        <circle cx="6" cy="18" r="3" fill="var(--primary)" stroke="none"/>
+        <circle cx="18" cy="16" r="3" fill="var(--primary)" stroke="none"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div id="taskbar-right">
+    <div class="system-tray" onclick="openSettings()" title="Settings">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </div>
+    <div class="system-tray">
+      <div class="battery-indicator">
+        <span id="battery-percent" style="font-size:12px;">--%</span>
+        <div class="battery-icon">
+          <div class="battery-fill" id="battery-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="system-tray" id="clock-tray">
+      <span id="clock-time" style="font-weight:600;">12:00</span>
+      <span id="clock-date" style="font-size:11px; opacity:0.7;">1/1/2024</span>
+    </div>
+  </div>
+</div>
+
+<!-- Start Menu -->
+<div id="start-menu">
+  <div class="start-header">
+    <h2>Pinned</h2>
+    <span style="color:var(--text-mute); font-size:12px;">All apps ></span>
+  </div>
+  <div class="start-search">
+    <input type="text" placeholder="Type here to search" id="start-search-input"/>
+  </div>
+  <div class="pinned-apps">
+    <div class="apps-grid" id="pinned-apps-grid">
+      <!-- Apps injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- Fullscreen Overlay -->
+<div class="fullscreen-overlay" id="fullscreen-overlay">
+  <div class="fullscreen-header">
+    <span class="fullscreen-title" id="fullscreen-title">App</span>
+    <button class="fullscreen-close" onclick="closeFullscreen()">×</button>
+  </div>
+  <div class="fullscreen-content">
+    <iframe id="fullscreen-iframe" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div class="context-menu" id="context-menu">
+  <div class="context-menu-item" onclick="refreshDesktop()">
+    <span>🔄</span> Refresh
+  </div>
+  <div class="context-menu-item" onclick="openSettings()">
+    <span>⚙️</span> Settings
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" onclick="toggleDevMenu()">
+    <span>👨‍💻</span> Dev Menu
+  </div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item danger" onclick="location.reload()">
+    <span>🔄</span> Restart GN-OS
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// Configuration
+const zonesURL = "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json";
+const coverBase = "https://cdn.jsdelivr.net/gh/gn-math/covers@main";
+const htmlBase = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
+
+// Built-in Apps
+const builtInApps = [
+  {
+    id: 'gn-stream',
+    name: 'GN Stream',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff2e55"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    url: 'https://gnstream-6v3.caffeine.xyz/',
+    type: 'iframe',
+    color: '#ff2e55'
+  },
+  {
+    id: 'gn-tv',
+    name: 'GN TV',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ff2e55" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>',
+    url: 'https://gn-tv-kd0.caffeine.xyz/',
+    type: 'iframe',
+    color: '#ff2e55'
+  },
+  {
+    id: 'gn-music',
+    name: 'GN Music',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ff2e55" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="%23ff2e55" stroke="none"/><circle cx="18" cy="16" r="3" fill="%23ff2e55" stroke="none"/></svg>',
+    url: 'https://gn-music-mv4.caffeine.xyz/',
+    type: 'iframe',
+    color: '#ff2e55'
+  }
+];
+
+// State
+let zones = [];
+let installed = JSON.parse(localStorage.getItem("gnos_installed") || "[]");
+let account = JSON.parse(localStorage.getItem("gnos_account") || "null");
+let openWindows = new Map();
+let windowZIndex = 100;
+let activeWindow = null;
+
+// Boot Sequence
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('boot-screen').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('boot-screen').style.display = 'none';
+      if (account) {
+        showDesktop();
+      } else {
+        document.getElementById('login-screen').style.display = 'flex';
+      }
+    }, 500);
+  }, 1500);
+});
+
+function showDesktop() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('desktop').style.display = 'block';
+  initOS();
+}
+
+// Account Management
+function createAccount() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  
+  if (username.length < 3) return showNotification('Username must be at least 3 characters', 'error');
+  if (password.length < 4) return showNotification('Password must be at least 4 characters', 'error');
+  
+  account = {
+    username: username,
+    created: Date.now(),
+    settings: {
+      theme: 'dark',
+      wallpaper: null
+    }
+  };
+  
+  localStorage.setItem("gnos_account", JSON.stringify(account));
+  showDesktop();
+  showNotification(`Welcome, ${username}!`, 'success');
+}
+
+// OS Initialization
+async function initOS() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  updateBattery();
+  loadWallpaper();
+  renderPinnedApps();
+  
+  try {
+    const r = await fetch(zonesURL + "?t=" + Date.now());
+    zones = await r.json();
+    renderPinnedApps();
+  } catch(e) {
+    console.error("Failed to load zones:", e);
+  }
+}
+
+// Clock & Battery
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock-time').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  document.getElementById('clock-date').textContent = now.toLocaleDateString([], {month: 'numeric', day: 'numeric', year: '2-digit'});
+}
+
+async function updateBattery() {
+  if (!navigator.getBattery) return;
+  try {
+    const battery = await navigator.getBattery();
+    const update = () => {
+      const level = Math.round(battery.level * 100);
+      const fill = document.getElementById('battery-fill');
+      document.getElementById('battery-percent').textContent = level + '%';
+      fill.style.width = level + '%';
+      fill.className = 'battery-fill' + (battery.charging ? ' charging' : level < 20 ? ' low' : '');
+    };
+    update();
+    battery.addEventListener('levelchange', update);
+    battery.addEventListener('chargingchange', update);
+  } catch(e) {}
+}
+
+// Wallpaper
+function loadWallpaper() {
+  const wp = localStorage.getItem("gnos_wallpaper");
+  const desktop = document.getElementById('desktop');
+  if (wp) {
+    desktop.style.backgroundImage = `url(${wp})`;
+    desktop.classList.remove('default-bg');
+  } else {
+    desktop.style.backgroundImage = '';
+    desktop.classList.add('default-bg');
+  }
+}
+
+// Start Menu
+function toggleStartMenu() {
+  const menu = document.getElementById('start-menu');
+  const btn = document.getElementById('start-btn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('active');
+  if (menu.classList.contains('open')) {
+    document.getElementById('start-search-input').focus();
+  }
+}
+
+// Render Pinned Apps
+function renderPinnedApps() {
+  const grid = document.getElementById('pinned-apps-grid');
+  grid.innerHTML = '';
+  
+  // Built-in apps
+  builtInApps.forEach(app => {
+    const tile = createAppTile(app);
+    grid.appendChild(tile);
+  });
+  
+  // Installed zones
+  installed.forEach(id => {
+    const zone = zones.find(z => z.id == id);
+    if (zone) {
+      const tile = createAppTile({
+        id: zone.id,
+        name: zone.name,
+        icon: zone.cover.replace("{COVER_URL}", coverBase),
+        url: zone.url,
+        type: 'zone',
+        zoneData: zone
+      });
+      grid.appendChild(tile);
+    }
+  });
+}
+
+function createAppTile(app) {
+  const tile = document.createElement('div');
+  tile.className = 'app-tile';
+  tile.innerHTML = `
+    <img src="${app.icon}" onerror="this.src='https://via.placeholder.com/40'"/>
+    <span>${app.name}</span>
+    ${app.type !== 'builtin' ? `<button class="uninstall-btn" onclick="uninstallApp('${app.id}', event)">×</button>` : ''}
+  `;
+  tile.onclick = () => {
+    if (app.type === 'zone') openZone(app.zoneData);
+    else openFullscreenApp(app);
+    toggleStartMenu();
+  };
+  return tile;
+}
+
+// Window Management
+function openZone(zone) {
+  const id = `zone-${zone.id}`;
+  if (openWindows.has(id)) {
+    focusWindow(id);
+    return;
+  }
+  
+  const win = createWindow({
+    id: id,
+    title: zone.name,
+    icon: zone.cover.replace("{COVER_URL}", coverBase),
+    content: `<div style="color:#fff;padding:3rem;text-align:center;">Loading ${zone.name}...</div>`
+  });
+  
+  // Load content
+  const isInternal = !zone.url.startsWith("http");
+  let gameUrl = zone.url;
+  if (isInternal) {
+    gameUrl = zone.url.replace("{HTML_URL}", htmlBase).replace("{COVER_URL}", coverBase) + "?t=" + Date.now();
+  }
+  
+  if (!isInternal) {
+    setTimeout(() => {
+      win.querySelector('.window-content').innerHTML = `<iframe src="${gameUrl}" allowfullscreen></iframe>`;
+    }, 100);
+  } else {
+    fetch(gameUrl)
+      .then(r => r.text())
+      .then(html => {
+        const blob = new Blob([html], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        win.querySelector('.window-content').innerHTML = `<iframe src="${url}" allowfullscreen></iframe>`;
+      });
+  }
+}
+
+function openApp(appId) {
+  const app = builtInApps.find(a => a.id === appId);
+  if (app) openFullscreenApp(app);
+}
+
+function openFullscreenApp(app) {
+  const overlay = document.getElementById('fullscreen-overlay');
+  const iframe = document.getElementById('fullscreen-iframe');
+  const title = document.getElementById('fullscreen-title');
+  
+  title.textContent = app.name;
+  iframe.src = app.url;
+  overlay.classList.add('active');
+  
+  // Add to taskbar
+  addTaskbarItem(app);
+}
+
+function closeFullscreen() {
+  const overlay = document.getElementById('fullscreen-overlay');
+  const iframe = document.getElementById('fullscreen-iframe');
+  overlay.classList.remove('active');
+  iframe.src = '';
+}
+
+function createWindow({id, title, icon, content}) {
+  const container = document.getElementById('windows-container');
+  const win = document.createElement('div');
+  win.className = 'window';
+  win.id = id;
+  win.style.zIndex = ++windowZIndex;
+  win.style.width = '900px';
+  win.style.height = '600px';
+  win.style.left = '50px';
+  win.style.top = '50px';
+  
+  win.innerHTML = `
+    <div class="window-header" onmousedown="startDrag(event, '${id}')">
+      <div class="window-title">
+        <img src="${icon}" onerror="this.style.display='none'"/>
+        ${title}
+      </div>
+      <div class="window-controls">
+        <button class="window-btn" onclick="minimizeWindow('${id}')">−</button>
+        <button class="window-btn" onclick="maximizeWindow('${id}')">□</button>
+        <button class="window-btn close" onclick="closeWindow('${id}')">×</button>
+      </div>
+    </div>
+    <div class="window-content">${content}</div>
+  `;
+  
+  win.addEventListener('mousedown', () => focusWindow(id));
+  container.appendChild(win);
+  openWindows.set(id, win);
+  activeWindow = id;
+  
+  // Animation
+  win.style.transform = 'scale(0.9)';
+  setTimeout(() => win.style.transform = 'scale(1)', 10);
+  
+  return win;
+}
+
+function focusWindow(id) {
+  const win = openWindows.get(id);
+  if (!win) return;
+  win.style.zIndex = ++windowZIndex;
+  activeWindow = id;
+}
+
+function closeWindow(id) {
+  const win = openWindows.get(id);
+  if (win) {
+    win.style.transform = 'scale(0.9)';
+    win.style.opacity = '0';
+    setTimeout(() => {
+      win.remove();
+      openWindows.delete(id);
+    }, 200);
+  }
+}
+
+function minimizeWindow(id) {
+  const win = openWindows.get(id);
+  if (win) win.style.display = 'none';
+}
+
+function maximizeWindow(id) {
+  const win = openWindows.get(id);
+  win.classList.toggle('maximized');
+}
+
+// Drag functionality
+let dragOffset = {x:0, y:0};
+let dragWindow = null;
+
+function startDrag(e, id) {
+  if (e.target.closest('.window-controls')) return;
+  dragWindow = document.getElementById(id);
+  if (dragWindow.classList.contains('maximized')) return;
+  dragOffset.x = e.clientX - dragWindow.offsetLeft;
+  dragOffset.y = e.clientY - dragWindow.offsetTop;
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', stopDrag);
+}
+
+function onDrag(e) {
+  if (!dragWindow) return;
+  dragWindow.style.left = (e.clientX - dragOffset.x) + 'px';
+  dragWindow.style.top = (e.clientY - dragOffset.y) + 'px';
+}
+
+function stopDrag() {
+  dragWindow = null;
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup', stopDrag);
+}
+
+// Store
+function openStore() {
+  // Create store window
+  const win = createWindow({
+    id: 'store',
+    title: 'GN Store',
+    icon: 'https://img.icons8.com/fluency/96/google-play.png',
+    content: `
+      <div style="display:flex; height:100%;">
+        <div style="width:250px; background:rgba(0,0,0,0.3); padding:20px; border-right:1px solid var(--border);">
+          <button onclick="renderStoreTab('all')" style="width:100%; padding:12px; margin-bottom:8px; background:var(--primary); border:none; color:white; border-radius:6px; cursor:pointer;">All Apps</button>
+          <button onclick="renderStoreTab('installed')" style="width:100%; padding:12px; background:transparent; border:1px solid var(--border); color:var(--text); border-radius:6px; cursor:pointer;">Installed</button>
+        </div>
+        <div style="flex:1; padding:20px; overflow-y:auto;" id="store-content">
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px;" id="store-grid"></div>
+        </div>
+      </div>
+    `
+  });
+  renderStoreTab('all');
+}
+
+function renderStoreTab(tab) {
+  const grid = document.getElementById('store-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = '';
+  
+  if (tab === 'all') {
+    zones.forEach(zone => {
+      const isInstalled = installed.includes(zone.id);
+      const card = document.createElement('div');
+      card.style.cssText = 'background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; cursor:pointer; transition:all 0.2s;';
+      card.innerHTML = `
+        <img src="${zone.cover.replace("{COVER_URL}", coverBase)}" style="width:100%; height:120px; object-fit:cover; border-radius:6px; margin-bottom:12px;"/>
+        <div style="font-weight:600; margin-bottom:8px;">${zone.name}</div>
+        <button style="width:100%; padding:8px; background:${isInstalled ? '#059669' : 'var(--primary)'}; border:none; color:white; border-radius:4px; cursor:pointer;" 
+          onclick="event.stopPropagation(); ${isInstalled ? '' : `installZone(${zone.id})`}">
+          ${isInstalled ? 'Installed' : 'Install'}
+        </button>
+      `;
+      card.onclick = () => openZone(zone);
+      card.onmouseenter = () => card.style.transform = 'translateY(-4px)';
+      card.onmouseleave = () => card.style.transform = 'translateY(0)';
+      grid.appendChild(card);
+    });
+  } else {
+    if (installed.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-mute); padding:40px;">No apps installed</div>';
+    } else {
+      installed.forEach(id => {
+        const zone = zones.find(z => z.id == id);
+        if (zone) {
+          const card = document.createElement('div');
+          card.style.cssText = 'background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center;';
+          card.innerHTML = `
+            <img src="${zone.cover.replace("{COVER_URL}", coverBase)}" style="width:100%; height:120px; object-fit:cover; border-radius:6px; margin-bottom:12px;"/>
+            <div style="font-weight:600; margin-bottom:8px;">${zone.name}</div>
+            <button style="width:100%; padding:8px; background:#ef4444; border:none; color:white; border-radius:4px; cursor:pointer;" onclick="uninstallZone(${zone.id})">Uninstall</button>
+          `;
+          grid.appendChild(card);
+        }
+      });
+    }
+  }
+}
+
+function installZone(id) {
+  if (!installed.includes(id)) {
+    installed.push(id);
+    localStorage.setItem("gnos_installed", JSON.stringify(installed));
+    renderStoreTab('all');
+    renderPinnedApps();
+    showNotification('App installed successfully', 'success');
+  }
+}
+
+function uninstallZone(id) {
+  installed = installed.filter(x => x !== id);
+  localStorage.setItem("gnos_installed", JSON.stringify(installed));
+  renderStoreTab('installed');
+  renderPinnedApps();
+  showNotification('App uninstalled', 'info');
+}
+
+function uninstallApp(id, event) {
+  event.stopPropagation();
+  if (typeof id === 'number') uninstallZone(id);
+}
+
+// Settings
+function openSettings() {
+  const win = createWindow({
+    id: 'settings',
+    title: 'Settings',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+    content: `
+      <div style="display:flex; height:100%;">
+        <div class="settings-sidebar">
+          <div class="settings-item active" onclick="showSettingsTab('system')">
+            <span>💻</span> System
+          </div>
+          <div class="settings-item" onclick="showSettingsTab('personalization')">
+            <span>🎨</span> Personalization
+          </div>
+          <div class="settings-item" onclick="showSettingsTab('account')">
+            <span>👤</span> Account
+          </div>
+          <div class="settings-item" onclick="showSettingsTab('about')">
+            <span>ℹ️</span> About
+          </div>
+        </div>
+        <div class="settings-panel" id="settings-panel">
+          ${getSystemSettings()}
+        </div>
+      </div>
+    `
+  });
+}
+
+function showSettingsTab(tab) {
+  const panel = document.getElementById('settings-panel');
+  document.querySelectorAll('.settings-item').forEach(el => el.classList.remove('active'));
+  event.target.closest('.settings-item').classList.add('active');
+  
+  switch(tab) {
+    case 'system': panel.innerHTML = getSystemSettings(); break;
+    case 'personalization': panel.innerHTML = getPersonalizationSettings(); break;
+    case 'account': panel.innerHTML = getAccountSettings(); break;
+    case 'about': panel.innerHTML = getAboutSettings(); break;
+  }
+}
+
+function getSystemSettings() {
+  return `
+    <div class="settings-section">
+      <h3>System</h3>
+      <div class="setting-card">
+        <h4>Display</h4>
+        <p style="color:var(--text-mute); margin-bottom:16px;">Adjust your display settings</p>
+        <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+          <input type="checkbox" checked disabled style="width:18px; height:18px; accent-color:var(--primary);"/>
+          <span>Dark Mode (Always on)</span>
+        </label>
+      </div>
+      <div class="setting-card">
+        <h4>Performance</h4>
+        <p style="color:var(--text-mute);">Animations: <span style="color:var(--primary);">Enabled</span></p>
+        <p style="color:var(--text-mute);">Transparency Effects: <span style="color:var(--primary);">Enabled</span></p>
+      </div>
+    </div>
+  `;
+}
+
+function getPersonalizationSettings() {
+  return `
+    <div class="settings-section">
+      <h3>Personalization</h3>
+      <div class="setting-card">
+        <h4>Background</h4>
+        <input type="text" id="wallpaper-input" placeholder="Enter image URL..." style="width:100%; padding:10px; background:rgba(0,0,0,0.3); border:1px solid var(--border); color:var(--text); border-radius:6px; margin-bottom:12px;"/>
+        <button onclick="applyWallpaper()" style="padding:10px 20px; background:var(--primary); border:none; color:white; border-radius:6px; cursor:pointer; margin-right:8px;">Apply</button>
+        <button onclick="resetWallpaper()" style="padding:10px 20px; background:transparent; border:1px solid var(--border); color:var(--text); border-radius:6px; cursor:pointer;">Reset to Default</button>
+      </div>
+    </div>
+  `;
+}
+
+function getAccountSettings() {
+  return `
+    <div class="settings-section">
+      <h3>Account</h3>
+      <div class="setting-card">
+        <h4>User Information</h4>
+        <p><strong>Username:</strong> ${account?.username || 'Guest'}</p>
+        <p><strong>Account Created:</strong> ${account ? new Date(account.created).toLocaleDateString() : 'N/A'}</p>
+        <p><strong>Apps Installed:</strong> ${installed.length}</p>
+      </div>
+      <div class="setting-card">
+        <h4>Danger Zone</h4>
+        <button onclick="if(confirm('Reset all data? This cannot be undone.')) { localStorage.clear(); location.reload(); }" style="padding:10px 20px; background:#ef4444; border:none; color:white; border-radius:6px; cursor:pointer;">Reset All Data</button>
+      </div>
+    </div>
+  `;
+}
+
+function getAboutSettings() {
+  return `
+    <div class="settings-section">
+      <h3>About GN-OS</h3>
+      <div class="setting-card">
+        <h4>Version Information</h4>
+        <p><strong>GN-OS Version:</strong> 2.0 (Windows Edition)</p>
+        <p><strong>Build:</strong> 2024.1</p>
+        <p><strong>Developer:</strong> GN-Math Team</p>
+      </div>
+      <div class="setting-card">
+        <h4>Credits</h4>
+        <p>• Zox - Owner/Founder</p>
+        <p>• Corbini - Beta/Developer</p>
+      </div>
+    </div>
+  `;
+}
+
+function applyWallpaper() {
+  const url = document.getElementById('wallpaper-input').value;
+  if (url) {
+    localStorage.setItem("gnos_wallpaper", url);
+    loadWallpaper();
+    showNotification('Wallpaper applied', 'success');
+  }
+}
+
+function resetWallpaper() {
+  localStorage.removeItem("gnos_wallpaper");
+  loadWallpaper();
+  showNotification('Wallpaper reset', 'info');
+}
+
+// Dev Menu
+function toggleDevMenu() {
+  document.getElementById('dev-menu').classList.toggle('open');
+}
+
+// Context Menu
+document.addEventListener('contextmenu', e => {
+  if (e.target.closest('.window') || e.target.closest('#taskbar')) return;
+  e.preventDefault();
+  const menu = document.getElementById('context-menu');
+  menu.style.display = 'block';
+  menu.style.left = e.pageX + 'px';
+  menu.style.top = e.pageY + 'px';
+});
+
+document.addEventListener('click', () => {
+  document.getElementById('context-menu').style.display = 'none';
+  if (!event.target.closest('.dev-badge') && !event.target.closest('#dev-menu')) {
+    document.getElementById('dev-menu').classList.remove('open');
+  }
+});
+
+function refreshDesktop() {
+  renderPinnedApps();
+  showNotification('Desktop refreshed', 'success');
+}
+
+// Notifications
+function showNotification(message, type = 'info') {
+  const notif = document.createElement('div');
+  notif.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#22c55e' : 'var(--primary)'};
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    z-index: 10000;
+    animation: slideDown 0.3s ease;
+    font-weight: 500;
+  `;
+  notif.textContent = message;
+  document.body.appendChild(notif);
+  setTimeout(() => {
+    notif.style.opacity = '0';
+    notif.style.transform = 'translateY(-20px)';
+    setTimeout(() => notif.remove(), 300);
+  }, 3000);
+}
+
+// Taskbar items for fullscreen apps
+function addTaskbarItem(app) {
+  // Visual feedback only - in real implementation would show active app
+}
+
+// Search in start menu
+document.getElementById('start-search-input')?.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  document.querySelectorAll('.app-tile').forEach(tile => {
+    const name = tile.querySelector('span').textContent.toLowerCase();
+    tile.style.display = name.includes(query) ? 'flex' : 'none';
+  });
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'Meta' || (e.ctrlKey && e.key === 'Escape')) {
+    e.preventDefault();
+    toggleStartMenu();
+  }
+  if (e.key === 'Escape' && document.getElementById('fullscreen-overlay').classList.contains('active')) {
+    closeFullscreen();
+  }
+});
+
+// Prevent default drag behaviors
+document.addEventListener('dragstart', e => e.preventDefault());
+</script>
+</body>
+</html>
