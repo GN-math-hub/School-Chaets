@@ -996,10 +996,10 @@
       color: transparent;
       background: linear-gradient(
         160deg,
-        rgba(255,255,255,0.11) 0%,
-        rgba(232,0,26,0.22) 35%,
-        rgba(255,80,60,0.18) 60%,
-        rgba(255,255,255,0.07) 100%
+        rgba(255,255,255,0.55) 0%,
+        rgba(255,80,60,0.75) 35%,
+        rgba(232,0,26,0.65) 60%,
+        rgba(255,255,255,0.38) 100%
       );
       -webkit-background-clip: text;
       background-clip: text;
@@ -1020,9 +1020,9 @@
       color: transparent;
       background: linear-gradient(
         160deg,
-        rgba(232,0,26,0.06) 0%,
-        rgba(255,60,40,0.12) 50%,
-        rgba(232,0,26,0.05) 100%
+        rgba(232,0,26,0.25) 0%,
+        rgba(255,80,40,0.45) 50%,
+        rgba(232,0,26,0.20) 100%
       );
       -webkit-background-clip: text;
       background-clip: text;
@@ -1076,7 +1076,7 @@
       font-family: 'Share Tech Mono', monospace;
       font-size: 11px;
       letter-spacing: 5px;
-      color: rgba(200,0,20,0.38);
+      color: rgba(220,80,60,0.7);
       text-transform: uppercase;
     }
 
@@ -1126,7 +1126,7 @@
     .widget-weather-icon {
       font-size: 40px;
       line-height: 1;
-      filter: drop-shadow(0 0 14px rgba(200,0,20,0.25));
+      filter: drop-shadow(0 0 14px rgba(255,80,40,0.55));
       animation: wicon-float 4s ease-in-out infinite;
     }
     @keyframes wicon-float {
@@ -1147,9 +1147,9 @@
       color: transparent;
       background: linear-gradient(
         135deg,
-        rgba(255,255,255,0.18) 0%,
-        rgba(220,40,40,0.28) 50%,
-        rgba(255,255,255,0.10) 100%
+        rgba(255,255,255,0.75) 0%,
+        rgba(255,100,80,0.85) 50%,
+        rgba(255,255,255,0.55) 100%
       );
       -webkit-background-clip: text;
       background-clip: text;
@@ -1159,7 +1159,7 @@
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
       letter-spacing: 3px;
-      color: rgba(200,0,20,0.38);
+      color: rgba(255,100,80,0.75);
       text-transform: uppercase;
       margin-top: 3px;
     }
@@ -1182,12 +1182,12 @@
       font-family: 'Share Tech Mono', monospace;
       font-size: 10px;
       letter-spacing: 2px;
-      color: rgba(160,60,60,0.4);
+      color: rgba(220,120,100,0.7);
       display: flex;
       gap: 6px;
     }
     .widget-extra .val {
-      color: rgba(240,180,180,0.28);
+      color: rgba(255,200,180,0.75);
     }
 
     /* ── LOCATION ── */
@@ -1196,7 +1196,7 @@
       font-family: 'Share Tech Mono', monospace;
       font-size: 9px;
       letter-spacing: 4px;
-      color: rgba(200,0,20,0.22);
+      color: rgba(220,80,60,0.5);
       text-transform: uppercase;
     }
 
@@ -1323,9 +1323,9 @@
 
       <!-- Time -->
       <div class="widget-time-wrap">
-        <div class="widget-time-glow" id="widget-clock-glow">00<span class="widget-colon">:</span>00<span class="widget-colon">:</span>00</div>
+        <div class="widget-time-glow" id="widget-clock-glow">00<span class="widget-colon">:</span>00</div>
         <div class="widget-time" id="widget-clock">
-          <span id="widget-hr">00</span><span class="widget-colon">:</span><span id="widget-mn">00</span><span class="widget-colon">:</span><span id="widget-sc">00</span>
+          <span id="widget-hr">00</span><span class="widget-colon">:</span><span id="widget-mn">00</span>
         </div>
         <span class="widget-ampm" id="widget-ampm">AM</span>
       </div>
@@ -2106,16 +2106,14 @@ function initDesktopWidget() {
 
     const hrEl   = document.getElementById('widget-hr');
     const mnEl   = document.getElementById('widget-mn');
-    const scEl   = document.getElementById('widget-sc');
     const glowEl = document.getElementById('widget-clock-glow');
     const ampmEl = document.getElementById('widget-ampm');
     const dateEl = document.getElementById('widget-date');
 
     if (hrEl) hrEl.textContent = hr;
     if (mnEl) mnEl.textContent = mn;
-    if (scEl) scEl.textContent = sc;
     if (ampmEl) ampmEl.textContent = ampm;
-    if (glowEl) glowEl.innerHTML = `${hr}<span class="widget-colon">:</span>${mn}<span class="widget-colon">:</span>${sc}`;
+    if (glowEl) glowEl.innerHTML = `${hr}<span class="widget-colon">:</span>${mn}`;
     if (dateEl) {
       const d = now;
       dateEl.textContent =
