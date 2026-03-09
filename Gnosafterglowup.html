@@ -381,7 +381,6 @@
 
     .taskbar-icon img { width:22px;height:22px;object-fit:contain; }
 
-    /* Tooltip on taskbar icons */
     .taskbar-icon[title]:hover::after {
       content: attr(title);
       position: absolute;
@@ -883,6 +882,357 @@
     }
 
     .store-card button:hover { background:rgba(200,0,20,0.15);border-color:var(--primary);color:#fff; }
+
+    /* ========================================
+       DESKTOP WEATHER + TIME WIDGET
+    ======================================== */
+    #desktop-widget {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -54%);
+      z-index: 50;
+      pointer-events: none;
+      text-align: center;
+      user-select: none;
+      /* fade in after OS loads */
+      opacity: 0;
+      transition: opacity 1.2s ease 0.5s;
+    }
+    #desktop-widget.visible { opacity: 1; }
+
+    /* Outer decorative rings */
+    .widget-ring-outer {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,0,20,0.07);
+      animation: wring-cw 40s linear infinite;
+      pointer-events: none;
+    }
+    .widget-ring-outer::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 28%;
+      width: 80px; height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(200,0,20,0.55), transparent);
+      border-radius: 2px;
+    }
+    .widget-ring-outer::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; right: 22%;
+      width: 40px; height: 2px;
+      background: rgba(200,0,20,0.25);
+      border-radius: 2px;
+    }
+
+    .widget-ring-mid {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 460px; height: 460px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,0,20,0.05);
+      animation: wring-ccw 25s linear infinite;
+      pointer-events: none;
+    }
+    .widget-ring-mid::before {
+      content: '';
+      position: absolute;
+      right: -2px; top: 35%;
+      width: 3px; height: 50px;
+      background: linear-gradient(180deg, transparent, rgba(200,0,20,0.4), transparent);
+      border-radius: 2px;
+    }
+
+    .widget-ring-inner {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 370px; height: 370px;
+      border-radius: 50%;
+      border: 1px dashed rgba(200,0,20,0.04);
+      animation: wring-cw 15s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes wring-cw  { to { transform: translate(-50%,-50%) rotate(360deg);  } }
+    @keyframes wring-ccw { to { transform: translate(-50%,-50%) rotate(-360deg); } }
+
+    /* Ambient glow behind widget */
+    .widget-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(200,0,20,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .widget-core {
+      position: relative;
+      z-index: 2;
+      padding: 10px 0;
+    }
+
+    /* ── BIG CLOCK ── */
+    .widget-time-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .widget-time {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 108px;
+      font-weight: 400;
+      letter-spacing: -6px;
+      line-height: 1;
+      /* Ghost text technique: nearly transparent base + gradient overlay */
+      color: transparent;
+      background: linear-gradient(
+        160deg,
+        rgba(255,255,255,0.11) 0%,
+        rgba(232,0,26,0.22) 35%,
+        rgba(255,80,60,0.18) 60%,
+        rgba(255,255,255,0.07) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: none;
+      animation: wtime-breathe 5s ease-in-out infinite;
+      position: relative;
+    }
+
+    /* Red glow layer */
+    .widget-time-glow {
+      position: absolute;
+      inset: 0;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 108px;
+      font-weight: 400;
+      letter-spacing: -6px;
+      line-height: 1;
+      color: transparent;
+      background: linear-gradient(
+        160deg,
+        rgba(232,0,26,0.06) 0%,
+        rgba(255,60,40,0.12) 50%,
+        rgba(232,0,26,0.05) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: blur(8px);
+      pointer-events: none;
+      animation: wtime-breathe 5s ease-in-out infinite 0.5s;
+    }
+
+    @keyframes wtime-breathe {
+      0%,100% { opacity: 0.85; }
+      50%      { opacity: 1;    }
+    }
+
+    .widget-colon {
+      display: inline-block;
+      animation: wcolon-blink 1s step-end infinite;
+      margin: 0 1px;
+    }
+    @keyframes wcolon-blink { 0%,100%{opacity:1} 50%{opacity:0.08} }
+
+    /* AM/PM badge */
+    .widget-ampm {
+      position: absolute;
+      right: -42px;
+      bottom: 18px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: rgba(200,0,20,0.5);
+      font-weight: 400;
+    }
+
+    /* ── DATE ── */
+    .widget-date-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+    .widget-date-line {
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,0,20,0.3));
+    }
+    .widget-date-line.right {
+      background: linear-gradient(90deg, rgba(200,0,20,0.3), transparent);
+    }
+    .widget-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: rgba(200,0,20,0.38);
+      text-transform: uppercase;
+    }
+
+    /* ── DIVIDER ── */
+    .widget-divider {
+      width: 220px;
+      height: 1px;
+      margin: 0 auto 22px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(200,0,20,0.25) 20%,
+        rgba(255,50,50,0.5) 50%,
+        rgba(200,0,20,0.25) 80%,
+        transparent 100%);
+      position: relative;
+    }
+    .widget-divider::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: -3px;
+      transform: translateX(-50%);
+      width: 6px; height: 6px;
+      border: 1px solid rgba(200,0,20,0.5);
+      background: rgba(200,0,20,0.15);
+      border-radius: 50%;
+    }
+    /* Animated scan across the divider */
+    .widget-divider::after {
+      content: '';
+      position: absolute;
+      top: -1px; left: -10%;
+      width: 30%; height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255,60,60,0.6), transparent);
+      animation: divider-scan 3s ease-in-out infinite;
+    }
+    @keyframes divider-scan { 0%{left:-30%} 100%{left:110%} }
+
+    /* ── WEATHER BLOCK ── */
+    .widget-weather {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      min-height: 64px;
+    }
+
+    .widget-weather-icon {
+      font-size: 40px;
+      line-height: 1;
+      filter: drop-shadow(0 0 14px rgba(200,0,20,0.25));
+      animation: wicon-float 4s ease-in-out infinite;
+    }
+    @keyframes wicon-float {
+      0%,100% { transform: translateY(0px);   }
+      50%      { transform: translateY(-5px);  }
+    }
+
+    .widget-weather-main {
+      text-align: left;
+    }
+
+    .widget-temp {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 46px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+      color: transparent;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.18) 0%,
+        rgba(220,40,40,0.28) 50%,
+        rgba(255,255,255,0.10) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .widget-condition {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: rgba(200,0,20,0.38);
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .widget-sep {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(180deg, transparent, rgba(200,0,20,0.2), transparent);
+      margin: 0 4px;
+    }
+
+    .widget-weather-extras {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .widget-extra {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(160,60,60,0.4);
+      display: flex;
+      gap: 6px;
+    }
+    .widget-extra .val {
+      color: rgba(240,180,180,0.28);
+    }
+
+    /* ── LOCATION ── */
+    .widget-location {
+      margin-top: 16px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      color: rgba(200,0,20,0.22);
+      text-transform: uppercase;
+    }
+
+    /* ── LOADING STATE ── */
+    .widget-loading {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: rgba(200,0,20,0.3);
+      text-transform: uppercase;
+    }
+    .widget-loading::after {
+      content: '...';
+      animation: ldots 1.4s steps(4, end) infinite;
+    }
+    @keyframes ldots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+    }
+
+    /* Scanline overlay on widget area */
+    .widget-scanlines {
+      position: absolute;
+      inset: -80px;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.025) 3px,
+        rgba(0,0,0,0.025) 4px
+      );
+    }
   </style>
 </head>
 <body>
@@ -962,6 +1312,44 @@
   <button class="launcher-btn" onclick="openGNEditor()"  style="top:180px;"> GN-EDITOR</button>
   <button class="launcher-btn" onclick="openGNCalc()"    style="top:230px;"> GN-CALC</button>
 
+  <!-- ===== DESKTOP WEATHER + TIME WIDGET ===== -->
+  <div id="desktop-widget">
+    <div class="widget-scanlines"></div>
+    <div class="widget-ring-outer"></div>
+    <div class="widget-ring-mid"></div>
+    <div class="widget-ring-inner"></div>
+    <div class="widget-glow"></div>
+    <div class="widget-core">
+
+      <!-- Time -->
+      <div class="widget-time-wrap">
+        <div class="widget-time-glow" id="widget-clock-glow">00<span class="widget-colon">:</span>00<span class="widget-colon">:</span>00</div>
+        <div class="widget-time" id="widget-clock">
+          <span id="widget-hr">00</span><span class="widget-colon">:</span><span id="widget-mn">00</span><span class="widget-colon">:</span><span id="widget-sc">00</span>
+        </div>
+        <span class="widget-ampm" id="widget-ampm">AM</span>
+      </div>
+
+      <!-- Date -->
+      <div class="widget-date-row">
+        <div class="widget-date-line"></div>
+        <div class="widget-date" id="widget-date">MON — JAN 01 2025</div>
+        <div class="widget-date-line right"></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="widget-divider"></div>
+
+      <!-- Weather -->
+      <div class="widget-weather" id="widget-weather">
+        <span class="widget-loading">FETCHING WEATHER</span>
+      </div>
+
+      <!-- Location -->
+      <div class="widget-location" id="widget-location"></div>
+    </div>
+  </div>
+
   <button class="discord-btn" onclick="window.open('https://discord.gg/CkZFWCmXJ','_blank')" title="Join Discord">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
@@ -1030,14 +1418,14 @@
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
       </svg>
     </div>
-    <!-- ── NEW: GN Editor ── -->
+    <!-- GN Editor -->
     <div class="taskbar-icon" onclick="openGNEditor()" title="GN Editor">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <polyline points="16 18 22 12 16 6"/>
         <polyline points="8 6 2 12 8 18"/>
       </svg>
     </div>
-    <!-- ── NEW: GN Calc ── -->
+    <!-- GN Calc -->
     <div class="taskbar-icon" onclick="openGNCalc()" title="GN Calc">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
         <rect x="4" y="2" width="16" height="20" rx="2"/>
@@ -1234,6 +1622,7 @@ async function initOS() {
   setInterval(updateClock, 1000);
   updateBattery();
   loadWallpaper();
+  initDesktopWidget();
   try {
     const r = await fetch(zonesURL + "?t=" + Date.now());
     zones = await r.json();
@@ -1353,7 +1742,6 @@ function openGNEditor() {
   const win = createWindow({ id:'gn-editor', title:'GN EDITOR', icon:'', content:'' });
   win.style.width  = '1200px';
   win.style.height = '750px';
-  // Centre the window
   win.style.left = Math.max(0, (window.innerWidth  - 1200) / 2) + 'px';
   win.style.top  = Math.max(0, (window.innerHeight - 750)  / 2) + 'px';
   loadRemoteHTML(REMOTE_URLS['gn-editor'], win.querySelector('.window-content'));
@@ -1364,7 +1752,6 @@ function openGNCalc() {
   const win = createWindow({ id:'gn-calc', title:'GN CALC', icon:'', content:'' });
   win.style.width  = '420px';
   win.style.height = '680px';
-  // Centre the window
   win.style.left = Math.max(0, (window.innerWidth  - 420) / 2) + 'px';
   win.style.top  = Math.max(0, (window.innerHeight - 680) / 2) + 'px';
   loadRemoteHTML(REMOTE_URLS['gn-calc'], win.querySelector('.window-content'));
@@ -1693,6 +2080,146 @@ document.addEventListener('keydown', e => {
 });
 
 document.addEventListener('dragstart', e => e.preventDefault());
+
+// ===================================================
+//  DESKTOP WEATHER + TIME WIDGET
+// ===================================================
+function initDesktopWidget() {
+  const widget = document.getElementById('desktop-widget');
+  if (!widget) return;
+
+  // Days / months
+  const DAYS   = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+  const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  // ── Clock tick ──
+  function tickClock() {
+    const now  = new Date();
+    let   h    = now.getHours();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12; // 12-hour
+    const hr = pad(h);
+    const mn = pad(now.getMinutes());
+    const sc = pad(now.getSeconds());
+
+    const hrEl   = document.getElementById('widget-hr');
+    const mnEl   = document.getElementById('widget-mn');
+    const scEl   = document.getElementById('widget-sc');
+    const glowEl = document.getElementById('widget-clock-glow');
+    const ampmEl = document.getElementById('widget-ampm');
+    const dateEl = document.getElementById('widget-date');
+
+    if (hrEl) hrEl.textContent = hr;
+    if (mnEl) mnEl.textContent = mn;
+    if (scEl) scEl.textContent = sc;
+    if (ampmEl) ampmEl.textContent = ampm;
+    if (glowEl) glowEl.innerHTML = `${hr}<span class="widget-colon">:</span>${mn}<span class="widget-colon">:</span>${sc}`;
+    if (dateEl) {
+      const d = now;
+      dateEl.textContent =
+        DAYS[d.getDay()].slice(0,3) + ' — ' +
+        MONTHS[d.getMonth()] + ' ' +
+        pad(d.getDate()) + ' ' + d.getFullYear();
+    }
+  }
+
+  // ── WMO weather codes ──
+  const WMO_DESC = {
+    0:'CLEAR SKY', 1:'MAINLY CLEAR', 2:'PARTLY CLOUDY', 3:'OVERCAST',
+    45:'FOGGY', 48:'ICY FOG',
+    51:'LIGHT DRIZZLE', 53:'DRIZZLE', 55:'HEAVY DRIZZLE',
+    61:'LIGHT RAIN', 63:'RAIN', 65:'HEAVY RAIN',
+    71:'LIGHT SNOW', 73:'SNOW', 75:'HEAVY SNOW', 77:'SNOW GRAINS',
+    80:'LIGHT SHOWERS', 81:'SHOWERS', 82:'HEAVY SHOWERS',
+    85:'SNOW SHOWERS', 86:'HEAVY SNOW',
+    95:'THUNDERSTORM', 96:'HAIL STORM', 99:'HEAVY HAIL'
+  };
+  const WMO_ICON = {
+    0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+    45:'🌫️', 48:'🌫️',
+    51:'🌦️', 53:'🌦️', 55:'🌧️',
+    61:'🌧️', 63:'🌧️', 65:'🌧️',
+    71:'🌨️', 73:'❄️', 75:'❄️', 77:'🌨️',
+    80:'🌦️', 81:'🌧️', 82:'⛈️',
+    85:'🌨️', 86:'❄️',
+    95:'⛈️', 96:'⛈️', 99:'⛈️'
+  };
+
+  // ── Fetch & render weather ──
+  async function fetchWeather(lat, lon, city) {
+    const weatherEl = document.getElementById('widget-weather');
+    const locEl     = document.getElementById('widget-location');
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                  `&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m` +
+                  `&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      const c    = data.current;
+      const code = c.weather_code;
+
+      const icon  = WMO_ICON[code]  || '🌡️';
+      const desc  = WMO_DESC[code]  || 'UNKNOWN';
+      const temp  = Math.round(c.temperature_2m);
+      const feels = Math.round(c.apparent_temperature);
+      const wind  = Math.round(c.wind_speed_10m);
+      const hum   = Math.round(c.relative_humidity_2m);
+
+      if (weatherEl) {
+        weatherEl.innerHTML = `
+          <div class="widget-weather-icon">${icon}</div>
+          <div class="widget-weather-main">
+            <div class="widget-temp">${temp}°F</div>
+            <div class="widget-condition">${desc}</div>
+          </div>
+          <div class="widget-sep"></div>
+          <div class="widget-weather-extras">
+            <div class="widget-extra">FEELS&nbsp;<span class="val">${feels}°F</span></div>
+            <div class="widget-extra">WIND&nbsp;&nbsp;<span class="val">${wind} MPH</span></div>
+            <div class="widget-extra">HUM&nbsp;&nbsp;&nbsp;<span class="val">${hum}%</span></div>
+          </div>`;
+      }
+      if (locEl) locEl.textContent = city ? '📍 ' + city.toUpperCase() : '';
+    } catch(err) {
+      if (weatherEl) weatherEl.innerHTML = `<span class="widget-loading" style="animation:none;color:rgba(200,0,20,0.35);">WEATHER UNAVAILABLE</span>`;
+    }
+  }
+
+  // ── Geolocation ──
+  function initWeather() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude: lat, longitude: lon } = pos.coords;
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+            .then(r => r.json())
+            .then(d => {
+              const city = d.address.city || d.address.town || d.address.village || d.address.county || '';
+              fetchWeather(lat, lon, city);
+            })
+            .catch(() => fetchWeather(lat, lon, ''));
+        },
+        () => fetchWeather(40.7128, -74.0060, 'New York'),
+        { timeout: 8000 }
+      );
+    } else {
+      fetchWeather(40.7128, -74.0060, 'New York');
+    }
+  }
+
+  // ── Start ──
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  // Fade in after brief delay
+  setTimeout(() => widget.classList.add('visible'), 600);
+
+  // Fetch weather (slight delay to not block other init)
+  setTimeout(initWeather, 1500);
+  setInterval(initWeather, 30 * 60 * 1000); // refresh every 30 min
+}
 
 // ===== GN-CHAT HTML =====
 const gnChatHTML = `<!DOCTYPE html>
