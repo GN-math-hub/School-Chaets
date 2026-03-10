@@ -1291,7 +1291,7 @@ const MOOD_MAP={
 const SERVERS={
   '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://Player.autoembed.cc/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://player.autoembed.cc/embed/movie/${id}?autoplay=true`},
   '2':{name:'AutoEmbed Player',url:(id,tv,s,e)=>tv?`https://vidsrc.me/embed/tv/${id}/${s}/${e}`:`https://player.autoembed.cc/embed/movie/${id}`},
-  '3':{name:'GN-stream FLixy',url:(id,tv,s,e)=>tv?`https://quizlet.one.cdn.cloudflare.net/pages/media/loader.html?id=${id}&type=show`:`https://quizlet.one.cdn.cloudflare.net/pages/media/a/watch.html?id=${id}`},
+  '3':{name:'GN-stream FLixy',url:(id,tv,s,e)=>tv?`https://player.vidify.top/embed/tv/${id}/${s}/${e}?poster=true&autoPlay=true`:`https://player.vidify.top/embed/movie/${id}?poster=true&autoPlay=true`},
   '4':{name:'VidSrc.to',url:(id,tv,s,e)=>tv?`https://vidsrc.to/embed/tv/${id}/${s}/${e}`:`https://vidsrc.to/embed/movie/${id}`},
   '5':{name:'2Embed',url:(id,tv,s,e)=>tv?`https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`:`https://www.2embed.cc/embed/${id}`},
   '6':{name:'MultiEmbed',url:(id,tv,s,e)=>tv?`https://multiembed.mov/?video_id=${id}&tmdb=1&s=${s}&e=${e}`:`https://multiembed.mov/?video_id=${id}&tmdb=1`},
