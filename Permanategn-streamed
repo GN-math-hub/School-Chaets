@@ -923,7 +923,7 @@ header.scrolled{background:rgba(5,5,5,.97);box-shadow:0 1px 0 rgba(255,255,255,.
 
 <!-- Header -->
 <header id="mainHeader">
-  <div class="logo" onclick="showHome()">GN-STREAM</div>
+  <div class="logo" onclick="showHome()">unblockedzone is ahh stream</div>
   <nav class="nav-links">
     <a onclick="showHome()" class="active" id="nav-home">Home</a>
     <a onclick="showUpcoming()" id="nav-upcoming">Upcoming</a>
