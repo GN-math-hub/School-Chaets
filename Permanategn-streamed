@@ -1170,7 +1170,7 @@ const cache=new Map();const CACHE_TTL=5*60*1000;
 
 // ── Embedded app URLs ────────────────────────────────────────────────────
 const STAR_SPORTS_URL='https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/GN-sports';
-const STAR_TV_URL='https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/gn-tv-for-os.html';
+const STAR_TV_URL='https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/star-tv-for-os.html';
 const STAR_MUSIC_URL='https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/GN-music-for-os.html';
 let gnSportsLoaded=false,gnTVLoaded=false,gnMusicLoaded=false;
 
