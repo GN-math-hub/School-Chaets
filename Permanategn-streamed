@@ -764,7 +764,7 @@ nav.desktop-nav{display:flex;align-items:center;gap:4px;flex-shrink:0}
 
 <!-- HEADER -->
 <header id="mainHeader">
-  <div class="logo" onclick="showHome()">GN-STREAM</div>
+  <div class="logo" onclick="showHome()">GN-STREAM sites and stuff owns this</div>
   <nav class="desktop-nav">
     <div class="nav-links">
       <a onclick="showHome()" class="on" id="nav-home">Home</a>
