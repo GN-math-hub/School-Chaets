@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>GN-Sports</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --red:#e50914;--red-dark:#b20710;--red-glow:rgba(229,9,20,.4);
+  --bg:#060606;--surface:#141414;--surface2:#1f1f1f;--surface3:#2a2a2a;
+  --text:#fff;--text2:#b3b3b3;--text3:#6b6b6b;
+  --border:rgba(255,255,255,.1);
+}
+html,body{overflow-x:hidden;max-width:100vw}
+body{font-family:'Outfit',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+
+/* ═══ GN-SPORTS PAGE ═══ */
+#gnSportsPage{display:flex;flex-direction:column;height:100vh;font-family:'Barlow Condensed','Outfit',sans-serif;overflow:hidden;background:#0a0a0a}
+#gnSportsPage *{box-sizing:border-box}
+
+/* Header */
+.gns-header{height:64px;background:linear-gradient(to right,#0a0a0a,#120000,#0a0a0a);border-bottom:2px solid #e50914;display:flex;align-items:center;padding:0 24px;gap:20px;flex-shrink:0;position:relative;z-index:10}
+.gns-logo{font-family:'Barlow Condensed','Bebas Neue',sans-serif;font-size:28px;font-weight:900;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#ff2020,#e50914);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(229,9,20,.5))}
+.gns-live-dot{width:8px;height:8px;background:#ff2020;border-radius:50%;box-shadow:0 0 8px #ff2020;animation:livePulse 1.2s ease-in-out infinite;flex-shrink:0}
+.gns-time{font-size:12px;color:rgba(255,255,255,.4);font-family:sans-serif;font-weight:600;letter-spacing:.5px}
+
+/* Filter tabs */
+.gns-tabs{display:flex;gap:4px;padding:14px 24px 10px;background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.gns-tabs::-webkit-scrollbar{display:none}
+.gns-tab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);padding:7px 18px;border-radius:4px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:sans-serif;text-transform:uppercase;letter-spacing:1px;flex-shrink:0}
+.gns-tab:hover{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.3);color:rgba(255,255,255,.8)}
+.gns-tab.on{background:#e50914;border-color:#e50914;color:#fff;box-shadow:0 2px 12px rgba(229,9,20,.4)}
+
+/* Body */
+.gns-body{flex:1;display:flex;overflow:hidden}
+
+/* Sidebar */
+.gns-sidebar{width:320px;flex-shrink:0;background:#0d0d0d;border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;overflow:hidden}
+.gns-sidebar-head{padding:14px 18px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between}
+.gns-count{background:rgba(229,9,20,.2);color:#ff6060;padding:2px 8px;border-radius:3px;font-size:10px}
+.gns-channels{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#e50914 transparent}
+.gns-channels::-webkit-scrollbar{width:3px}
+.gns-channels::-webkit-scrollbar-thumb{background:#e50914;border-radius:2px}
+.gns-channel{padding:14px 18px;cursor:pointer;border-left:3px solid transparent;border-bottom:1px solid rgba(255,255,255,.03);transition:all .18s;display:flex;gap:12px;align-items:flex-start}
+.gns-channel:hover{background:rgba(255,255,255,.04);border-left-color:rgba(229,9,20,.4)}
+.gns-channel.active{background:rgba(229,9,20,.08);border-left-color:#e50914}
+.gns-ch-icon{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid rgba(255,255,255,.08)}
+.gns-ch-info{flex:1;min-width:0}
+.gns-ch-sport{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#e50914;margin-bottom:3px}
+.gns-ch-title{font-size:13px;font-weight:700;color:#fff;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:sans-serif}
+.gns-ch-time{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;font-family:sans-serif}
+.gns-ch-live{display:inline-flex;align-items:center;gap:4px;background:#e50914;color:#fff;font-size:9px;font-weight:900;padding:2px 7px;border-radius:3px;letter-spacing:1px;margin-top:4px}
+.gns-ch-live::before{content:'';width:5px;height:5px;background:#fff;border-radius:50%;animation:livePulse 1s infinite}
+.gns-loading{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,.4)}
+.gns-spinner{width:36px;height:36px;border:2.5px solid rgba(255,255,255,.08);border-top-color:#e50914;border-radius:50%;animation:spin .8s linear infinite}
+.gns-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,.3);padding:30px;text-align:center}
+.gns-empty i{font-size:40px;color:rgba(229,9,20,.3)}
+.gns-empty h3{font-size:16px;font-weight:800;color:rgba(255,255,255,.5);font-family:sans-serif}
+
+/* Player area */
+.gns-player{flex:1;display:flex;flex-direction:column;background:#000;overflow:hidden}
+.gns-player-wrap{position:relative;width:100%;background:#000;flex-shrink:0}
+.gns-player-wrap::before{content:'';display:block;padding-top:56.25%}
+.gns-player-wrap iframe,.gns-player-wrap #gnsPlayerInner{position:absolute;inset:0;width:100%;height:100%;border:none}
+#gnsPlayerInner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(ellipse at center,#1a0000 0%,#0a0a0a 100%)}
+.gns-player-logo{font-family:'Barlow Condensed','Bebas Neue',sans-serif;font-size:60px;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#ff2020,#e50914,#8b0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(229,9,20,.4))}
+.gns-player-hint{font-size:14px;color:rgba(255,255,255,.3);font-family:sans-serif;font-weight:600;letter-spacing:.5px}
+.gns-now-playing{padding:16px 20px;background:#0d0d0d;border-top:2px solid #e50914;flex-shrink:0}
+.gns-now-title{font-size:18px;font-weight:900;color:#fff;font-family:'Barlow Condensed','Outfit',sans-serif;letter-spacing:1px;line-height:1.2}
+.gns-now-meta{display:flex;align-items:center;gap:12px;margin-top:6px;flex-wrap:wrap}
+.gns-now-sport-badge{background:#e50914;color:#fff;font-size:10px;font-weight:900;padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:1.5px}
+.gns-now-time{font-size:12px;color:rgba(255,255,255,.45);font-family:sans-serif;font-weight:600}
+.gns-stream-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.gns-stream-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);padding:6px 14px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;font-family:sans-serif;transition:all .2s;letter-spacing:.5px}
+.gns-stream-btn:hover{background:rgba(229,9,20,.2);border-color:rgba(229,9,20,.4);color:#fff}
+.gns-stream-btn.on{background:#e50914;border-color:#e50914;color:#fff}
+
+/* Server picker */
+.gns-server-picker{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(229,9,20,.3);border-radius:8px;padding:6px 12px;margin-left:auto}
+.gns-server-label{font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;white-space:nowrap;font-family:sans-serif}
+.gns-server-select{background:transparent;color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;outline:none;font-family:sans-serif;min-width:110px}
+.gns-server-select option,.gns-server-select optgroup{background:#1a0000;color:#fff}
+
+/* Responsive */
+@media(max-width:768px){
+  .gns-sidebar{width:100%;position:absolute;bottom:0;left:0;right:0;height:50%;border-right:none;border-top:1px solid rgba(255,255,255,.1);z-index:5;transform:translateY(100%);transition:transform .3s}
+  .gns-sidebar.mob-open{transform:translateY(0)}
+  .gns-player{position:absolute;top:64px;left:0;right:0;bottom:50%}
+  .gns-mob-toggle{display:flex}
+}
+.gns-mob-toggle{display:none;background:#e50914;border:none;color:#fff;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer;font-family:sans-serif;align-items:center;gap:6px;letter-spacing:.5px;margin-left:8px}
+</style>
+</head>
+<body>
+
+<div id="gnSportsPage">
+  <!-- Header -->
+  <div class="gns-header">
+    <div class="gns-logo">⚡ GN-SPORTS</div>
+    <div class="gns-live-dot"></div>
+    <button class="gns-mob-toggle" onclick="document.getElementById('gnsSidebar').classList.toggle('mob-open')"><i class="fa-solid fa-list"></i> Events</button>
+    <div class="gns-server-picker">
+      <label class="gns-server-label"><i class="fa-solid fa-server"></i> Server</label>
+      <select id="gnsServerSelect" class="gns-server-select" onchange="gnsSetServer(this.value)">
+        <option value="auto">&#x1F7E2; Auto (Best)</option>
+        <optgroup label="embedme.top">
+          <option value="alpha1">Alpha 1</option>
+          <option value="alpha2">Alpha 2</option>
+          <option value="alpha3">Alpha 3</option>
+          <option value="beta1">Beta 1</option>
+          <option value="beta2">Beta 2</option>
+          <option value="gamma1">Gamma 1</option>
+          <option value="gamma2">Gamma 2</option>
+          <option value="delta1">Delta 1</option>
+          <option value="delta2">Delta 2</option>
+        </optgroup>
+        <optgroup label="Other Servers">
+          <option value="streamedA">Streamed A</option>
+          <option value="streamedB">Streamed B</option>
+          <option value="daddyhd1">DaddyHD 1</option>
+          <option value="daddyhd2">DaddyHD 2</option>
+          <option value="sportstream">SportStream</option>
+          <option value="viprow">VIPRow</option>
+          <option value="bilasport">Bilasport</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="gns-time" id="gnsSportsTime"></div>
+  </div>
+
+  <!-- Sport filter tabs -->
+  <div class="gns-tabs" id="gnsTabs">
+    <button class="gns-tab on" onclick="gnsFilter('all',this)">All Live</button>
+    <button class="gns-tab" onclick="gnsFilter('football',this)">⚽ Football</button>
+    <button class="gns-tab" onclick="gnsFilter('basketball',this)">🏀 Basketball</button>
+    <button class="gns-tab" onclick="gnsFilter('american-football',this)">🏈 NFL</button>
+    <button class="gns-tab" onclick="gnsFilter('hockey',this)">🏒 Hockey</button>
+    <button class="gns-tab" onclick="gnsFilter('baseball',this)">⚾ Baseball</button>
+    <button class="gns-tab" onclick="gnsFilter('tennis',this)">🎾 Tennis</button>
+    <button class="gns-tab" onclick="gnsFilter('motor-sports',this)">🏎️ Motor</button>
+    <button class="gns-tab" onclick="gnsFilter('mma',this)">🥊 MMA/Box</button>
+    <button class="gns-tab" onclick="gnsFilter('cricket',this)">🏏 Cricket</button>
+    <button class="gns-tab" onclick="gnsFilter('rugby',this)">🏉 Rugby</button>
+  </div>
+
+  <!-- Body -->
+  <div class="gns-body">
+    <!-- Sidebar -->
+    <div class="gns-sidebar" id="gnsSidebar">
+      <div class="gns-sidebar-head">
+        <span>Live Events</span>
+        <span class="gns-count" id="gnsCount">—</span>
+      </div>
+      <div class="gns-channels" id="gnsChannels">
+        <div class="gns-loading"><div class="gns-spinner"></div><span style="font-size:13px;font-family:sans-serif">Loading live events…</span></div>
+      </div>
+    </div>
+
+    <!-- Player -->
+    <div class="gns-player" id="gnsPlayerArea">
+      <div class="gns-player-wrap">
+        <div id="gnsPlayerInner">
+          <div class="gns-player-logo">GN-SPORTS</div>
+          <div class="gns-player-hint"><i class="fa-solid fa-hand-pointer"></i> Select an event to watch</div>
+        </div>
+        <iframe id="gnsPlayerFrame" style="display:none" allowfullscreen allow="autoplay;fullscreen;encrypted-media;picture-in-picture"></iframe>
+      </div>
+      <div class="gns-now-playing" id="gnsNowPlaying" style="display:none">
+        <div class="gns-now-title" id="gnsNowTitle">—</div>
+        <div class="gns-now-meta">
+          <span class="gns-now-sport-badge" id="gnsNowSport">—</span>
+          <span class="gns-now-time" id="gnsNowTime"></span>
+        </div>
+        <div class="gns-stream-btns" id="gnsStreamBtns"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const GNS_BASE = 'https://streamed.pk';
+
+const SPORT_ICONS = {
+  football:'⚽', basketball:'🏀', 'american-football':'🏈', hockey:'🏒',
+  baseball:'⚾', tennis:'🎾', 'motor-sports':'🏎️', mma:'🥊', boxing:'🥊',
+  cricket:'🏏', rugby:'🏉', golf:'⛳'
+};
+
+let gnsAllEvents = [], gnsCurrentCat = 'all', gnsActiveId = null,
+    gnsSportsLoaded = false, gnsClockTimer = null, gnsSportsLoading = false;
+
+// Clock
+function startGnsClock() {
+  clearInterval(gnsClockTimer);
+  const el = document.getElementById('gnsSportsTime');
+  const tick = () => { if (el) el.textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}); };
+  tick(); gnsClockTimer = setInterval(tick, 1000);
+}
+
+// CORS-aware fetch with multiple proxies
+async function gnsFetch(url) {
+  const attempts = [
+    () => fetch(url, {headers:{Accept:'application/json'}}),
+    () => fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url)),
+    () => fetch('https://corsproxy.io/?' + encodeURIComponent(url)),
+    () => fetch('https://proxy.cors.sh/' + url, {headers:{Accept:'application/json','x-cors-api-key':'temp_demo'}}),
+  ];
+  for (const attempt of attempts) {
+    try {
+      const r = await attempt();
+      if (!r.ok) continue;
+      const d = await r.json();
+      if (d !== null && d !== undefined) return d;
+    } catch {}
+  }
+  return null;
+}
+
+// Load events
+async function loadGnsEvents() {
+  gnsSportsLoading = true;
+  setGnsChannelState('loading');
+  let data = await gnsFetch(GNS_BASE + '/api/matches/live');
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    data = await gnsFetch(GNS_BASE + '/api/matches/all-today');
+  }
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    gnsSportsLoaded = false; gnsSportsLoading = false;
+    setGnsChannelState('error');
+    return;
+  }
+  gnsAllEvents = data;
+  gnsSportsLoaded = true; gnsSportsLoading = false;
+  gnsApplyFilter();
+}
+
+function setGnsChannelState(state) {
+  const ch = document.getElementById('gnsChannels');
+  if (state === 'loading') {
+    ch.innerHTML = '<div class="gns-loading"><div class="gns-spinner"></div><span style="font-size:13px;color:rgba(255,255,255,.45)">Fetching live events…</span></div>';
+  } else if (state === 'error') {
+    ch.innerHTML = `<div class="gns-empty">
+      <i class="fa-solid fa-satellite-dish"></i>
+      <h3>Can't load events</h3>
+      <p style="font-size:12px;margin-top:4px">Check your connection and try again</p>
+      <button onclick="gnsSportsLoaded=false;gnsSportsLoading=false;loadGnsEvents()"
+        style="margin-top:14px;background:#e50914;color:#fff;border:none;padding:9px 22px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer">
+        <i class="fa-solid fa-rotate-right"></i> Retry
+      </button></div>`;
+  }
+}
+
+// Filter
+function gnsFilter(cat, btn) {
+  gnsCurrentCat = cat;
+  document.querySelectorAll('.gns-tab').forEach(t => t.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  if (!gnsSportsLoaded && !gnsSportsLoading) { loadGnsEvents(); return; }
+  gnsApplyFilter();
+}
+
+function gnsApplyFilter() {
+  let events = gnsAllEvents;
+  if (gnsCurrentCat !== 'all') {
+    events = gnsAllEvents.filter(e =>
+      (e.category || '').toLowerCase() === gnsCurrentCat.toLowerCase()
+    );
+  }
+  renderGnsChannels(events);
+}
+
+// Render sidebar
+function renderGnsChannels(events) {
+  const ch = document.getElementById('gnsChannels');
+  document.getElementById('gnsCount').textContent = events.length;
+  if (!events.length) {
+    ch.innerHTML = `<div class="gns-empty">
+      <i class="fa-solid fa-face-sad-tear"></i>
+      <h3>No events here</h3>
+      <p style="font-size:12px">Try "All Live" to see every sport</p></div>`;
+    return;
+  }
+  ch.innerHTML = '';
+  events.forEach((ev, idx) => {
+    const cat = (ev.category || 'other').toLowerCase();
+    const icon = SPORT_ICONS[cat] || '🏆';
+    const home = ev.teams?.home?.name || '';
+    const away = ev.teams?.away?.name || '';
+    const matchup = home && away ? `${home} vs ${away}` : ev.title || 'Live Event';
+    const subtitle = (home && away) ? ev.title : '';
+    const dateStr = ev.date ? new Date(ev.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '';
+    const sources = (ev.sources || []).length;
+    const d = document.createElement('div');
+    d.className = 'gns-channel' + (gnsActiveId === ev.id ? ' active' : '');
+    d.innerHTML = `
+      <div class="gns-ch-icon">${icon}</div>
+      <div class="gns-ch-info">
+        <div class="gns-ch-sport">${ev.category || 'Sport'}</div>
+        <div class="gns-ch-title" title="${matchup}">${matchup}</div>
+        ${subtitle ? `<div class="gns-ch-time" style="font-size:10px;opacity:.4;margin-top:1px">${subtitle}</div>` : ''}
+        <div style="display:flex;align-items:center;gap:6px;margin-top:5px">
+          <div class="gns-ch-live">LIVE</div>
+          ${dateStr ? `<span style="font-size:10px;color:rgba(255,255,255,.35)">${dateStr}</span>` : ''}
+          ${sources ? `<span style="font-size:10px;color:rgba(229,9,20,.6)">${sources} src</span>` : ''}
+        </div>
+      </div>`;
+    d.onclick = () => gnsPlayEvent(ev, d);
+    ch.appendChild(d);
+  });
+}
+
+// Play event
+async function gnsPlayEvent(ev, el) {
+  document.querySelectorAll('.gns-channel').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  gnsActiveId = ev.id;
+  document.getElementById('gnsSidebar').classList.remove('mob-open');
+  const home = ev.teams?.home?.name || '';
+  const away = ev.teams?.away?.name || '';
+  document.getElementById('gnsNowTitle').textContent = (home && away) ? `${home} vs ${away}` : (ev.title || 'Live Event');
+  document.getElementById('gnsNowSport').textContent = ev.category || 'Sport';
+  document.getElementById('gnsNowTime').textContent = ev.date ? new Date(ev.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '';
+  document.getElementById('gnsNowPlaying').style.display = 'block';
+  document.getElementById('gnsStreamBtns').innerHTML =
+    '<span style="font-size:11px;color:rgba(255,255,255,.4)"><i class="fa-solid fa-circle-notch fa-spin"></i> Finding streams…</span>';
+  const fr = document.getElementById('gnsPlayerFrame');
+  const inner = document.getElementById('gnsPlayerInner');
+  inner.innerHTML = '<div class="gns-spinner" style="width:44px;height:44px;border-width:3px"></div><span style="font-size:13px;color:rgba(255,255,255,.4);margin-top:8px">Connecting…</span>';
+  inner.style.display = 'flex';
+  fr.style.display = 'none';
+  const sources = ev.sources || [];
+  if (!sources.length) { showGnsNoStreams(); return; }
+  const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r(null), ms))]);
+  const streamGroups = await Promise.all(
+    sources.map(s =>
+      withTimeout(
+        gnsFetch(`${GNS_BASE}/api/stream/${s.source}/${s.id}`)
+          .then(d => (Array.isArray(d) ? d : []).map(st => ({ ...st, _source: s.source }))),
+        6000
+      ).then(r => r || [])
+    )
+  );
+  const allStreams = streamGroups.flat().filter(s => s.embedUrl);
+  if (!allStreams.length) { showGnsNoStreams(); return; }
+  const btnCont = document.getElementById('gnsStreamBtns');
+  btnCont.innerHTML = '';
+  allStreams.forEach((s, i) => {
+    const lang = s.language || '';
+    const qual = s.hd ? ' HD' : ' SD';
+    const src  = s._source || `src${i+1}`;
+    const label = lang ? lang + qual : `${src.charAt(0).toUpperCase()+src.slice(1)} #${s.streamNo || i+1}`;
+    const btn = document.createElement('button');
+    btn.className = 'gns-stream-btn' + (i === 0 ? ' on' : '');
+    btn.innerHTML = (s.hd ? '<i class="fa-solid fa-circle" style="color:#4ade80;font-size:7px;vertical-align:middle;margin-right:3px"></i>' : '') + label;
+    btn.onclick = () => {
+      document.querySelectorAll('.gns-stream-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      gnsLoadEmbed(s.embedUrl);
+    };
+    btnCont.appendChild(btn);
+  });
+  gnsLoadEmbed(allStreams[0].embedUrl);
+  gnsShowAltButtons(ev.id);
+}
+
+function showGnsNoStreams() {
+  document.getElementById('gnsPlayerInner').innerHTML = `
+    <i class="fa-solid fa-tv" style="font-size:40px;color:rgba(229,9,20,.3)"></i>
+    <span style="font-size:14px;color:rgba(255,255,255,.4);margin-top:8px">No streams available for this event</span>
+    <span style="font-size:12px;color:rgba(255,255,255,.25)">Try an alternate server below or check back soon</span>`;
+  document.getElementById('gnsPlayerInner').style.display = 'flex';
+  const btnCont = document.getElementById('gnsStreamBtns');
+  btnCont.innerHTML = '<span style="font-size:11px;color:rgba(255,255,255,.3)">Try alternate:</span> ';
+  if (gnsActiveId) {
+    GNS_ALT_SERVERS.forEach((srv, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'gns-stream-btn gns-alt-btn';
+      btn.style.borderColor = srv.color + '55';
+      btn.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${srv.color};margin-right:4px;vertical-align:middle"></span>${srv.name}`;
+      btn.onclick = () => gnsLoadAltServer(gnsActiveId, i);
+      btnCont.appendChild(btn);
+    });
+  }
+}
+
+const GNS_ALT_SERVERS = [
+  { name:'Alpha 1',    color:'#e50914', url:(id,s,n)=>`https://embedme.top/embed/alpha/${id}/1` },
+  { name:'Alpha 2',    color:'#e50914', url:(id,s,n)=>`https://embedme.top/embed/alpha/${id}/2` },
+  { name:'Alpha 3',    color:'#e50914', url:(id,s,n)=>`https://embedme.top/embed/alpha/${id}/3` },
+  { name:'Beta 1',     color:'#6366f1', url:(id,s,n)=>`https://embedme.top/embed/beta/${id}/1` },
+  { name:'Beta 2',     color:'#6366f1', url:(id,s,n)=>`https://embedme.top/embed/beta/${id}/2` },
+  { name:'Gamma 1',    color:'#f59e0b', url:(id,s,n)=>`https://embedme.top/embed/gamma/${id}/1` },
+  { name:'Gamma 2',    color:'#f59e0b', url:(id,s,n)=>`https://embedme.top/embed/gamma/${id}/2` },
+  { name:'Delta 1',    color:'#10b981', url:(id,s,n)=>`https://embedme.top/embed/delta/${id}/1` },
+  { name:'Delta 2',    color:'#10b981', url:(id,s,n)=>`https://embedme.top/embed/delta/${id}/2` },
+  { name:'Streamed A', color:'#3b82f6', url:(id,s,n)=>`https://streamed.su/watch/${id}/alpha/1` },
+  { name:'Streamed B', color:'#3b82f6', url:(id,s,n)=>`https://streamed.su/watch/${id}/beta/1`  },
+  { name:'DaddyHD 1',  color:'#ec4899', url:(id,s,n)=>`https://dlhd.sx/embed/stream-${n||1}.php` },
+  { name:'DaddyHD 2',  color:'#ec4899', url:(id,s,n)=>`https://dlhd.sx/embed/stream-${n||2}.php` },
+  { name:'SportStream',color:'#f97316', url:(id,s,n)=>`https://sportstream.live/embed/${id}` },
+  { name:'VIPRow',     color:'#8b5cf6', url:(id,s,n)=>`https://viprow.me/embed/${id}` },
+  { name:'Bilasport',  color:'#14b8a6', url:(id,s,n)=>`https://bilasport.net/embed/${id}` },
+];
+
+function gnsLoadEmbed(url) {
+  if (!url) return;
+  const fr    = document.getElementById('gnsPlayerFrame');
+  const inner = document.getElementById('gnsPlayerInner');
+  inner.style.display = 'none';
+  fr.src = url;
+  fr.style.display = 'block';
+}
+
+function gnsLoadAltServer(evId, serverIdx, streamNum) {
+  if (serverIdx >= GNS_ALT_SERVERS.length) { showGnsNoStreams(); return; }
+  const srv = GNS_ALT_SERVERS[serverIdx];
+  const url = srv.url(evId, null, streamNum || 1);
+  const fr  = document.getElementById('gnsPlayerFrame');
+  const inner = document.getElementById('gnsPlayerInner');
+  document.querySelectorAll('.gns-alt-btn').forEach((b,i) => b.classList.toggle('on', i === serverIdx));
+  inner.style.display = 'none';
+  fr.src = url;
+  fr.style.display = 'block';
+}
+
+function gnsShowAltButtons(evId) {
+  const btnCont = document.getElementById('gnsStreamBtns');
+  if (btnCont.querySelector('.gns-alt-btn')) return;
+  const lbl = document.createElement('div');
+  lbl.style.cssText = 'width:100%;font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;margin-top:6px;margin-bottom:2px';
+  lbl.textContent = 'Alternate Servers';
+  btnCont.appendChild(lbl);
+  GNS_ALT_SERVERS.forEach((srv, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'gns-stream-btn gns-alt-btn';
+    btn.style.borderColor = srv.color + '55';
+    btn.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${srv.color};margin-right:4px;vertical-align:middle"></span>${srv.name}`;
+    btn.title = `Try ${srv.name}`;
+    btn.onclick = () => gnsLoadAltServer(evId, i);
+    btnCont.appendChild(btn);
+  });
+}
+
+function gnsSetServer(val) {
+  // Maps dropdown selection to first load of that alt server type when triggered manually
+  const map = {
+    alpha1:0, alpha2:1, alpha3:2, beta1:3, beta2:4,
+    gamma1:5, gamma2:6, delta1:7, delta2:8,
+    streamedA:9, streamedB:10, daddyhd1:11, daddyhd2:12,
+    sportstream:13, viprow:14, bilasport:15
+  };
+  if (val !== 'auto' && gnsActiveId && map[val] !== undefined) {
+    gnsLoadAltServer(gnsActiveId, map[val]);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('gnsSidebar').classList.remove('mob-open');
+  }
+});
+
+// Init
+startGnsClock();
+loadGnsEvents();
+</script>
+</body>
+</html>
