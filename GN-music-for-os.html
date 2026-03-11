@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GN-Music</title>
+<title>Star-Music</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 
 :root {
-  --ink:      #080808;
-  --deep:     #0e0e0e;
-  --surface:  #141414;
-  --raised:   #1c1c1c;
-  --high:     #242424;
-  --edge:     rgba(255,255,255,.07);
-  --red:      #e8181f;
-  --red-2:    #c01218;
-  --red-glow: rgba(232,24,31,.3);
-  --red-soft: rgba(232,24,31,.12);
-  --white:    #f2f2f2;
-  --dim:      #888;
-  --faint:    #444;
+  --ink:      #05080f;
+  --deep:     #080d18;
+  --surface:  #0c1220;
+  --raised:   #111928;
+  --high:     #182030;
+  --edge:     rgba(100,181,246,.08);
+  --blue:     #2b8de8;
+  --blue-2:   #1a66c0;
+  --blue-glow: rgba(43,141,232,.35);
+  --blue-soft: rgba(43,141,232,.13);
+  --sky:      #7ec8f5;
+  --white:    #e8f4ff;
+  --dim:      #6a90b8;
+  --faint:    #2a3f5c;
 
   --font-head: 'Anton', sans-serif;
   --font-body: 'DM Sans', sans-serif;
@@ -70,23 +71,23 @@ body {
 #splash.out { opacity: 0; pointer-events: none; }
 
 .splash-logo {
-  display: flex; align-items: baseline; gap: 2px;
+  display: flex; align-items: baseline; gap: 4px;
   overflow: hidden;
 }
 
-.logo-gn {
+.logo-star {
   font-family: var(--font-head);
   font-size: 88px;
-  color: var(--red);
+  color: var(--blue);
   letter-spacing: -2px;
   animation: logoSlam .5s cubic-bezier(.2,.8,.3,1.3) both;
-  text-shadow: 0 0 40px var(--red-glow);
+  text-shadow: 0 0 50px var(--blue-glow), 0 0 100px rgba(43,141,232,.15);
 }
 
 .logo-music {
   font-family: var(--font-head);
   font-size: 88px;
-  color: var(--white);
+  color: var(--sky);
   letter-spacing: -2px;
   max-width: 0;
   overflow: hidden;
@@ -100,7 +101,7 @@ body {
 }
 @keyframes logoReveal {
   from { max-width: 0; opacity: 0; }
-  to   { max-width: 600px; opacity: 1; }
+  to   { max-width: 700px; opacity: 1; }
 }
 
 /* ─────────── TOAST ─────────── */
@@ -109,7 +110,7 @@ body {
   bottom: calc(var(--bar) + 14px);
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background: var(--red);
+  background: var(--blue);
   color: #fff;
   font-weight: 700;
   font-size: 13px;
@@ -120,7 +121,7 @@ body {
   pointer-events: none;
   transition: .25s cubic-bezier(.34,1.56,.64,1);
   z-index: 5000;
-  box-shadow: 0 8px 24px var(--red-glow);
+  box-shadow: 0 8px 24px var(--blue-glow);
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -134,7 +135,7 @@ body {
   justify-content: center;
 }
 .modal-box {
-  background: #1a1a1a;
+  background: #0e1829;
   border: 1px solid var(--edge);
   border-radius: 10px;
   width: 380px;
@@ -144,7 +145,7 @@ body {
   gap: 16px;
   box-shadow: 0 32px 60px rgba(0,0,0,.8);
 }
-.modal-h { font-family: var(--font-head); font-size: 30px; letter-spacing: .5px; }
+.modal-h { font-family: var(--font-head); font-size: 30px; letter-spacing: .5px; color: var(--sky); }
 .modal-inp {
   background: var(--raised);
   border: 1px solid var(--edge);
@@ -156,7 +157,7 @@ body {
   transition: border-color .2s;
   width: 100%;
 }
-.modal-inp:focus { border-color: var(--red); }
+.modal-inp:focus { border-color: var(--blue); }
 .modal-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
 .m-cancel {
   background: none; border: none; color: var(--dim); cursor: pointer;
@@ -165,17 +166,17 @@ body {
 }
 .m-cancel:hover { color: var(--white); }
 .m-ok {
-  background: var(--red); color: #fff; border: none;
+  background: var(--blue); color: #fff; border: none;
   font-family: var(--font-body); font-weight: 700; font-size: 14px;
   cursor: pointer; padding: 10px 26px; border-radius: 20px;
   transition: background .2s, transform .15s;
 }
-.m-ok:hover { background: #ff2228; transform: scale(1.03); }
+.m-ok:hover { background: #3aa0ff; transform: scale(1.03); }
 
 /* ─────────── CONTEXT MENU ─────────── */
 #ctx {
   position: fixed; z-index: 4000;
-  background: #202020;
+  background: #101c30;
   border: 1px solid var(--edge);
   border-radius: 6px;
   padding: 5px;
@@ -186,7 +187,7 @@ body {
 .ctx-row {
   padding: 10px 12px;
   font-size: 13px;
-  color: #ddd;
+  color: #cce0f5;
   cursor: pointer;
   border-radius: 4px;
   display: flex;
@@ -198,7 +199,7 @@ body {
 .ctx-sub {
   position: absolute;
   left: calc(100% + 4px); top: -4px;
-  background: #202020;
+  background: #101c30;
   border: 1px solid var(--edge);
   border-radius: 6px;
   padding: 5px;
@@ -246,7 +247,7 @@ body {
 }
 .nav-row:hover { color: var(--white); background: var(--raised); }
 .nav-row.on  { color: var(--white); }
-.nav-row.on i { color: var(--red); }
+.nav-row.on i { color: var(--blue); }
 .nav-row i   { width: 18px; text-align: center; font-size: 15px; }
 
 .lib-wrap {
@@ -311,8 +312,8 @@ body {
   color: var(--faint);
 }
 .pl-thumb.liked-thumb {
-  background: linear-gradient(135deg, #5a0000 0%, #180000 100%);
-  color: var(--red);
+  background: linear-gradient(135deg, #0a2a5a 0%, #030e24 100%);
+  color: var(--sky);
 }
 .pl-text { flex: 1; min-width: 0; }
 .pl-name {
@@ -327,7 +328,7 @@ body {
   transition: color .15s; flex-shrink: 0;
 }
 .pl-item:hover .pl-del { display: block; }
-.pl-del:hover { color: var(--red); }
+.pl-del:hover { color: var(--blue); }
 
 /* ─────────── MAIN VIEW ─────────── */
 .main {
@@ -347,7 +348,7 @@ body {
   background: transparent;
   transition: background .3s;
 }
-.topbar.fixed { background: rgba(10,10,10,.94); backdrop-filter: blur(12px); }
+.topbar.fixed { background: rgba(5,8,15,.94); backdrop-filter: blur(12px); }
 
 .back-btns { display: flex; gap: 6px; align-items: center; }
 .arrow {
@@ -374,7 +375,7 @@ body {
   width: 280px;
   transition: border-color .2s;
 }
-#search-inp:focus { border-color: var(--red); }
+#search-inp:focus { border-color: var(--blue); }
 
 .user-chip {
   display: flex; align-items: center; gap: 8px;
@@ -386,7 +387,7 @@ body {
   transition: background .2s;
 }
 .user-chip:hover { background: var(--raised); }
-.user-chip i { font-size: 22px; color: var(--red); }
+.user-chip i { font-size: 22px; color: var(--blue); }
 
 /* ─────────── HERO BANNER ─────────── */
 .hero {
@@ -401,11 +402,11 @@ body {
 .hero-bg {
   position: absolute; inset: 0;
   background-size: cover; background-position: center 25%;
-  filter: blur(5px) brightness(.35) saturate(1.2);
+  filter: blur(5px) brightness(.25) saturate(1.4);
 }
 .hero-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgba(8,8,8,0) 20%, var(--surface) 100%);
+  background: linear-gradient(to bottom, rgba(5,8,15,0) 20%, var(--surface) 100%);
 }
 .hero-art {
   position: relative; z-index: 2;
@@ -414,7 +415,7 @@ body {
   background: var(--raised);
   background-size: cover; background-position: center;
   flex-shrink: 0;
-  box-shadow: 0 16px 48px rgba(0,0,0,.8);
+  box-shadow: 0 16px 48px rgba(0,0,0,.8), 0 0 40px var(--blue-soft);
 }
 .hero-art.round { border-radius: 50%; }
 .hero-info {
@@ -424,7 +425,7 @@ body {
 .hero-type {
   font-size: 11px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 2px;
-  color: var(--dim);
+  color: var(--sky);
 }
 .hero-title {
   font-family: var(--font-head);
@@ -433,14 +434,14 @@ body {
   line-height: .95;
   color: var(--white);
 }
-.hero-sub { font-size: 14px; color: #aaa; }
+.hero-sub { font-size: 14px; color: #7aa8cc; }
 .badge {
   display: inline-flex; align-items: center;
   position: relative; width: 19px; height: 19px;
   margin-left: 5px; vertical-align: middle;
 }
-.badge .circle  { color: #3a8ef4; font-size: 19px; }
-.badge .check   { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff; font-size: 8px; }
+.badge .circle  { color: var(--sky); font-size: 19px; }
+.badge .check   { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: var(--ink); font-size: 8px; }
 
 /* ─────────── CONTENT AREA ─────────── */
 .pad {
@@ -457,7 +458,7 @@ body {
   display: inline-block;
   transition: color .2s;
 }
-.section-head:hover { color: var(--red); }
+.section-head:hover { color: var(--sky); }
 
 /* ─────────── CARD GRID ─────────── */
 .grid {
@@ -496,12 +497,12 @@ body {
   position: absolute; bottom: 8px; right: 8px;
   width: 44px; height: 44px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--blue);
   display: flex; align-items: center; justify-content: center;
   font-size: 17px; color: #fff;
   opacity: 0; transform: translateY(8px);
   transition: opacity .22s, transform .22s;
-  box-shadow: 0 6px 16px var(--red-glow);
+  box-shadow: 0 6px 16px var(--blue-glow);
 }
 .card:hover .card-play { opacity: 1; transform: translateY(0); }
 
@@ -547,16 +548,16 @@ body {
 .big-play {
   width: 50px; height: 50px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--blue);
   border: none; color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 26px;
   transition: background .2s, transform .15s;
-  box-shadow: 0 6px 22px var(--red-glow);
+  box-shadow: 0 6px 22px var(--blue-glow);
 }
-.big-play:hover { background: #ff2228; transform: scale(1.06); }
+.big-play:hover { background: #3aa0ff; transform: scale(1.06); }
 
 /* ─────────── SONG TABLE ─────────── */
 .song-tbl {
@@ -577,8 +578,8 @@ body {
   height: 54px;
   transition: background .12s;
 }
-.song-tbl tbody tr:hover { background: rgba(255,255,255,.04); }
-.song-tbl tbody tr.playing .s-title { color: var(--red); }
+.song-tbl tbody tr:hover { background: rgba(43,141,232,.05); }
+.song-tbl tbody tr.playing .s-title { color: var(--sky); }
 .song-tbl td { padding: 0 12px; }
 
 .num-col { width: 46px; text-align: center; }
@@ -599,7 +600,7 @@ body {
   cursor: pointer; font-size: 14px; color: var(--dim);
   transition: color .2s, transform .2s;
 }
-.hrt.on  { color: var(--red); }
+.hrt.on  { color: var(--sky); }
 .hrt:hover { transform: scale(1.2); }
 .hrt-pop { animation: hrtPop .28s ease; }
 @keyframes hrtPop { 50% { transform: scale(1.4); } }
@@ -607,8 +608,8 @@ body {
 /* loader ring */
 .ring {
   width: 28px; height: 28px;
-  border: 3px solid rgba(255,255,255,.08);
-  border-top-color: var(--red);
+  border: 3px solid rgba(100,181,246,.1);
+  border-top-color: var(--blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 40px auto;
@@ -618,8 +619,8 @@ body {
 
 /* ─────────── PLAYER BAR ─────────── */
 .player {
-  background: #121212;
-  border-top: 1px solid rgba(255,255,255,.06);
+  background: #080f1e;
+  border-top: 1px solid rgba(43,141,232,.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -627,13 +628,13 @@ body {
   position: relative;
 }
 
-/* thin red line on top */
+/* thin blue line on top */
 .player::before {
   content: '';
   position: absolute;
   top: -1px; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  background: linear-gradient(90deg, transparent, var(--blue), var(--sky), var(--blue), transparent);
 }
 
 .p-left {
@@ -664,7 +665,7 @@ body {
   margin-left: 5px;
   transition: color .2s, transform .2s;
 }
-.p-heart.on { color: var(--red); }
+.p-heart.on { color: var(--sky); }
 .p-heart:hover { transform: scale(1.18); }
 
 .p-center {
@@ -682,7 +683,7 @@ body {
   transition: color .15s, transform .12s;
 }
 .ctrl-btn:hover { color: var(--white); transform: scale(1.1); }
-.ctrl-btn.on { color: var(--red); }
+.ctrl-btn.on { color: var(--sky); }
 
 .play-circle {
   width: 36px; height: 36px;
@@ -693,7 +694,7 @@ body {
   font-size: 14px; cursor: pointer;
   transition: transform .15s, background .2s;
 }
-.play-circle:hover { transform: scale(1.08); background: #e8e8e8; }
+.play-circle:hover { transform: scale(1.08); background: #c8e4ff; }
 
 .prog-row {
   width: 100%;
@@ -709,7 +710,7 @@ input[type=range] {
   border-radius: 2px;
   background: var(--raised);
   cursor: pointer;
-  background-image: linear-gradient(var(--red), var(--red));
+  background-image: linear-gradient(var(--blue), var(--blue));
   background-size: 0% 100%;
   background-repeat: no-repeat;
 }
@@ -717,7 +718,7 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--white);
+  background: var(--sky);
   opacity: 0;
   transition: opacity .18s;
 }
@@ -750,7 +751,7 @@ input[type=range]::-webkit-slider-thumb {
 <!-- splash -->
 <div id="splash">
   <div class="splash-logo">
-    <span class="logo-gn">GN</span>
+    <span class="logo-star">★ STAR</span>
     <span class="logo-music">-MUSIC</span>
   </div>
 </div>
@@ -887,9 +888,9 @@ const S = {
   playing:  false,
   shuffle:  false,
   loop:     false,
-  playlists: JSON.parse(localStorage.getItem('gnm_pl')   || '[]'),
-  liked:     JSON.parse(localStorage.getItem('gnm_lk')   || '[]'),
-  cache:     JSON.parse(localStorage.getItem('gnm_cache') || '{}'),
+  playlists: JSON.parse(localStorage.getItem('stm_pl')   || '[]'),
+  liked:     JSON.parse(localStorage.getItem('stm_lk')   || '[]'),
+  cache:     JSON.parse(localStorage.getItem('stm_cache') || '{}'),
   ctxId:    null
 };
 
@@ -936,9 +937,9 @@ function fmtSec(t) {
 
 // ── persistence ─────────────────────────────────────────────────────────────
 function save() {
-  localStorage.setItem('gnm_pl',    JSON.stringify(S.playlists));
-  localStorage.setItem('gnm_lk',    JSON.stringify(S.liked));
-  localStorage.setItem('gnm_cache', JSON.stringify(S.cache));
+  localStorage.setItem('stm_pl',    JSON.stringify(S.playlists));
+  localStorage.setItem('stm_lk',    JSON.stringify(S.liked));
+  localStorage.setItem('stm_cache', JSON.stringify(S.cache));
 }
 
 // ── toast ────────────────────────────────────────────────────────────────────
@@ -1041,11 +1042,9 @@ function toggleLike(id, track) {
   }
   save();
 
-  // update player heart
   const cur = S.queue[S.qIdx];
   if (cur && cur.id === id) refreshHeart();
 
-  // update table hearts
   document.querySelectorAll(`.hrt[data-id="${id}"]`).forEach(el => {
     const on = S.liked.includes(id);
     el.className = (on ? 'fas' : 'far') + ' fa-heart hrt' + (on ? ' on' : '');
@@ -1108,7 +1107,7 @@ async function renderHome(v) {
       <h1 style="font-family:var(--font-head);font-size:38px;letter-spacing:.5px;margin-bottom:26px;">${greet}</h1>
       <div class="quick-row">
         <div class="quick-tile" onclick="nav('liked')">
-          <div class="tile-icon" style="background:linear-gradient(135deg,#5a0000,#180000);color:var(--red);">
+          <div class="tile-icon" style="background:linear-gradient(135deg,#0a2a5a,#030e24);color:var(--sky);">
             <i class="fas fa-heart"></i>
           </div>
           <span class="tile-label">Liked Songs</span>
@@ -1188,15 +1187,15 @@ async function renderArtist(v, name) {
 
 function renderPlaylist(v, meta, tracks) {
   const artStyle = meta.isLiked
-    ? 'background:linear-gradient(135deg,#5a0000,#180000);'
+    ? 'background:linear-gradient(135deg,#0a2a5a,#030e24);'
     : 'background:var(--raised);';
   const icon = meta.isLiked
-    ? '<i class="fas fa-heart" style="color:var(--red)"></i>'
+    ? '<i class="fas fa-heart" style="color:var(--sky)"></i>'
     : '<i class="fas fa-music" style="color:var(--dim)"></i>';
 
   v.innerHTML = `
     <div class="hero">
-      <div class="hero-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,0),var(--surface));position:absolute;inset:0;"></div>
+      <div class="hero-overlay" style="background:linear-gradient(to bottom,rgba(5,8,15,0),var(--surface));position:absolute;inset:0;"></div>
       <div class="hero-art" style="${artStyle} display:flex;align-items:center;justify-content:center;font-size:58px;">${icon}</div>
       <div class="hero-info">
         <div class="hero-type">Playlist</div>
@@ -1411,12 +1410,10 @@ function uniqueArtists(list) {
   }).map(s => ({ name: s.artist, cover: s.cover }));
 }
 
-// safe JSON stringify for inline onclick attrs
 function jss(obj) {
   return encodeURIComponent(JSON.stringify(obj));
 }
 
-// override playCtx to accept encoded string too
 const _playCtx = playCtx;
 window.playCtx = function(arg) {
   if (typeof arg === 'string') arg = JSON.parse(decodeURIComponent(arg));
@@ -1425,11 +1422,9 @@ window.playCtx = function(arg) {
 
 // ── boot ───────────────────────────────────────────────────────────────────────
 async function boot() {
-  // hide splash after intro animation finishes
   setTimeout(() => document.getElementById('splash').classList.add('out'), 2000);
   setTimeout(() => document.getElementById('splash').style.display = 'none', 2700);
 
-  // prime range fills
   fillRange(document.getElementById('volbar'));
 
   renderSidebar();
