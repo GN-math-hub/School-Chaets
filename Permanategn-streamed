@@ -713,7 +713,7 @@ nav.desktop-nav{display:flex;align-items:center;gap:4px;flex-shrink:0}
           <div class="settings-row-lbl"><div class="settings-row-name">Default Server</div><div class="settings-row-desc">Which streaming server to use by default</div></div>
           <select class="settings-select" id="settingsServerSelect" onchange="changeServer(this.value)">
             <option value="1">AutoEmbed Test</option><option value="2">AutoEmbed Player</option>
-            <option value="3">Star-Stream FLixy</option><option value="4">VidSrc.to</option>
+            <option value="3">Star-Stream FLixy</option><option value="4">Star Stream flixy 2</option>
             <option value="5">2Embed</option><option value="6">MultiEmbed</option>
             <option value="7">Embed.su</option><option value="8">VidSrc.xyz</option>
             <option value="9">VidSrc.me</option><option value="10">VidSrc.in</option>
@@ -772,7 +772,7 @@ nav.desktop-nav{display:flex;align-items:center;gap:4px;flex-shrink:0}
       <label>Server</label>
       <select id="serverSelect" class="server-select" onchange="changeServer(this.value)">
         <option value="1">AutoEmbed Test</option><option value="2">AutoEmbed Player</option>
-        <option value="3">Star-Stream FLixy</option><option value="4">VidSrc.to</option>
+        <option value="3">Star-Stream FLixy</option><option value="4">Star-stream flixy 2</option>
         <option value="5">2Embed</option><option value="6">MultiEmbed</option>
         <option value="7">Embed.su</option><option value="8">VidSrc.xyz</option>
         <option value="9">VidSrc.me</option><option value="10">VidSrc.in</option>
