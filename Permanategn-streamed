@@ -26,6 +26,7 @@ button{
     color:white;
     cursor:pointer;
     transition:0.2s;
+    margin:8px;
 }
 
 button:hover{
@@ -53,15 +54,13 @@ button:hover{
 <body>
 
 <h2>Launch Page</h2>
-<button onclick="launch()">Open</button>
+<button onclick="launch('https://raw.githubusercontent.com/GN-math-hub/School-Chaets/main/star-streamonmobile.html')">Launch Star stream for mobile (beta)</button>
+<button onclick="launch('https://raw.githubusercontent.com/GN-math-hub/School-Chaets/main/gnstreamnoaddsorpopups.html')">Launch star Stream</button>
+
 <div class="spinner" id="spinner"></div>
 
 <script>
-
-const url = "https://raw.githubusercontent.com/GN-math-hub/School-Chaets/main/gnstreamnoaddsorpopups.html";
-
-async function launch(){
-
+async function launch(url){
     document.getElementById("spinner").style.display="block";
 
     const newTab = window.open("about:blank","_blank");
@@ -110,23 +109,17 @@ async function launch(){
     `);
 
     try{
-
         const response = await fetch(url);
         const html = await response.text();
 
         newTab.document.open();
         newTab.document.write(html);
         newTab.document.close();
-
     }catch(err){
-
         newTab.document.body.innerHTML="<h2>Failed to load content</h2>";
         console.error(err);
-
     }
-
 }
-
 </script>
 
 </body>
