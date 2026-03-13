@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Star-Podcast</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#dff2ff 0%,#b8e6ff 50%,#cef0ff 100%);min-height:100vh;color:#1a4a6b}
+
+header{background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(125,210,255,0.4);padding:16px 5%;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
+.logo{font-size:26px;font-weight:800;color:#1a7ab5;letter-spacing:1px}
+.logo span{color:#5bc8f5}
+.tagline{font-size:12px;color:#4a9abb;font-weight:600;margin-left:auto}
+
+.search-bar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.7);border:1.5px solid rgba(91,200,245,0.5);border-radius:10px;padding:10px 18px;margin:28px 5% 0;max-width:600px}
+.search-bar input{flex:1;border:none;background:transparent;outline:none;font-size:14px;font-weight:500;color:#1a4a6b;font-family:'Outfit',sans-serif}
+.search-bar input::placeholder{color:#7ab8d4}
+.search-bar i{color:#5bc8f5;font-size:15px}
+.search-go{background:linear-gradient(135deg,#5bc8f5,#1a7ab5);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:opacity .2s}
+.search-go:hover{opacity:.85}
+
+.filter-row{display:flex;gap:8px;padding:16px 5% 0;flex-wrap:wrap}
+.filter-btn{background:rgba(255,255,255,0.6);border:1.5px solid rgba(91,200,245,0.4);color:#2a7aa5;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+.filter-btn:hover,.filter-btn.on{background:rgba(91,200,245,0.25);border-color:#5bc8f5;color:#1a5a8b}
+
+.now-playing{margin:22px 5%;background:linear-gradient(135deg,rgba(91,200,245,0.18),rgba(125,220,255,0.28));border:1.5px solid rgba(91,200,245,0.5);border-radius:16px;padding:18px 22px;display:none;gap:16px;align-items:center}
+.now-playing.show{display:flex}
+.np-art{width:58px;height:58px;border-radius:12px;object-fit:cover;flex-shrink:0;border:2px solid rgba(91,200,245,0.4)}
+.np-info{flex:1;min-width:0}
+.np-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#5bc8f5;margin-bottom:3px}
+.np-show{font-size:15px;font-weight:800;color:#1a3a5c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-ep{font-size:11px;color:#4a8ab5;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-controls{display:flex;align-items:center;gap:8px}
+.np-btn{background:rgba(255,255,255,0.7);border:1.5px solid rgba(91,200,245,0.4);color:#1a7ab5;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.np-btn:hover{background:#5bc8f5;color:#fff;border-color:#5bc8f5}
+.np-stop{background:#1a7ab5;color:#fff;border-color:#1a7ab5}
+.np-stop:hover{background:#1a5a8b}
+.progress-wrap{width:100%;margin:10px 5% 0;max-width:600px;display:none}
+.progress-wrap.show{display:block}
+.progress-bar{width:100%;height:4px;background:rgba(91,200,245,0.2);border-radius:2px;cursor:pointer;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,#5bc8f5,#1a7ab5);border-radius:2px;width:0%;transition:width .5s linear}
+.progress-time{display:flex;justify-content:space-between;font-size:10px;color:#7ab8d4;font-weight:600;margin-top:4px}
+
+.section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#2a7aa5;padding:22px 5% 14px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:18px;background:#5bc8f5;border-radius:2px}
+.count-badge{background:rgba(91,200,245,0.2);color:#1a7ab5;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:800;margin-left:auto}
+
+.podcasts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:0 5% 12px}
+.podcast-card{background:rgba(255,255,255,0.65);border:1.5px solid rgba(125,210,255,0.4);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s}
+.podcast-card:hover{background:rgba(255,255,255,0.88);border-color:#5bc8f5;transform:translateY(-3px);box-shadow:0 8px 24px rgba(91,200,245,0.2)}
+.podcast-art{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:linear-gradient(135deg,#5bc8f5,#1a7ab5)}
+.podcast-info{padding:11px}
+.podcast-name{font-size:12px;font-weight:800;color:#1a3a5c;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.podcast-author{font-size:10px;color:#4a9abb;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.podcast-count{font-size:10px;color:#7ab8d4;margin-top:3px}
+
+.episodes-panel{background:rgba(255,255,255,0.7);border:1.5px solid rgba(91,200,245,0.35);border-radius:14px;margin:0 5% 20px;display:none;overflow:hidden}
+.episodes-panel.show{display:block}
+.ep-panel-header{background:linear-gradient(135deg,rgba(91,200,245,0.15),rgba(125,220,255,0.2));padding:16px 18px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(91,200,245,0.2)}
+.ep-panel-art{width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0;border:2px solid rgba(91,200,245,0.3)}
+.ep-panel-title{font-size:15px;font-weight:800;color:#1a3a5c}
+.ep-panel-sub{font-size:11px;color:#4a9abb;margin-top:2px}
+.ep-panel-close{margin-left:auto;background:rgba(91,200,245,0.15);border:1.5px solid rgba(91,200,245,0.3);color:#1a7ab5;width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ep-panel-close:hover{background:#5bc8f5;color:#fff}
+.ep-list{max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(91,200,245,0.3) transparent}
+.ep-item{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(91,200,245,0.12);cursor:pointer;transition:background .15s}
+.ep-item:hover{background:rgba(91,200,245,0.08)}
+.ep-item.playing{background:rgba(91,200,245,0.12)}
+.ep-num{font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;color:#7ab8d4;min-width:24px}
+.ep-info{flex:1;min-width:0}
+.ep-title{font-size:12px;font-weight:700;color:#1a3a5c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.ep-meta{font-size:10px;color:#7ab8d4}
+.ep-play{width:30px;height:30px;background:linear-gradient(135deg,#5bc8f5,#1a7ab5);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;flex-shrink:0;transition:opacity .2s}
+.ep-play:hover{opacity:.8}
+
+.loading{text-align:center;padding:48px;color:#4a9abb;font-size:14px;font-weight:600}
+.loading i{display:block;font-size:32px;margin-bottom:12px;color:#5bc8f5;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{text-align:center;padding:40px;color:#4a9abb;font-size:13px}
+
+audio{display:none}
+footer{text-align:center;padding:20px;font-size:11px;color:#7ab8d4;font-weight:600;border-top:1px solid rgba(125,210,255,0.3);margin-top:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><i class="fa-solid fa-podcast" style="color:#5bc8f5;margin-right:8px"></i>STAR<span>-PODCAST</span></div>
+  <div class="tagline"><i class="fa-solid fa-microphone"></i> Discover & Listen Free</div>
+</header>
+
+<div class="search-bar">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input id="searchInput" type="text" placeholder="Search podcasts…" onkeydown="if(event.key==='Enter')doSearch()"/>
+  <button class="search-go" onclick="doSearch()">Search</button>
+</div>
+
+<div class="filter-row">
+  <button class="filter-btn on" onclick="loadCategory('true crime',this)">True Crime</button>
+  <button class="filter-btn" onclick="loadCategory('comedy',this)">Comedy</button>
+  <button class="filter-btn" onclick="loadCategory('news',this)">News</button>
+  <button class="filter-btn" onclick="loadCategory('technology',this)">Tech</button>
+  <button class="filter-btn" onclick="loadCategory('sports',this)">Sports</button>
+  <button class="filter-btn" onclick="loadCategory('business',this)">Business</button>
+  <button class="filter-btn" onclick="loadCategory('health',this)">Health</button>
+  <button class="filter-btn" onclick="loadCategory('history',this)">History</button>
+  <button class="filter-btn" onclick="loadCategory('science',this)">Science</button>
+</div>
+
+<div class="now-playing" id="nowPlaying">
+  <img class="np-art" id="npArt" src="" alt=""/>
+  <div class="np-info">
+    <div class="np-label"><i class="fa-solid fa-podcast" style="font-size:9px"></i> Now Playing</div>
+    <div class="np-show" id="npShow">—</div>
+    <div class="np-ep" id="npEp">—</div>
+  </div>
+  <div class="np-controls">
+    <button class="np-btn" onclick="skipBack()" title="−15s"><i class="fa-solid fa-rotate-left"></i><span style="font-size:8px;margin-left:1px">15</span></button>
+    <button class="np-btn" id="pauseBtn" onclick="togglePause()"><i class="fa-solid fa-pause"></i></button>
+    <button class="np-btn" onclick="skipFwd()" title="+30s"><i class="fa-solid fa-rotate-right"></i><span style="font-size:8px;margin-left:1px">30</span></button>
+    <button class="np-btn np-stop" onclick="stopPodcast()"><i class="fa-solid fa-stop"></i></button>
+  </div>
+</div>
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-bar" onclick="seekTo(event)"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-time"><span id="timeCurrent">0:00</span><span id="timeTotal">0:00</span></div>
+</div>
+
+<div class="episodes-panel" id="epPanel">
+  <div class="ep-panel-header">
+    <img class="ep-panel-art" id="epPanelArt" src="" alt=""/>
+    <div><div class="ep-panel-title" id="epPanelTitle">Episodes</div><div class="ep-panel-sub" id="epPanelSub"></div></div>
+    <button class="ep-panel-close" onclick="closeEpPanel()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="ep-list" id="epList"></div>
+</div>
+
+<div class="section-title">
+  Podcasts
+  <span class="count-badge" id="countBadge">Loading…</span>
+</div>
+<div class="podcasts-grid" id="podcastsGrid">
+  <div class="loading" style="grid-column:1/-1"><i class="fa-solid fa-spinner"></i>Finding top podcasts…</div>
+</div>
+
+<audio id="podAudio" preload="auto"></audio>
+
+<footer>Star-Podcast · Powered by iTunes Search API · Free to Listen</footer>
+
+<script>
+const audio=document.getElementById('podAudio');
+let currentEp=null,currentShow=null,isPaused=false;
+
+audio.addEventListener('timeupdate',()=>{
+  if(!audio.duration)return;
+  const pct=(audio.currentTime/audio.duration)*100;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('timeCurrent').textContent=fmt(audio.currentTime);
+  document.getElementById('timeTotal').textContent=fmt(audio.duration);
+});
+
+function fmt(s){if(isNaN(s))return'0:00';const m=Math.floor(s/60),sec=Math.floor(s%60);return`${m}:${sec<10?'0':''}${sec}`}
+
+async function loadCategory(term,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  const grid=document.getElementById('podcastsGrid');
+  grid.innerHTML='<div class="loading" style="grid-column:1/-1"><i class="fa-solid fa-spinner"></i>Loading podcasts…</div>';
+  closeEpPanel();
+  try{
+    const url=`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=podcast&limit=40&entity=podcast`;
+    const res=await fetch(url);const data=await res.json();
+    const podcasts=data.results||[];
+    document.getElementById('countBadge').textContent=`${podcasts.length} shows`;
+    grid.innerHTML='';
+    podcasts.forEach(p=>{
+      const card=document.createElement('div');card.className='podcast-card';
+      card.innerHTML=`<img class="podcast-art" src="${p.artworkUrl600||p.artworkUrl100||''}" alt="${p.trackName||''}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#5bc8f5,#1a7ab5)'"/><div class="podcast-info"><div class="podcast-name">${p.trackName||'Podcast'}</div><div class="podcast-author">${p.artistName||'Unknown'}</div><div class="podcast-count"><i class="fa-solid fa-microphone" style="font-size:9px"></i> ${p.trackCount||'?'} episodes</div></div>`;
+      card.onclick=()=>loadEpisodes(p);
+      grid.appendChild(card);
+    });
+  }catch(e){
+    grid.innerHTML='<div class="error" style="grid-column:1/-1"><i class="fa-solid fa-circle-exclamation" style="display:block;font-size:28px;margin-bottom:10px;color:#5bc8f5"></i>Failed to load.<br><small>Try refreshing or search instead.</small></div>';
+    document.getElementById('countBadge').textContent='Error';
+  }
+}
+
+async function doSearch(){
+  const q=document.getElementById('searchInput').value.trim();
+  if(!q)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  await loadCategory(q,null);
+  document.getElementById('countBadge').textContent=`Results for "${q}"`;
+}
+
+async function loadEpisodes(podcast){
+  currentShow=podcast;
+  document.getElementById('epPanelArt').src=podcast.artworkUrl600||podcast.artworkUrl100||'';
+  document.getElementById('epPanelTitle').textContent=podcast.trackName||'Episodes';
+  document.getElementById('epPanelSub').textContent=`${podcast.artistName||''} · ${podcast.trackCount||'?'} episodes`;
+  const panel=document.getElementById('epPanel');panel.classList.add('show');
+  const list=document.getElementById('epList');
+  list.innerHTML='<div class="loading" style="padding:24px"><i class="fa-solid fa-spinner"></i>Loading episodes…</div>';
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  try{
+    const url=`https://itunes.apple.com/lookup?id=${podcast.trackId}&media=podcast&entity=podcastEpisode&limit=30`;
+    const res=await fetch(url);const data=await res.json();
+    const eps=(data.results||[]).filter(r=>r.kind==='podcast-episode');
+    list.innerHTML='';
+    if(!eps.length){list.innerHTML='<div class="ep-item" style="color:#7ab8d4;font-size:12px">No episodes available via API. <a href="'+podcast.collectionViewUrl+'" target="_blank" style="color:#5bc8f5">Open in iTunes</a></div>';return}
+    eps.forEach((ep,i)=>{
+      const item=document.createElement('div');item.className='ep-item';
+      const dur=ep.trackTimeMillis?fmt(ep.trackTimeMillis/1000):'';
+      const date=ep.releaseDate?new Date(ep.releaseDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+      item.innerHTML=`<div class="ep-num">${i+1}</div><div class="ep-info"><div class="ep-title">${ep.trackName||'Episode '+(i+1)}</div><div class="ep-meta">${date}${dur?'  ·  '+dur:''}</div></div><div class="ep-play"><i class="fa-solid fa-play" style="margin-left:2px"></i></div>`;
+      item.onclick=()=>playEp(ep,podcast,item);
+      item.dataset.epId=ep.trackId;
+      list.appendChild(item);
+    });
+  }catch(e){list.innerHTML='<div style="padding:16px;color:#7ab8d4;font-size:12px">Failed to load episodes.</div>'}
+}
+
+function playEp(ep,podcast,el){
+  if(!ep.episodeUrl){
+    const ext=podcast.collectionViewUrl||'';
+    window.open(ext,'_blank');return;
+  }
+  currentEp=ep;isPaused=false;
+  audio.src=ep.episodeUrl;audio.play().catch(()=>{});
+  document.getElementById('npArt').src=ep.artworkUrl160||podcast.artworkUrl100||'';
+  document.getElementById('npShow').textContent=podcast.trackName||'Podcast';
+  document.getElementById('npEp').textContent=ep.trackName||'Episode';
+  document.getElementById('nowPlaying').classList.add('show');
+  document.getElementById('progressWrap').classList.add('show');
+  document.getElementById('pauseBtn').innerHTML='<i class="fa-solid fa-pause"></i>';
+  document.title=`▶ ${ep.trackName||'Episode'} · Star-Podcast`;
+  document.querySelectorAll('.ep-item').forEach(i=>i.classList.remove('playing'));
+  if(el)el.classList.add('playing');
+}
+
+function togglePause(){
+  if(audio.paused){audio.play();isPaused=false;document.getElementById('pauseBtn').innerHTML='<i class="fa-solid fa-pause"></i>'}
+  else{audio.pause();isPaused=true;document.getElementById('pauseBtn').innerHTML='<i class="fa-solid fa-play"></i>'}
+}
+function skipBack(){audio.currentTime=Math.max(0,audio.currentTime-15)}
+function skipFwd(){audio.currentTime=Math.min(audio.duration||0,audio.currentTime+30)}
+function stopPodcast(){audio.pause();audio.src='';currentEp=null;document.getElementById('nowPlaying').classList.remove('show');document.getElementById('progressWrap').classList.remove('show');document.getElementById('progressFill').style.width='0%';document.title='Star-Podcast';document.querySelectorAll('.ep-item').forEach(i=>i.classList.remove('playing'))}
+function seekTo(e){if(!audio.duration)return;const rect=e.currentTarget.getBoundingClientRect();audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration}
+function closeEpPanel(){document.getElementById('epPanel').classList.remove('show');currentShow=null}
+
+loadCategory('true crime',document.querySelector('.filter-btn.on'));
+</script>
+</body>
+</html>
