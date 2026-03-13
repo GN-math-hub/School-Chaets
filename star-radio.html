@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Star-Radio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:linear-gradient(135deg,#e0f4ff 0%,#b8e8ff 40%,#d0f0ff 100%);min-height:100vh;color:#1a4a6b}
+
+header{background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(125,210,255,0.4);padding:16px 5%;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
+.logo{font-size:26px;font-weight:800;color:#1a7ab5;letter-spacing:1px}<br>.logo span{color:#5bc8f5}
+.tagline{font-size:12px;color:#4a9abb;font-weight:600;margin-left:auto}
+
+.search-bar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.7);border:1.5px solid rgba(91,200,245,0.5);border-radius:10px;padding:10px 18px;margin:28px 5% 0;max-width:600px}
+.search-bar input{flex:1;border:none;background:transparent;outline:none;font-size:14px;font-weight:500;color:#1a4a6b;font-family:'Outfit',sans-serif}
+.search-bar input::placeholder{color:#7ab8d4}
+.search-bar i{color:#5bc8f5;font-size:15px}
+
+.filter-row{display:flex;gap:8px;padding:18px 5% 0;flex-wrap:wrap}
+.filter-btn{background:rgba(255,255,255,0.6);border:1.5px solid rgba(91,200,245,0.4);color:#2a7aa5;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+.filter-btn:hover,.filter-btn.on{background:rgba(91,200,245,0.25);border-color:#5bc8f5;color:#1a5a8b}
+
+.now-playing{margin:24px 5%;background:linear-gradient(135deg,rgba(91,200,245,0.2),rgba(125,220,255,0.3));border:1.5px solid rgba(91,200,245,0.5);border-radius:16px;padding:20px 24px;display:none;align-items:center;gap:18px}
+.now-playing.show{display:flex}
+.np-icon{width:54px;height:54px;background:linear-gradient(135deg,#5bc8f5,#1a7ab5);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(91,200,245,0.4)}50%{box-shadow:0 0 0 10px rgba(91,200,245,0)}}
+.np-info{flex:1;min-width:0}
+.np-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#5bc8f5;margin-bottom:3px}
+.np-name{font-size:16px;font-weight:800;color:#1a3a5c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-genre{font-size:12px;color:#4a8ab5;margin-top:2px}
+.np-controls{display:flex;gap:8px;align-items:center}
+.np-btn{background:rgba(255,255,255,0.7);border:1.5px solid rgba(91,200,245,0.4);color:#1a7ab5;width:38px;height:38px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
+.np-btn:hover{background:#5bc8f5;color:#fff;border-color:#5bc8f5}
+.np-stop{background:#1a7ab5;color:#fff;border-color:#1a7ab5}
+.np-stop:hover{background:#1a5a8b}
+.wave{display:flex;align-items:flex-end;gap:2px;height:22px}
+.wave span{display:block;width:3px;background:#5bc8f5;border-radius:2px;animation:wave 1s ease-in-out infinite}
+.wave span:nth-child(1){animation-delay:0s;height:8px}
+.wave span:nth-child(2){animation-delay:.15s;height:16px}
+.wave span:nth-child(3){animation-delay:.3s;height:22px}
+.wave span:nth-child(4){animation-delay:.15s;height:16px}
+.wave span:nth-child(5){animation-delay:0s;height:8px}
+@keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+.section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#2a7aa5;padding:24px 5% 14px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:18px;background:#5bc8f5;border-radius:2px}
+
+.stations-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;padding:0 5% 28px}
+.station-card{background:rgba(255,255,255,0.65);border:1.5px solid rgba(125,210,255,0.4);border-radius:14px;padding:16px;cursor:pointer;transition:all .25s;display:flex;gap:14px;align-items:center}
+.station-card:hover{background:rgba(255,255,255,0.85);border-color:#5bc8f5;transform:translateY(-2px);box-shadow:0 8px 24px rgba(91,200,245,0.2)}
+.station-card.playing{background:rgba(91,200,245,0.15);border-color:#5bc8f5}
+.station-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:#fff}
+.station-info{flex:1;min-width:0}
+.station-name{font-size:13px;font-weight:800;color:#1a3a5c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.station-genre{font-size:11px;color:#4a9abb;font-weight:600}
+.station-bitrate{font-size:10px;color:#7ab8d4;margin-top:2px}
+.station-play-btn{width:32px;height:32px;background:linear-gradient(135deg,#5bc8f5,#1a7ab5);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex-shrink:0;transition:opacity .2s}
+.station-card:hover .station-play-btn{opacity:.9}
+
+.loading{text-align:center;padding:48px;color:#4a9abb;font-size:14px;font-weight:600}
+.loading i{display:block;font-size:32px;margin-bottom:12px;color:#5bc8f5;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{text-align:center;padding:48px;color:#4a9abb;font-size:13px}
+.count-badge{background:rgba(91,200,245,0.2);color:#1a7ab5;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:800;margin-left:auto}
+
+audio{display:none}
+footer{text-align:center;padding:20px;font-size:11px;color:#7ab8d4;font-weight:600;border-top:1px solid rgba(125,210,255,0.3);margin-top:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><i class="fa-solid fa-radio" style="color:#5bc8f5;margin-right:8px"></i>STAR<span>-RADIO</span></div>
+  <div class="tagline"><i class="fa-solid fa-signal"></i> Live Worldwide Stations</div>
+</header>
+
+<div class="search-bar">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input id="searchInput" type="text" placeholder="Search stations, genres, countries…" oninput="filterStations()"/>
+</div>
+
+<div class="filter-row" id="filterRow">
+  <button class="filter-btn on" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('pop',this)">Pop</button>
+  <button class="filter-btn" onclick="setFilter('rock',this)">Rock</button>
+  <button class="filter-btn" onclick="setFilter('jazz',this)">Jazz</button>
+  <button class="filter-btn" onclick="setFilter('classical',this)">Classical</button>
+  <button class="filter-btn" onclick="setFilter('hip-hop',this)">Hip-Hop</button>
+  <button class="filter-btn" onclick="setFilter('electronic',this)">Electronic</button>
+  <button class="filter-btn" onclick="setFilter('news',this)">News</button>
+  <button class="filter-btn" onclick="setFilter('country',this)">Country</button>
+  <button class="filter-btn" onclick="setFilter('r&b',this)">R&B</button>
+</div>
+
+<div class="now-playing" id="nowPlaying">
+  <div class="np-icon"><i class="fa-solid fa-music"></i></div>
+  <div class="np-info">
+    <div class="np-label"><i class="fa-solid fa-circle" style="color:#ff6b6b;font-size:8px"></i> Live Now</div>
+    <div class="np-name" id="npName">—</div>
+    <div class="np-genre" id="npGenre">—</div>
+  </div>
+  <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="np-controls">
+    <button class="np-btn" onclick="volDown()" title="Volume Down"><i class="fa-solid fa-volume-low"></i></button>
+    <button class="np-btn" onclick="volUp()" title="Volume Up"><i class="fa-solid fa-volume-high"></i></button>
+    <button class="np-btn np-stop" onclick="stopRadio()" title="Stop"><i class="fa-solid fa-stop"></i></button>
+  </div>
+</div>
+
+<div class="section-title">
+  Live Stations
+  <span class="count-badge" id="countBadge">Loading…</span>
+</div>
+<div class="stations-grid" id="stationsGrid">
+  <div class="loading"><i class="fa-solid fa-spinner"></i>Fetching live stations…</div>
+</div>
+
+<audio id="radioAudio" preload="none"></audio>
+
+<footer>Star-Radio · Powered by Radio Browser API · Worldwide Live Streams</footer>
+
+<script>
+const COLORS=['#5bc8f5','#1a7ab5','#38b8e8','#0e90d2','#64c9e8','#2a9fd6','#89d8f0','#1a6da0'];
+const ICONS={'pop':'fa-solid fa-music','rock':'fa-solid fa-guitar','jazz':'fa-solid fa-saxophone','classical':'fa-solid fa-violin','hip-hop':'fa-solid fa-headphones','electronic':'fa-solid fa-wave-square','news':'fa-solid fa-newspaper','country':'fa-solid fa-hat-cowboy','r&b':'fa-solid fa-star','default':'fa-solid fa-radio'};
+
+let allStations=[],filtered=[],currentFilter='all',currentStation=null;
+const audio=document.getElementById('radioAudio');
+
+async function init(){
+  try{
+    const tags=['pop','rock','jazz','classical','hip-hop','electronic','news','country','r&b'];
+    const fetches=tags.map(tag=>
+      fetch(`https://de1.api.radio-browser.info/json/stations/bytag/${encodeURIComponent(tag)}?limit=12&hidebroken=true&order=clickcount&reverse=true`)
+        .then(r=>r.json()).then(stations=>stations.map(s=>({...s,_tag:tag})))
+    );
+    const results=await Promise.all(fetches);
+    const seen=new Set();
+    allStations=results.flat().filter(s=>{
+      if(!s.url_resolved||seen.has(s.stationuuid))return false;
+      seen.add(s.stationuuid);return true;
+    });
+    filtered=[...allStations];
+    document.getElementById('countBadge').textContent=`${allStations.length} stations`;
+    render();
+  }catch(e){
+    document.getElementById('stationsGrid').innerHTML=`<div class="error"><i class="fa-solid fa-circle-exclamation" style="display:block;font-size:28px;margin-bottom:10px;color:#5bc8f5"></i>Could not load stations.<br><small>Check your connection and try refreshing.</small></div>`;
+    document.getElementById('countBadge').textContent='Error';
+  }
+}
+
+function render(){
+  const grid=document.getElementById('stationsGrid');
+  if(!filtered.length){grid.innerHTML='<div class="error">No stations found. Try a different filter.</div>';return}
+  grid.innerHTML='';
+  filtered.slice(0,60).forEach((s,i)=>{
+    const tag=(s._tag||'default').toLowerCase();
+    const icon=ICONS[tag]||ICONS.default;
+    const color=COLORS[i%COLORS.length];
+    const card=document.createElement('div');
+    card.className='station-card'+(currentStation?.stationuuid===s.stationuuid?' playing':'');
+    card.innerHTML=`
+      <div class="station-icon" style="background:linear-gradient(135deg,${color},${COLORS[(i+3)%COLORS.length]})"><i class="${icon}"></i></div>
+      <div class="station-info">
+        <div class="station-name">${s.name||'Unknown Station'}</div>
+        <div class="station-genre">${s.tags?.split(',')[0]||s._tag||'Radio'} · ${s.country||'International'}</div>
+        <div class="station-bitrate">${s.bitrate?s.bitrate+'kbps · ':''}<i class="fa-solid fa-circle" style="color:#5bc8f5;font-size:7px"></i> Live</div>
+      </div>
+      <div class="station-play-btn"><i class="fa-solid fa-play" style="margin-left:2px"></i></div>`;
+    card.onclick=()=>play(s,i);
+    grid.appendChild(card);
+  });
+}
+
+function play(s,i){
+  if(currentStation?.stationuuid===s.stationuuid&&!audio.paused){stopRadio();return}
+  currentStation=s;
+  audio.src=s.url_resolved;
+  audio.play().catch(()=>{});
+  document.getElementById('npName').textContent=s.name||'Unknown';
+  document.getElementById('npGenre').textContent=`${s.tags?.split(',')[0]||s._tag||'Radio'} · ${s.country||'International'}`;
+  document.getElementById('nowPlaying').classList.add('show');
+  document.title=`▶ ${s.name} · Star-Radio`;
+  render();
+}
+
+function stopRadio(){
+  audio.pause();audio.src='';currentStation=null;
+  document.getElementById('nowPlaying').classList.remove('show');
+  document.title='Star-Radio';
+  render();
+}
+
+function volUp(){audio.volume=Math.min(1,(audio.volume||0.8)+0.1)}
+function volDown(){audio.volume=Math.max(0,(audio.volume||0.8)-0.1)}
+
+function setFilter(tag,btn){
+  currentFilter=tag;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=allStations.filter(s=>(tag==='all'||s._tag===tag)&&(!q||s.name.toLowerCase().includes(q)||s.tags?.toLowerCase().includes(q)));
+  document.getElementById('countBadge').textContent=`${filtered.length} stations`;
+  render();
+}
+
+function filterStations(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=allStations.filter(s=>(currentFilter==='all'||s._tag===currentFilter)&&(!q||s.name.toLowerCase().includes(q)||s.tags?.toLowerCase().includes(q)||s.country?.toLowerCase().includes(q)));
+  document.getElementById('countBadge').textContent=`${filtered.length} stations`;
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
