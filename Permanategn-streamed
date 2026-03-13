@@ -836,7 +836,7 @@ nav.desktop-nav{display:flex;align-items:center;gap:4px;flex-shrink:0}
           </div>
           <div class="dev-card">
             <div class="dev-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div><div class="dev-name">Dummy</div><div class="dev-role">Backend · Systems</div><div class="dev-badge">Co-Dev</div></div>
+            <div><div class="dev-name">VXII/System</div><div class="dev-role">Backend · Systems</div><div class="dev-badge">Co-Dev</div></div>
           </div>
         </div>
         <div style="margin-top:14px">
