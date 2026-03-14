@@ -360,55 +360,222 @@ header.solid{background:var(--bg)}
 .star-app-name{font-size:11px;font-weight:700}
 .star-app-desc{font-size:9px;color:var(--text3);line-height:1.3}
 
-/* ── SEARCH OVERLAY ── */
-#searchOverlay{position:fixed;inset:0;z-index:60000;background:rgba(0,0,0,0);pointer-events:none;transition:background .3s}
-#searchOverlay.active{background:rgba(0,0,0,.96);pointer-events:all}
-#searchOverlayInner{position:absolute;top:0;left:0;right:0;transform:translateY(-100%);transition:transform .35s cubic-bezier(.175,.885,.32,1.08);background:var(--bg);border-bottom:1px solid var(--border);padding:calc(12px + var(--st)) 14px 18px}
-#searchOverlay.active #searchOverlayInner{transform:translateY(0)}
-#searchBar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:0 12px;height:46px;transition:border-color .2s;margin-bottom:18px}
-#searchBar:focus-within{border-color:rgba(96,165,250,.5)}
-#searchIconWrap{font-size:14px;color:var(--text3);flex-shrink:0}
-#searchOverlayInput{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif}
+/* ── SEARCH ── full-screen slide-up panel ── */
+#searchOverlay{
+  position:fixed;inset:0;z-index:60000;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+#searchOverlay.active{transform:translateY(0);pointer-events:all}
+
+/* top bar */
+#searchTopBar{
+  display:flex;align-items:center;gap:10px;
+  padding:calc(14px + var(--st)) 14px 0;
+  flex-shrink:0;
+}
+#searchInputWrap{
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:var(--surface2);
+  border:1.5px solid var(--border2);
+  border-radius:14px;
+  padding:0 14px;
+  height:48px;
+  transition:border-color .2s;
+}
+#searchInputWrap:focus-within{border-color:var(--accent)}
+#searchInputWrap .s-icon{font-size:15px;color:var(--text3);flex-shrink:0}
+#searchOverlayInput{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-size:16px;font-weight:500;
+  font-family:'DM Sans',sans-serif;
+  caret-color:var(--accent);
+}
 #searchOverlayInput::placeholder{color:var(--text3)}
-#searchOverlayClear{background:var(--surface3);border:1px solid var(--border2);color:var(--text2);width:24px;height:24px;border-radius:6px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
-#searchOverlayClear.vis{display:flex}
-#searchOverlayClose{background:none;border:none;color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;padding:5px 6px;border-radius:6px;flex-shrink:0}
-.search-section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.8px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:7px}
-#trendingChips,#recentChips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
-.search-chip{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);padding:7px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
-.search-chip:active{background:var(--surface3);border-color:rgba(96,165,250,.35);color:var(--text)}
-.recent-chip{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);padding:6px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
-.recent-chip:active{border-color:rgba(96,165,250,.35);color:var(--text)}
-.chip-del{width:16px;height:16px;background:var(--surface3);border:1px solid var(--border);border-radius:50%;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0}
-#categoryGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.cat-card{height:52px;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;align-items:center;padding:8px 12px;border:1px solid var(--border);background:var(--surface2)}
-.cat-card:active{opacity:.7}
-.cat-card-label{font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px}
-/* FIXED: search results grid - proper 2-column with good spacing */
-#searchResultsMeta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-#searchResultsMeta span{font-size:11px;color:var(--text3);font-weight:600}
-#searchResultsMeta strong{color:var(--text);font-size:14px}
-.search-filter-chip{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
-.search-filter-chip.on{background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.4);color:var(--accent)}
-#searchResultsGrid{
+#searchClearBtn{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--text3);border:none;
+  color:var(--bg);font-size:10px;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+  transition:background .15s;
+}
+#searchClearBtn.vis{display:flex}
+#searchClearBtn:active{background:var(--text2)}
+#searchCancelBtn{
+  background:none;border:none;
+  color:var(--accent);font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  padding:6px 2px;white-space:nowrap;flex-shrink:0;
+}
+
+/* tab row */
+#searchTabs{
+  display:flex;gap:0;
+  padding:14px 14px 0;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.s-tab{
+  flex:1;text-align:center;padding:8px 4px;
+  font-size:12px;font-weight:700;color:var(--text3);
+  cursor:pointer;position:relative;
+  border:none;background:none;font-family:'DM Sans',sans-serif;
+  transition:color .15s;
+}
+.s-tab.on{color:var(--accent)}
+.s-tab.on::after{
+  content:'';position:absolute;bottom:-1px;left:20%;right:20%;
+  height:2px;background:var(--accent);border-radius:1px;
+}
+
+/* scrollable body */
+#searchBody{
+  flex:1;overflow-y:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:16px 14px calc(16px + var(--sb));
+}
+#searchBody::-webkit-scrollbar{display:none}
+
+/* ── DEFAULT VIEW ── */
+.s-section-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;
+}
+.s-section-label{
+  font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:1.8px;color:var(--text3);
+  display:flex;align-items:center;gap:6px;
+}
+.s-clear-btn{
+  background:none;border:none;color:var(--text3);
+  font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',sans-serif;padding:3px 0;
+}
+.s-clear-btn:active{color:var(--text)}
+
+/* trending chips */
+#trendingChips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.s-trend-chip{
+  display:flex;align-items:center;gap:7px;
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text2);padding:8px 14px;border-radius:22px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all .15s;
+}
+.s-trend-chip:active{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.4);color:var(--accent)}
+.s-trend-chip .s-chip-icon{font-size:11px;color:var(--accent)}
+
+/* recent list */
+#recentList{display:flex;flex-direction:column;gap:2px;margin-bottom:22px}
+.s-recent-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 6px;border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.s-recent-row:last-child{border-bottom:none}
+.s-recent-row:active{background:var(--surface2);border-radius:8px;margin:0 -6px;padding:10px 12px}
+.s-recent-ico{width:32px;height:32px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text3);flex-shrink:0}
+.s-recent-text{flex:1;font-size:13px;font-weight:600;color:var(--text2)}
+.s-recent-del{width:28px;height:28px;border-radius:8px;background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-recent-del:active{background:var(--surface2);color:var(--text)}
+
+/* category grid — 2×3 */
+#categoryGrid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  max-height:calc(88svh - 200px);
-  overflow-y:auto;
-  scrollbar-width:thin;
-  padding-bottom:8px
+  gap:8px;
 }
-.search-result-card{border-radius:10px;overflow:hidden;cursor:pointer;position:relative;background:var(--surface2);aspect-ratio:2/3;transition:transform .15s;border:1px solid var(--border)}
-.search-result-card:active{transform:scale(.97)}
-.search-result-card img{width:100%;height:100%;object-fit:cover;display:block}
-.search-result-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.1) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:8px}
-.search-result-title{font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;line-height:1.3}
-.search-result-meta{font-size:9px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:4px}
-.search-loading{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px;color:var(--text2)}
+.s-cat-card{
+  height:66px;border-radius:14px;overflow:hidden;
+  cursor:pointer;display:flex;align-items:center;
+  padding:0 14px;gap:10px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  transition:transform .15s,border-color .15s;
+  position:relative;overflow:hidden;
+}
+.s-cat-card::before{
+  content:'';position:absolute;right:-10px;top:50%;
+  transform:translateY(-50%);
+  font-size:44px;opacity:.06;
+}
+.s-cat-card:active{transform:scale(.97);border-color:var(--border2)}
+.s-cat-icon{font-size:20px;flex-shrink:0;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--surface3)}
+.s-cat-label{font-size:13px;font-weight:700;line-height:1.2}
+
+/* ── RESULTS VIEW ── */
+#searchResultsBar{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 0 10px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:14px;flex-wrap:wrap;
+}
+.s-results-count{font-size:12px;color:var(--text3);font-weight:600;flex:1}
+.s-results-count strong{color:var(--text);font-size:13px}
+.s-filter-row{display:flex;gap:6px;flex-wrap:wrap}
+.s-filter-pill{
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text3);padding:5px 12px;border-radius:20px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all .15s;
+}
+.s-filter-pill.on{background:rgba(96,165,250,.12);border-color:var(--accent);color:var(--accent)}
+.s-filter-pill:active{opacity:.7}
+
+/* results poster grid — 3 columns */
+#searchResultsGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.sr-card{
+  border-radius:10px;overflow:hidden;cursor:pointer;
+  position:relative;background:var(--surface2);
+  aspect-ratio:2/3;border:1px solid var(--border);
+  transition:transform .15s;
+}
+.sr-card:active{transform:scale(.96)}
+.sr-card img{width:100%;height:100%;object-fit:cover;display:block}
+.sr-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.05) 50%,transparent 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:7px 6px;
+}
+.sr-title{font-size:10px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sr-meta{font-size:8px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:3px}
+.sr-badge{
+  position:absolute;top:5px;left:5px;
+  background:rgba(96,165,250,.9);color:#fff;
+  font-size:7px;font-weight:800;padding:2px 5px;
+  border-radius:4px;text-transform:uppercase;letter-spacing:.5px;
+}
+
+/* loading / empty states */
+.s-loading{
+  grid-column:1/-1;display:flex;flex-direction:column;
+  align-items:center;gap:14px;padding:50px 20px;
+}
+.s-spinner{
+  width:28px;height:28px;border:2.5px solid var(--surface3);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.s-loading-txt{font-size:13px;color:var(--text3);font-weight:600}
+.s-empty{
+  grid-column:1/-1;text-align:center;
+  padding:50px 20px;
+}
+.s-empty-icon{font-size:40px;color:var(--text3);opacity:.35;margin-bottom:14px}
+.s-empty h3{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--text2);margin-bottom:6px}
+.s-empty p{font-size:12px;color:var(--text3);line-height:1.6}
+
+/* keep spin keyframe accessible */
 .spin{width:26px;height:26px;border:2px solid var(--surface3);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
-.search-empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);font-size:13px}
-.search-empty h3{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text2);margin-bottom:6px}
 
 /* ── PAGES ── */
 .page-section{padding:calc(var(--hdr-h) + 14px) 0 calc(var(--nav-h) + 20px);display:none;min-height:100svh}
@@ -565,35 +732,59 @@ body::after{content:'';position:fixed;bottom:-20%;right:-15%;width:50%;height:60
   </div>
 </div>
 
-<!-- SEARCH OVERLAY -->
+<!-- SEARCH OVERLAY (full-screen slide-up) -->
 <div id="searchOverlay">
-  <div id="searchOverlayInner">
-    <div id="searchBar">
-      <div id="searchIconWrap"><i class="fa-solid fa-magnifying-glass"></i></div>
-      <input id="searchOverlayInput" type="search" placeholder="Search titles, actors, genres…" autocomplete="off" spellcheck="false"/>
-      <button id="searchOverlayClear" onclick="clearSearchOverlay()"><i class="fa-solid fa-xmark"></i></button>
-      <button id="searchOverlayClose" onclick="closeSearchOverlay()">Cancel</button>
+  <!-- top bar -->
+  <div id="searchTopBar">
+    <div id="searchInputWrap">
+      <span class="s-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input id="searchOverlayInput" type="search" placeholder="Movies, shows, actors…" autocomplete="off" spellcheck="false" autocorrect="off"/>
+      <button id="searchClearBtn"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div id="searchOverlayContent">
-      <div id="searchDefaultView">
-        <div id="trendingSearches">
-          <div class="search-section-label"><i class="fa-solid fa-fire-alt"></i> Trending</div>
-          <div id="trendingChips"></div>
+    <button id="searchCancelBtn" onclick="closeSearchOverlay()">Cancel</button>
+  </div>
+
+  <!-- tabs: Discover / Results -->
+  <div id="searchTabs">
+    <button class="s-tab on" id="sTab-discover" onclick="switchSearchTab('discover')">Discover</button>
+    <button class="s-tab" id="sTab-results" onclick="switchSearchTab('results')">Results</button>
+  </div>
+
+  <!-- scrollable content -->
+  <div id="searchBody">
+
+    <!-- DISCOVER VIEW -->
+    <div id="searchDiscoverView">
+      <!-- Recent -->
+      <div id="recentSection" style="display:none;margin-bottom:22px">
+        <div class="s-section-hd">
+          <div class="s-section-label"><i class="fa-regular fa-clock"></i> Recent</div>
+          <button class="s-clear-btn" onclick="clearRecentSearches()">Clear all</button>
         </div>
-        <div id="recentSearches" style="display:none">
-          <div class="search-section-label" style="justify-content:space-between;display:flex"><span><i class="fa-regular fa-clock"></i> Recent</span><button onclick="clearRecentSearches()" style="background:none;border:none;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Clear</button></div>
-          <div id="recentChips"></div>
-        </div>
-        <div>
-          <div class="search-section-label"><i class="fa-solid fa-compass"></i> Browse Categories</div>
-          <div id="categoryGrid"></div>
-        </div>
+        <div id="recentList"></div>
       </div>
-      <div id="searchResultsView" style="display:none">
-        <div id="searchResultsMeta"></div>
-        <div id="searchResultsGrid"></div>
+      <!-- Trending -->
+      <div style="margin-bottom:22px">
+        <div class="s-section-hd">
+          <div class="s-section-label"><i class="fa-solid fa-fire-alt"></i> Trending Searches</div>
+        </div>
+        <div id="trendingChips"></div>
+      </div>
+      <!-- Categories -->
+      <div>
+        <div class="s-section-hd">
+          <div class="s-section-label"><i class="fa-solid fa-compass"></i> Browse by Genre</div>
+        </div>
+        <div id="categoryGrid"></div>
       </div>
     </div>
+
+    <!-- RESULTS VIEW -->
+    <div id="searchResultsView" style="display:none">
+      <div id="searchResultsBar"></div>
+      <div id="searchResultsGrid"></div>
+    </div>
+
   </div>
 </div>
 
@@ -776,15 +967,6 @@ body::after{content:'';position:fixed;bottom:-20%;right:-15%;width:50%;height:60
     <span class="nav-tab-label">Profile</span>
   </button>
 </nav>
-
-<!-- EMBEDDED APP PAGES -->
-<div id="gnSportsPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnSportsPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-trophy"></i> Star-Sports</div></div><div class="embedded-app-loading" id="gnSportsLoading"><span class="load-icon"><i class="fa-solid fa-trophy"></i></span><p>Loading Star-Sports…</p><small>Fetching live sports data</small></div><iframe id="gnSportsFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnTVPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnTVPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-satellite-dish"></i> Star-TV</div></div><div class="embedded-app-loading" id="gnTVLoading"><span class="load-icon"><i class="fa-solid fa-satellite-dish"></i></span><p>Loading Star-TV…</p><small>Fetching live channels</small></div><iframe id="gnTVFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnMusicPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnMusicPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-music"></i> Star-Music</div></div><div class="embedded-app-loading" id="gnMusicLoading"><span class="load-icon"><i class="fa-solid fa-headphones"></i></span><p>Loading Star-Music…</p><small>Connecting to music stream</small></div><iframe id="gnMusicFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnPodcastPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnPodcastPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-microphone-lines"></i> Star-Podcast</div></div><div class="embedded-app-loading" id="gnPodcastLoading"><span class="load-icon"><i class="fa-solid fa-microphone-lines"></i></span><p>Loading Star-Podcast…</p><small>Discovering podcasts</small></div><iframe id="gnPodcastFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnNewsPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnNewsPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-newspaper"></i> Star-News</div></div><div class="embedded-app-loading" id="gnNewsLoading"><span class="load-icon"><i class="fa-solid fa-newspaper"></i></span><p>Loading Star-News…</p><small>Fetching latest news</small></div><iframe id="gnNewsFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnRadioPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnRadioPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-radio"></i> Star-Radio</div></div><div class="embedded-app-loading" id="gnRadioLoading"><span class="load-icon"><i class="fa-solid fa-radio"></i></span><p>Loading Star-Radio…</p><small>Fetching stations</small></div><iframe id="gnRadioFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
-<div id="gnBooksPage" class="embedded-app-page"><div class="embedded-app-header"><button class="embedded-app-back" onclick="closeEmbeddedApp('gnBooksPage')"><i class="fa-solid fa-arrow-left"></i> Back</button><div class="embedded-app-title"><i class="fa-solid fa-book"></i> Star-Books</div></div><div class="embedded-app-loading" id="gnBooksLoading"><span class="load-icon"><i class="fa-solid fa-book"></i></span><p>Loading Star-Books…</p><small>Connecting to library</small></div><iframe id="gnBooksFrame" class="embedded-app-frame" style="display:none" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"></iframe></div>
 
 <!-- MAIN CONTENT -->
 <div id="mainContent">
@@ -1166,7 +1348,7 @@ function changeServer(v){
   toast(`Server: ${SERVERS[v]?.name||v}`);
 }
 
-// ─── STAR APPS ────────────────────────────────────────────────────────────────
+// ─── STAR APPS (open in new window) ──────────────────────────────────────────
 function openStarApps(){
   document.getElementById('starAppsPopup').classList.add('open');
   document.body.classList.add('locked');
@@ -1175,39 +1357,27 @@ function closeStarApps(){
   document.getElementById('starAppsPopup').classList.remove('open');
   document.body.classList.remove('locked');
 }
-function openStarApp(appKey){
+async function openStarApp(appKey){
   closeStarApps();
   const app=STAR_APPS[appKey];
-  if(!app) return;
-  const safeName=app.name.replace(/[^a-zA-Z]/g,'');
-  loadEmbeddedApp(`gn${safeName}Page`,`gn${safeName}Loading`,`gn${safeName}Frame`,app.url,`loaded_${appKey}`);
-}
-
-// ─── EMBEDDED APPS ────────────────────────────────────────────────────────────
-async function loadEmbeddedApp(pageId,loadingId,frameId,url,flag){
-  const page=document.getElementById(pageId);
-  if(!page) return;
-  page.classList.add('open');
-  document.body.classList.add('locked');
-  if(window[flag]) return;
+  if(!app){toast('App not found');return;}
+  toast(`Opening ${app.name}…`);
   try{
-    const res=await fetch(url);
+    const res=await fetch(app.url);
     if(!res.ok) throw new Error('HTTP '+res.status);
     const html=await res.text();
-    const frame=document.getElementById(frameId);
-    if(frame){frame.srcdoc=html;frame.style.display='block';}
-    const loading=document.getElementById(loadingId);
-    if(loading) loading.style.display='none';
-    window[flag]=true;
+    const win=window.open('about:blank','_blank');
+    if(!win){toast('Allow popups to open Star Apps');return;}
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
   }catch(err){
-    const loading=document.getElementById(loadingId);
-    if(loading) loading.innerHTML=`<span class="load-icon"><i class="fa-solid fa-circle-exclamation"></i></span><p>Failed to load</p><small>${err.message}</small><button onclick="window['${flag}']=false;loadEmbeddedApp('${pageId}','${loadingId}','${frameId}','${url}','${flag}')" style="margin-top:14px;background:var(--surface3);color:var(--text);border:1px solid var(--border);padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Retry</button>`;
+    // fallback: just open the URL directly
+    window.open(app.url,'_blank');
   }
 }
-function closeEmbeddedApp(pageId){
-  document.getElementById(pageId).classList.remove('open');
-  document.body.classList.remove('locked');
-}
+
+// (embedded app pages removed — apps now open in new window via openStarApp)
 
 // ─── TOAST ────────────────────────────────────────────────────────────────────
 function toast(msg){
@@ -2009,171 +2179,241 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-// ─── SEARCH OVERLAY ───────────────────────────────────────────────────────────
+// ─── SEARCH ───────────────────────────────────────────────────────────────────
 const CATEGORIES=[
-  {label:'Action',icon:'fa-solid fa-hand-fist',genreId:28},{label:'Comedy',icon:'fa-solid fa-face-laugh',genreId:35},
-  {label:'Horror',icon:'fa-solid fa-ghost',genreId:27},{label:'Sci-Fi',icon:'fa-solid fa-rocket',genreId:878},
-  {label:'Romance',icon:'fa-solid fa-heart',genreId:10749},{label:'Thriller',icon:'fa-solid fa-user-secret',genreId:53},
-  {label:'Drama',icon:'fa-solid fa-masks-theater',genreId:18},{label:'Animation',icon:'fa-solid fa-wand-magic-sparkles',genreId:16},
-  {label:'Crime',icon:'fa-solid fa-handcuffs',genreId:80},{label:'Fantasy',icon:'fa-solid fa-dragon',genreId:14},
-  {label:'Adventure',icon:'fa-solid fa-mountain-sun',genreId:12},{label:'Documentary',icon:'fa-solid fa-video',genreId:99},
+  {label:'Action',icon:'fa-solid fa-hand-fist',color:'#ef4444',genreId:28},
+  {label:'Comedy',icon:'fa-solid fa-face-laugh',color:'#f59e0b',genreId:35},
+  {label:'Horror',icon:'fa-solid fa-ghost',color:'#8b5cf6',genreId:27},
+  {label:'Sci-Fi',icon:'fa-solid fa-rocket',color:'#06b6d4',genreId:878},
+  {label:'Romance',icon:'fa-solid fa-heart',color:'#ec4899',genreId:10749},
+  {label:'Thriller',icon:'fa-solid fa-user-secret',color:'#64748b',genreId:53},
+  {label:'Drama',icon:'fa-solid fa-masks-theater',color:'#a78bfa',genreId:18},
+  {label:'Animation',icon:'fa-solid fa-wand-magic-sparkles',color:'#10b981',genreId:16},
+  {label:'Crime',icon:'fa-solid fa-handcuffs',color:'#6b7280',genreId:80},
+  {label:'Fantasy',icon:'fa-solid fa-dragon',color:'#7c3aed',genreId:14},
+  {label:'Adventure',icon:'fa-solid fa-mountain-sun',color:'#f97316',genreId:12},
+  {label:'Documentary',icon:'fa-solid fa-video',color:'#0ea5e9',genreId:99},
 ];
-const TRENDING_SEARCHES=['Stranger Things','Breaking Bad','Dune','Oppenheimer','The Bear','Inception','Avatar','Peaky Blinders','John Wick','Succession'];
+const TRENDING_SEARCHES=['Stranger Things','Breaking Bad','Dune','Oppenheimer','The Bear','Inception','Avatar','Peaky Blinders','John Wick','Succession','Interstellar','The Last of Us'];
 let recentSearches=[];
 try{recentSearches=JSON.parse(localStorage.getItem('gnRecentSearches')||'[]');}catch(e){}
-let searchDebounceTimer=null, currentSearchFilter='all';
+let searchDebounceTimer=null;
+let currentSearchTab='discover'; // 'discover' | 'results'
+let lastSearchQuery='';
+let lastSearchFilter='all';
 
 function openSearchOverlay(){
   document.getElementById('searchOverlay').classList.add('active');
   document.body.classList.add('locked');
-  setTimeout(()=>document.getElementById('searchOverlayInput').focus(),340);
-  buildDefaultView();
+  buildDiscoverView();
+  switchSearchTab('discover');
+  setTimeout(()=>document.getElementById('searchOverlayInput').focus(),400);
 }
 function closeSearchOverlay(){
   document.getElementById('searchOverlay').classList.remove('active');
   document.body.classList.remove('locked');
   document.getElementById('searchOverlayInput').value='';
-  document.getElementById('searchOverlayClear').classList.remove('vis');
-  showDefaultView();
+  document.getElementById('searchClearBtn').classList.remove('vis');
+  lastSearchQuery='';
 }
-function clearSearchOverlay(){
-  document.getElementById('searchOverlayInput').value='';
-  document.getElementById('searchOverlayClear').classList.remove('vis');
-  document.getElementById('searchOverlayInput').focus();
-  showDefaultView();
+function switchSearchTab(tab){
+  currentSearchTab=tab;
+  document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(`sTab-${tab}`)?.classList.add('on');
+  document.getElementById('searchDiscoverView').style.display=tab==='discover'?'block':'none';
+  document.getElementById('searchResultsView').style.display=tab==='results'?'block':'none';
 }
-function showDefaultView(){
-  document.getElementById('searchDefaultView').style.display='block';
-  document.getElementById('searchResultsView').style.display='none';
-}
-function showResultsView(){
-  document.getElementById('searchDefaultView').style.display='none';
-  document.getElementById('searchResultsView').style.display='block';
-}
-function buildDefaultView(){
+
+function buildDiscoverView(){
+  // Recent
+  const recentSec=document.getElementById('recentSection');
+  const recentList=document.getElementById('recentList');
+  recentList.innerHTML='';
+  if(recentSearches.length>0){
+    recentSec.style.display='block';
+    recentSearches.slice(0,6).forEach(q=>{
+      const row=document.createElement('div'); row.className='s-recent-row';
+      row.innerHTML=`
+        <div class="s-recent-ico"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <span class="s-recent-text">${q}</span>
+        <button class="s-recent-del" onclick="event.stopPropagation();deleteRecentSearch('${q.replace(/'/g,"\\'")}')"><i class="fa-solid fa-xmark"></i></button>`;
+      row.addEventListener('click',e=>{if(e.target.closest('.s-recent-del'))return;triggerSearch(q);});
+      recentList.appendChild(row);
+    });
+  } else {
+    recentSec.style.display='none';
+  }
+
+  // Trending chips
   const tc=document.getElementById('trendingChips'); tc.innerHTML='';
   TRENDING_SEARCHES.forEach(q=>{
-    const chip=document.createElement('div'); chip.className='search-chip';
-    chip.innerHTML=`<i class="fa-solid fa-fire-alt" style="font-size:10px;color:var(--accent)"></i>${q}`;
-    chip.onclick=()=>runSearch(q); tc.appendChild(chip);
+    const chip=document.createElement('button'); chip.className='s-trend-chip';
+    chip.innerHTML=`<span class="s-chip-icon"><i class="fa-solid fa-fire-alt"></i></span>${q}`;
+    chip.onclick=()=>triggerSearch(q);
+    tc.appendChild(chip);
   });
-  const rc=document.getElementById('recentChips'), rs=document.getElementById('recentSearches');
-  rc.innerHTML='';
-  if(recentSearches.length>0){
-    rs.style.display='block';
-    recentSearches.slice(0,8).forEach(q=>{
-      const chip=document.createElement('div'); chip.className='recent-chip';
-      chip.innerHTML=`<i class="fa-regular fa-clock" style="font-size:10px;flex-shrink:0"></i><span style="flex:1">${q}</span><button class="chip-del" onclick="event.stopPropagation();removeRecentSearch('${q.replace(/'/g,"\\'")}')" ><i class="fa-solid fa-xmark"></i></button>`;
-      chip.onclick=e=>{if(e.target.closest('.chip-del'))return;runSearch(q);};
-      rc.appendChild(chip);
-    });
-  } else rs.style.display='none';
+
+  // Category grid
   const cg=document.getElementById('categoryGrid'); cg.innerHTML='';
   CATEGORIES.forEach(cat=>{
-    const card=document.createElement('div'); card.className='cat-card';
-    card.innerHTML=`<div class="cat-card-label"><i class="${cat.icon}"></i>${cat.label}</div>`;
-    card.onclick=()=>searchByGenre(cat.genreId,cat.label);
+    const card=document.createElement('div'); card.className='s-cat-card';
+    card.innerHTML=`
+      <div class="s-cat-icon" style="color:${cat.color};background:${cat.color}18">
+        <i class="${cat.icon}"></i>
+      </div>
+      <span class="s-cat-label">${cat.label}</span>`;
+    card.onclick=()=>browseGenre(cat.genreId,cat.label);
     cg.appendChild(card);
   });
 }
-function removeRecentSearch(q){
-  recentSearches=recentSearches.filter(r=>r!==q);
-  localStorage.setItem('gnRecentSearches',JSON.stringify(recentSearches));
-  buildDefaultView();
+
+function triggerSearch(q){
+  if(!q.trim()) return;
+  document.getElementById('searchOverlayInput').value=q;
+  document.getElementById('searchClearBtn').classList.add('vis');
+  addRecentSearch(q.trim());
+  lastSearchQuery=q;
+  lastSearchFilter='all';
+  switchSearchTab('results');
+  fetchAndRenderResults(q,'all');
 }
-function clearRecentSearches(){
-  recentSearches=[];
-  localStorage.setItem('gnRecentSearches',JSON.stringify(recentSearches));
-  buildDefaultView();
-}
+
 function addRecentSearch(q){
   recentSearches=recentSearches.filter(r=>r!==q);
   recentSearches.unshift(q);
   if(recentSearches.length>12) recentSearches=recentSearches.slice(0,12);
   localStorage.setItem('gnRecentSearches',JSON.stringify(recentSearches));
 }
-async function runSearch(q){
-  if(!q.trim()) return;
-  addRecentSearch(q.trim());
-  document.getElementById('searchOverlayInput').value=q;
-  document.getElementById('searchOverlayClear').classList.add('vis');
-  currentSearchFilter='all';
-  showResultsView();
-  await fetchSearchResults(q);
+function deleteRecentSearch(q){
+  recentSearches=recentSearches.filter(r=>r!==q);
+  localStorage.setItem('gnRecentSearches',JSON.stringify(recentSearches));
+  buildDiscoverView();
 }
-async function searchByGenre(genreId,label){
-  showResultsView();
-  const meta=document.getElementById('searchResultsMeta');
-  meta.innerHTML=`<strong>${label}</strong><span>Loading…</span>`;
+function clearRecentSearches(){
+  recentSearches=[];
+  localStorage.setItem('gnRecentSearches',JSON.stringify(recentSearches));
+  buildDiscoverView();
+}
+
+async function browseGenre(genreId,label){
+  switchSearchTab('results');
+  const bar=document.getElementById('searchResultsBar');
   const grid=document.getElementById('searchResultsGrid');
-  grid.innerHTML=`<div class="search-loading"><div class="spin"></div><span>Finding ${label} titles…</span></div>`;
+  bar.innerHTML=`<div class="s-results-count"><strong>${label}</strong></div>`;
+  grid.innerHTML=`<div class="s-loading"><div class="s-spinner"></div><span class="s-loading-txt">Finding ${label} titles…</span></div>`;
   try{
-    const[d1,d2]=await Promise.all([
+    const[m,t]=await Promise.all([
       fetc(`${BASE}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`),
       fetc(`${BASE}/discover/tv?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`)
     ]);
     const items=[
-      ...(d1?.results||[]).map(i=>({...i,media_type:'movie'})),
-      ...(d2?.results||[]).map(i=>({...i,media_type:'tv'}))
+      ...(m?.results||[]).map(i=>({...i,media_type:'movie'})),
+      ...(t?.results||[]).map(i=>({...i,media_type:'tv'}))
     ].sort((a,b)=>b.popularity-a.popularity);
-    meta.innerHTML=`<strong>${label}</strong><span>${items.length} titles</span>`;
-    renderSearchGrid(items.slice(0,40),grid);
-  }catch(e){grid.innerHTML='<div class="search-empty"><h3>Oops</h3><p>Failed to load</p></div>';}
+    bar.innerHTML=`<div class="s-results-count"><strong>${label}</strong> · <span>${items.length} titles</span></div>`;
+    renderResultsGrid(items.slice(0,60),grid);
+  }catch(e){
+    grid.innerHTML=`<div class="s-empty"><div class="s-empty-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Couldn't Load</h3><p>Try again later</p></div>`;
+  }
 }
-async function fetchSearchResults(q,filter='all'){
+
+async function fetchAndRenderResults(q,filter='all'){
+  const bar=document.getElementById('searchResultsBar');
   const grid=document.getElementById('searchResultsGrid');
-  const meta=document.getElementById('searchResultsMeta');
-  grid.innerHTML=`<div class="search-loading"><div class="spin"></div><span>Searching…</span></div>`;
-  meta.innerHTML=`<span>Searching <strong>"${q}"</strong>…</span>`;
+  bar.innerHTML=`<div class="s-results-count">Searching <strong>"${q}"</strong>…</div>`;
+  grid.innerHTML=`<div class="s-loading"><div class="s-spinner"></div><span class="s-loading-txt">Searching…</span></div>`;
   try{
-    const d=await fetc(`${BASE}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}`);
-    let results=(d?.results||[]).filter(i=>i.media_type==='movie'||i.media_type==='tv');
-    const total=results.length;
-    if(filter==='movie') results=results.filter(i=>i.media_type==='movie');
-    else if(filter==='tv') results=results.filter(i=>i.media_type==='tv');
-    meta.innerHTML=`
-      <strong>"${q}"</strong><span>${total} result${total!==1?'s':''}</span>
-      <button class="search-filter-chip ${filter==='all'?'on':''}" onclick="setSearchFilter('all','${q.replace(/'/g,"\\'")}')">All</button>
-      <button class="search-filter-chip ${filter==='movie'?'on':''}" onclick="setSearchFilter('movie','${q.replace(/'/g,"\\'")}')">Movies</button>
-      <button class="search-filter-chip ${filter==='tv'?'on':''}" onclick="setSearchFilter('tv','${q.replace(/'/g,"\\'")}')">TV</button>`;
-    if(!results.length){grid.innerHTML='<div class="search-empty"><h3>No Results</h3><p>Try a different title or genre</p></div>';return;}
-    renderSearchGrid(results.slice(0,48),grid);
-  }catch(e){grid.innerHTML='<div class="search-empty"><h3>Error</h3><p>Please try again</p></div>';meta.innerHTML='';}
+    const d=await fetc(`${BASE}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}&include_adult=false`);
+    let all=(d?.results||[]).filter(i=>i.media_type==='movie'||i.media_type==='tv');
+    const total=all.length;
+    let results=all;
+    if(filter==='movie') results=all.filter(i=>i.media_type==='movie');
+    else if(filter==='tv') results=all.filter(i=>i.media_type==='tv');
+
+    // build bar
+    bar.innerHTML='';
+    const countDiv=document.createElement('div'); countDiv.className='s-results-count';
+    countDiv.innerHTML=`<strong>${total}</strong> result${total!==1?'s':''} for "${q}"`;
+    bar.appendChild(countDiv);
+    const filterRow=document.createElement('div'); filterRow.className='s-filter-row';
+    [['all','All'],['movie','Movies'],['tv','TV']].forEach(([f,label])=>{
+      const btn=document.createElement('button'); btn.className=`s-filter-pill${filter===f?' on':''}`;
+      btn.textContent=label;
+      btn.onclick=()=>{lastSearchFilter=f;fetchAndRenderResults(q,f);};
+      filterRow.appendChild(btn);
+    });
+    bar.appendChild(filterRow);
+
+    if(!results.length){
+      grid.innerHTML=`<div class="s-empty"><div class="s-empty-icon"><i class="fa-solid fa-face-sad-tear"></i></div><h3>No Results</h3><p>Try a different title or use a genre instead</p></div>`;
+      return;
+    }
+    renderResultsGrid(results.slice(0,60),grid);
+  }catch(e){
+    grid.innerHTML=`<div class="s-empty"><div class="s-empty-icon"><i class="fa-solid fa-wifi"></i></div><h3>Something Went Wrong</h3><p>Check your connection and try again</p></div>`;
+  }
 }
-function setSearchFilter(f,q){currentSearchFilter=f;fetchSearchResults(q,f);}
-// FIXED: search results grid uses 2-column layout with proper spacing
-function renderSearchGrid(items,grid){
+
+function renderResultsGrid(items,grid){
   grid.innerHTML='';
   items.forEach(item=>{
     const poster=item.poster_path?`${IMG}w342${item.poster_path}`:FB_P;
     const year=(item.release_date||item.first_air_date||'').slice(0,4);
-    const rating=item.vote_average?item.vote_average.toFixed(1):'—';
-    const card=document.createElement('div'); card.className='search-result-card';
+    const rating=item.vote_average?item.vote_average.toFixed(1):'';
+    const isTv=item.media_type==='tv';
     window[`_item_${item.id}`]=item;
+    const card=document.createElement('div'); card.className='sr-card';
     card.innerHTML=`
       <img src="${poster}" alt="${item.title||item.name}" loading="lazy" onerror="this.src='${FB_P}'">
-      <div class="search-result-overlay">
-        <div class="search-result-title">${item.title||item.name}</div>
-        <div class="search-result-meta"><i class="fa-solid fa-star" style="color:#aaa;font-size:9px"></i>${rating}${year?` · ${year}`:''}</div>
+      <div class="sr-badge">${isTv?'TV':'Film'}</div>
+      <div class="sr-overlay">
+        <div class="sr-title">${item.title||item.name}</div>
+        <div class="sr-meta">
+          ${rating?`<i class="fa-solid fa-star" style="color:#f59e0b;font-size:8px"></i>${rating}`:''}
+          ${year?`<span style="opacity:.6">·</span>${year}`:''}
+        </div>
       </div>`;
-    card.addEventListener('click',()=>{closeSearchOverlay();setTimeout(()=>openDetails(item),180);});
+    card.addEventListener('click',()=>{
+      closeSearchOverlay();
+      setTimeout(()=>openDetails(item),200);
+    });
     grid.appendChild(card);
   });
 }
+
+// Input listener
 document.getElementById('searchOverlayInput').addEventListener('input',function(){
   const q=this.value.trim();
-  document.getElementById('searchOverlayClear').classList.toggle('vis',q.length>0);
+  document.getElementById('searchClearBtn').classList.toggle('vis',q.length>0);
   clearTimeout(searchDebounceTimer);
-  if(!q){showDefaultView();return;}
-  showResultsView();
-  document.getElementById('searchResultsGrid').innerHTML=`<div class="search-loading"><div class="spin"></div></div>`;
-  searchDebounceTimer=setTimeout(()=>fetchSearchResults(q,currentSearchFilter),380);
+  if(!q){
+    switchSearchTab('discover');
+    buildDiscoverView();
+    return;
+  }
+  // switch to results tab and debounce
+  switchSearchTab('results');
+  document.getElementById('searchResultsGrid').innerHTML=`<div class="s-loading"><div class="s-spinner"></div></div>`;
+  document.getElementById('searchResultsBar').innerHTML='';
+  searchDebounceTimer=setTimeout(()=>{
+    lastSearchQuery=q; lastSearchFilter='all';
+    fetchAndRenderResults(q,'all');
+  },420);
 });
 document.getElementById('searchOverlayInput').addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeSearchOverlay();return;}
-  if(e.key==='Enter'){const q=this.value.trim();if(q)runSearch(q);}
+  if(e.key==='Enter'){
+    const q=this.value.trim();
+    if(q){addRecentSearch(q);lastSearchQuery=q;fetchAndRenderResults(q,lastSearchFilter);}
+  }
 });
-document.getElementById('searchOverlay').addEventListener('click',function(e){if(e.target===this)closeSearchOverlay();});
+document.getElementById('searchClearBtn').addEventListener('click',()=>{
+  document.getElementById('searchOverlayInput').value='';
+  document.getElementById('searchClearBtn').classList.remove('vis');
+  document.getElementById('searchOverlayInput').focus();
+  switchSearchTab('discover');
+  buildDiscoverView();
+});
 
 // ─── LOAD ALL CATEGORIES ──────────────────────────────────────────────────────
 function loadAllCats(){
