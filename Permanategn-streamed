@@ -738,7 +738,7 @@ body::after{content:'';position:fixed;bottom:-18%;right:-14%;width:48%;height:58
           <div class="dev-card"><div class="dev-avatar"><i class="fa-solid fa-robot"></i></div><div><div class="dev-name">VXII/System</div><div class="dev-role">Backend · Systems</div><div class="dev-badge">Co-Dev</div></div></div>
         </div>
         <div style="margin-top:14px">
-          <div class="app-ver-row"><span class="app-ver-lbl">Version</span><span class="app-ver-val">Star-Stream v2.2.1</span></div>
+          <div class="app-ver-row"><span class="app-ver-lbl">Version</span><span class="app-ver-val">Star-Stream v2.2.1-proxy</span></div>
           <div class="app-ver-row"><span class="app-ver-lbl">Data Source</span><span class="app-ver-val">TMDB API</span></div>
         </div>
       </div>
@@ -1065,33 +1065,97 @@ let heroItems=[],heroIdx=0,heroTimer=null;
 let curSeason=1,curEp=1;
 const cache=new Map(),CACHE_TTL=5*60*1000;
 
-// ══ CACHE — PROXY FALLBACK (EDIT 1) ══════════════════════════════════════════
-// Automatically tries CORS proxies if api.themoviedb.org is blocked
-const CORS_PROXIES=['','https://corsproxy.io/?','https://api.allorigins.win/raw?url=','https://thingproxy.freeboard.io/fetch/'];
-const IMG_PROXIES=['','https://images.weserv.nl/?url=','https://wsrv.nl/?url='];
-let _wp=localStorage.getItem('gnWProxy');
+// ══ CACHE — AGGRESSIVE PROXY FALLBACK ════════════════════════════════════════
+// Tries many proxies in parallel so content loads even on strict school/work nets
+const CORS_PROXIES=[
+  '',                                              // direct (try first)
+  'https://corsproxy.io/?',
+  'https://api.allorigins.win/raw?url=',
+  'https://api.codetabs.com/v1/proxy?quest=',
+  'https://thingproxy.freeboard.io/fetch/',
+  'https://proxy.cors.sh/',
+  'https://yacdn.org/proxy/',
+  'https://cors.eu.org/',
+];
+const IMG_PROXIES=['','https://images.weserv.nl/?url=','https://wsrv.nl/?url=','https://imageproxy.pimg.tw/resize?url='];
+let _wp=localStorage.getItem('gnWProxy');   // null=untested, ''=direct, str=working proxy
 let _wip=localStorage.getItem('gnWIProxy')||'';
-async function _rf(url,proxy,ms=9000){
+let _proxyTested=false;
+
+// Single attempt with timeout
+async function _try(url,proxy,ms=7000){
   const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),ms);
-  try{const r=await fetch(proxy?(proxy+encodeURIComponent(url)):url,{signal:ctrl.signal});clearTimeout(tid);if(!r.ok)throw 0;return await r.json();}
-  catch(e){clearTimeout(tid);throw e;}
+  try{
+    const fetchUrl=proxy?proxy+encodeURIComponent(url):url;
+    const r=await fetch(fetchUrl,{signal:ctrl.signal,cache:'no-store'});
+    clearTimeout(tid);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    return d;
+  }catch(e){clearTimeout(tid);return null;}
 }
+
 async function fetc(url){
   const c=cache.get(url);if(c&&Date.now()-c.t<CACHE_TTL)return c.d;
-  const order=_wp!=null?[_wp,...CORS_PROXIES.filter(p=>p!==_wp)]:CORS_PROXIES;
-  for(const proxy of order){
-    try{
-      const d=await _rf(url,proxy,8500);
-      if(d){if(proxy!==_wp){_wp=proxy;localStorage.setItem('gnWProxy',proxy);if(proxy)toast('\u26a1 Proxy connected \u2014 loading...');}cache.set(url,{d,t:Date.now()});return d;}
-    }catch(e){continue;}
+
+  // If we already found a working proxy, use it directly
+  if(_wp!=null){
+    const d=await _try(url,_wp,7000);
+    if(d){cache.set(url,{d,t:Date.now()});return d;}
+    // Working proxy stopped working — reset and re-scan
+    _wp=null;localStorage.removeItem('gnWProxy');
   }
+
+  // Race ALL proxies simultaneously — first to respond wins
+  toast('⏳ Finding fastest connection...');
+  const winner=await new Promise(resolve=>{
+    let done=false;
+    let pending=CORS_PROXIES.length;
+    CORS_PROXIES.forEach(proxy=>{
+      _try(url,proxy,9000).then(d=>{
+        pending--;
+        if(d&&!done){done=true;resolve({d,proxy});}
+        else if(pending===0&&!done){resolve(null);}
+      });
+    });
+  });
+
+  if(winner){
+    const{d,proxy}=winner;
+    _wp=proxy;
+    localStorage.setItem('gnWProxy',proxy);
+    if(proxy)toast('⚡ Connected via proxy — loading content...');
+    else toast('');
+    cache.set(url,{d,t:Date.now()});
+    return d;
+  }
+  toast('❌ Could not load — all connections blocked');
   return null;
 }
-// pImg: routes image URLs through a proxy if needed (EDIT 1 continued)
-function pImg(path,size){if(!path)return null;const u=IMG+size+path;return _wip?(_wip+encodeURIComponent(u)):u;}
+
+function pImg(path,size){
+  if(!path)return null;
+  const u=IMG+size+path;
+  return _wip?(_wip+encodeURIComponent(u)):u;
+}
+
 async function _testImgProxy(){
   const test=IMG+'w92/1E5baAaEse26fej7uHcjOgEE2t2.jpg';
-  for(const p of IMG_PROXIES){try{await new Promise((res,rej)=>{const i=new Image();i.onload=res;i.onerror=rej;i.src=p?(p+encodeURIComponent(test)):test;setTimeout(rej,5000);});_wip=p;if(p)localStorage.setItem('gnWIProxy',p);return;}catch(e){continue;}}
+  // Race image proxies too
+  for(const p of IMG_PROXIES){
+    try{
+      await new Promise((res,rej)=>{
+        const i=new Image();
+        i.onload=()=>res();
+        i.onerror=()=>rej();
+        i.src=p?p+encodeURIComponent(test):test;
+        setTimeout(rej,4000);
+      });
+      _wip=p;
+      if(p)localStorage.setItem('gnWIProxy',p);
+      return;
+    }catch(e){continue;}
+  }
 }
 
 // ══ CONFIRM ═══════════════════════════════════════════════════════════════════
@@ -1628,9 +1692,15 @@ function loadAllCats(){
 initTheme();updateListCount();updateProfileIcons(activeProfile);
 document.getElementById('serverSelect').value=currentServer;document.getElementById('settingsServerSelect').value=currentServer;
 if(continueW.length>0){document.getElementById('continueInline').style.display='block';renderContinueInline();}
-// EDIT 3: test image proxy on startup before loading content
-_testImgProxy().catch(()=>{});
-showHome();loadHero();loadHotToday();loadAllCats();loadMore();loadMore();observeAll();
+// Pre-warm proxy: race all proxies BEFORE loading content so first data call is instant
+(async()=>{
+  await Promise.race([
+    fetc(`${BASE}/configuration?api_key=${API_KEY}`),
+    new Promise(r=>setTimeout(r,3000))
+  ]);
+  _testImgProxy().catch(()=>{});
+  showHome();loadHero();loadHotToday();loadAllCats();loadMore();loadMore();observeAll();
+})();
 </script>
 </body>
 </html>
