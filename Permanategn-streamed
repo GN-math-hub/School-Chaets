@@ -1028,7 +1028,7 @@ const SERVERS={
   '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://player2.autoembed.cc/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://player2.autoembed.cc/embed/movie/${id}`},
   '2':{name:'AutoEmbed Player ',url:(id,tv,s,e)=>tv?`https://player.vidify.top/embed/tv/${id}/${s}/${e}`:`https://player.vidify.top/embed/movie/${id}`},
   '3':{name:'Star-Stream FLixy',url:(id,tv,s,e)=>tv?`https://player.vidsrc.co/embed/tv/${id}/${s}/${e}`:`https://player.vidsrc.co/embed/movie/${id}`},
-  '4':{name:'Star-Stream flixy2',url:(id,tv,s,e)=>tv?`https://wmath.pages.dev/misc/customsource/index3.html?id=${id}&type=tv&season=${s}&episode=${e}`:`https://wmath.pages.dev/misc/customsource/index3.html?id=${id}&type=movie`},
+  '4':{name:'Star-Stream flixy2',url:(id,tv,s,e)=>tv?`https://player.videasy.net/embed/tv/${id}/${s}/${e}`:`https://player.videasy.net/embed/movie/${id}`},
   '5':{name:'2Embed',url:(id,tv,s,e)=>tv?`https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`:`https://www.2embed.cc/embed/${id}`},
   '6':{name:'MultiEmbed',url:(id,tv,s,e)=>tv?`https://multiembed.mov/?video_id=${id}&tmdb=1&s=${s}&e=${e}`:`https://multiembed.mov/?video_id=${id}&tmdb=1`},
   '7':{name:'Embed.su',url:(id,tv,s,e)=>tv?`https://embed.su/embed/tv/${id}/${s}/${e}`:`https://embed.su/embed/movie/${id}`},
