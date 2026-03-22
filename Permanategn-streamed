@@ -1026,7 +1026,22 @@ const FB_P='https://via.placeholder.com/300x450/0e0e20/333?text=No+Poster';
 const FB_B='https://via.placeholder.com/1280x720/0e0e20/333?text=No+Backdrop';
 const GENRES={ACTION:28,COMEDY:35,HORROR:27,SCIFI:878,ROMANCE:10749,THRILLER:53,DRAMA:18,ANIMATION:16,DOC:99,CRIME:80,MYSTERY:9648,FANTASY:14,FAMILY:10751,ADVENTURE:12};
 const SERVERS={
-  '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`https://vidking.net/embed/tv/${id}/${s}/${e}?autoplay=true`:`https://vidking.net/embed/movie/${id}`},
+  '1':{name:'AutoEmbed Test',url:(id,tv,s,e)=>tv?`<iframe
+  src="https://player.videasy.net//embed/tv/${id}/${s}/${e}?autoplay=true"
+  width="100%"
+  height="100%"
+  frameborder="0"
+  allowfullscreen
+  allow="encrypted-media"
+></iframe>
+`:`iframe
+  src="https://player.videasy.net//embed/movie/${id}"
+  width="100%"
+  height="100%"
+  frameborder="0"
+  allowfullscreen
+  allow="encrypted-media"
+></iframe>`},
   '2':{name:'AutoEmbed Player ',url:(id,tv,s,e)=>tv?`https://player.vidify.top/embed/tv/${id}/${s}/${e}`:`https://player.vidify.top/embed/movie/${id}`},
   '3':{name:'Star-Stream FLixy',url:(id,tv,s,e)=>tv?`https://player.vidsrc.co/embed/tv/${id}/${s}/${e}`:`https://player.vidsrc.co/embed/movie/${id}`},
   '4':{name:'Star-Stream flixy2',url:(id,tv,s,e)=>tv?`https://player.videasy.net/embed/tv/${id}/${s}/${e}`:`https://player.videasy.net/embed/movie/${id}`},
