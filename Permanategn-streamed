@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StarStream Launcher</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #05050f;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .btn {
+    position: relative;
+    padding: 18px 42px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(59,130,246,.45), 0 8px 28px rgba(0,0,0,.4);
+    transition: transform .15s, box-shadow .15s, opacity .15s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+    pointer-events: none;
+  }
+  .btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 50px rgba(59,130,246,.6), 0 12px 36px rgba(0,0,0,.45);
+  }
+  .btn:active {
+    transform: scale(.97);
+    opacity: .9;
+  }
+  .btn.loading {
+    opacity: .75;
+    pointer-events: none;
+  }
+  .star-icon {
+    font-size: 20px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid rgba(255,255,255,.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    display: none;
+  }
+  .btn.loading .spinner { display: block; }
+  .btn.loading .star-icon { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
 
+<button class="btn" id="launchBtn" onclick="launchStarStream()">
+  <span class="star-icon">⭐</span>
+  <div class="spinner"></div>
+  Launch Star-Stream
+</button>
+
+<script>
+async function launchStarStream() {
+  const btn = document.getElementById('launchBtn');
+  btn.classList.add('loading');
+
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/GN-math-hub/School-Chaets/refs/heads/main/Permanategn-streamed3');
+    const html = await res.text();
+
+    const win = window.open('about:blank', '_blank');
+    if (!win) {
+      alert('Popup blocked! Please allow popups for this page and try again.');
+      btn.classList.remove('loading');
+      return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+  } catch (e) {
+    alert('Failed to load StarStream: ' + e.message);
+  }
+
+  btn.classList.remove('loading');
+}
+</script>
+
+</body>
+</html>
